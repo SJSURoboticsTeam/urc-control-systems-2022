@@ -1,0 +1,6 @@
+
+class ModeTranslateInterface
+{
+public:
+    
+};

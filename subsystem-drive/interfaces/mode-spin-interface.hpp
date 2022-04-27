@@ -1,0 +1,6 @@
+
+class ModeSpinInterface
+{
+public:
+    
+};
