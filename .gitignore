@@ -1,0 +1,14 @@
+**/*/build/
+**/*.gch
+**/*.gcno
+**/.gdb_history
+**/.DS_Store
+**/flash.txt
+**/env.sh
+**/env.mk
+**/default.profraw
+archive/
+build/
+.idea/
+**/*/.vscode
+.vscode
