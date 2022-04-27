@@ -1,0 +1,34 @@
+# Should only run when file changes are made to common directory
+name: Common CI
+
+on:
+  push:
+    paths:
+      - "Common/**"
+    branches: [master]
+  pull_request:
+    paths:
+      - "Common/**"
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Cloning SJSU-Dev2
+        run: git clone https://github.com/SJSU-Dev2/SJSU-Dev2.git
+
+      - name: Setting up sjsu-dev2 🤖
+        run: |
+          cd SJSU-Dev2/
+          ./setup
+          cd ..
+
+      - name: Testing common directory
+        run: |
+          cd Common/
+          make test
