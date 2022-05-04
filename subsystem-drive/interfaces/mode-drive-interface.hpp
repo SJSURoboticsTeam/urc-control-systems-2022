@@ -1,6 +1,0 @@
-
-class ModeDriveInterface
-{
-public:
-    
-};
