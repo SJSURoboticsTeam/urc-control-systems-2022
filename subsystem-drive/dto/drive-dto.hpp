@@ -17,8 +17,8 @@ namespace sjsu::drive
             int angle = 0;
             int speed = 0;
         };
-        motor_arguments steering{};
-        motor_arguments velocity{};
+        motor_arguments steer{};
+        motor_arguments hub{};
     };
 
     struct tri_wheel_router_arguments
