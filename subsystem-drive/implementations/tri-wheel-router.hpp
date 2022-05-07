@@ -18,27 +18,30 @@ namespace sjsu::drive
 
         void SetLegArguments(tri_wheel_router_arguments tri_wheel_arguments)
         {
+            left.steer_motor_.SetAngle(units::angle::degree_t(tri_wheel_arguments.left.steer.angle),
+                                       units::angular_velocity::revolutions_per_minute_t(tri_wheel_arguments.left.steer.speed));
+            left.drive_motor_.SetSpeed(units::angular_velocity::revolutions_per_minute_t(tri_wheel_arguments.left.hub.speed));
+
+            right.steer_motor_.SetAngle(units::angle::degree_t(tri_wheel_arguments.right.steer.angle),
+                                        units::angular_velocity::revolutions_per_minute_t(tri_wheel_arguments.right.steer.speed));
+            right.drive_motor_.SetSpeed(units::angular_velocity::revolutions_per_minute_t(tri_wheel_arguments.right.hub.speed));
+
+            back.steer_motor_.SetAngle(units::angle::degree_t(tri_wheel_arguments.back.steer.angle),
+                                       units::angular_velocity::revolutions_per_minute_t(tri_wheel_arguments.back.steer.speed));
+            back.drive_motor_.SetSpeed(units::angular_velocity::revolutions_per_minute_t(tri_wheel_arguments.back.hub.speed));
+
             tri_wheel_arguments_ = tri_wheel_arguments;
-            a.steer_motor_.SetAngle(static_cast<units::angle::degree_t>(tri_wheel_arguments.a.steer.angle));
-            a.steer_motor_.SetSpeed(static_cast<units::angular_velocity::revolutions_per_minute_t>(tri_wheel_arguments.a.steer.speed));
-            a.drive_motor_.SetSpeed(static_cast<units::angular_velocity::revolutions_per_minute_t>(tri_wheel_arguments.a.hub.speed));
-            b.steer_motor_.SetAngle(static_cast<units::angle::degree_t>(tri_wheel_arguments.b.steer.angle));
-            b.steer_motor_.SetSpeed(static_cast<units::angular_velocity::revolutions_per_minute_t>(tri_wheel_arguments.b.steer.speed));
-            b.drive_motor_.SetSpeed(static_cast<units::angular_velocity::revolutions_per_minute_t>(tri_wheel_arguments.b.hub.speed));
-            c.steer_motor_.SetAngle(static_cast<units::angle::degree_t>(tri_wheel_arguments.c.steer.angle));
-            c.steer_motor_.SetSpeed(static_cast<units::angular_velocity::revolutions_per_minute_t>(tri_wheel_arguments.c.steer.speed));
-            c.drive_motor_.SetSpeed(static_cast<units::angular_velocity::revolutions_per_minute_t>(tri_wheel_arguments.c.hub.speed));
         }
 
-        tri_wheel_router_arguments GetTriWheelRouterArguments()
+        tri_wheel_router_arguments GetTriWheelRouterArguments() const
         {
             return tri_wheel_arguments_;
         }
 
     private:
-        leg a;
-        leg b;
-        leg c;
+        leg a_;
+        leg b_;
+        leg c_;
         tri_wheel_router_arguments tri_wheel_arguments_;
     };
 } // namespace sjsu::drive

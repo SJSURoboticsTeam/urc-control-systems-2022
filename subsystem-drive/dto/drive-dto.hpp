@@ -1,7 +1,7 @@
 #pragma once
 namespace sjsu::drive
-{   
-    //note: postfix commands and arguments can be seperated into different files
+{
+    // note: postfix commands and arguments can be seperated into different files
     struct drive_commands
     {
         int angle = 0; // -180 <--> 180
@@ -14,8 +14,8 @@ namespace sjsu::drive
     {
         struct motor_arguments
         {
-            int angle = 0;
-            int speed = 0;
+            float angle = 0;
+            float speed = 0;
         };
         motor_arguments steer{};
         motor_arguments hub{};
@@ -23,8 +23,8 @@ namespace sjsu::drive
 
     struct tri_wheel_router_arguments
     {
-        leg_arguments a{};
-        leg_arguments b{};
-        leg_arguments c{};
+        leg_arguments left{};
+        leg_arguments right{};
+        leg_arguments back{};
     };
 } // sjsu::drive
