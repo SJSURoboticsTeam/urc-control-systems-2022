@@ -1,4 +1,5 @@
 #include "../dto/drive-dto.hpp"
+#include <cmath>
 
 namespace sjsu::drive
 {
@@ -7,8 +8,31 @@ namespace sjsu::drive
     public:
         tri_wheel_router_arguments DriveSteering(drive_commands commands)
         {
+            float outter_wheel_angle = 0, inner_wheel_angle = 0, back_wheel_angle = 0;
             // TODO: Calculate tri_wheel_router_arguments
-            return {};
+            tri_wheel_router_arguments steer_arguments;
+            back_wheel_angle = steer_arguments.back.steer.angle;
+
+            if (commands.angle > 0)
+            {
+                inner_wheel_angle = steer_arguments.right.steer.angle;
+                steer_arguments.left.steer.angle = Ackerman(inner_wheel_angle);
+            }
+            else
+            {
+                inner_wheel_angle = steer_arguments.left.steer.angle;
+                steer_arguments.right.steer.angle = Ackerman(inner_wheel_angle);
+            }
+
+            float back_wheel_angle =
+                float(-0.378 + -1.79 * abs(int(inner_wheel_angle)) +
+                      0.0366 * pow(abs(int(inner_wheel_angle)), 2) +
+                      -3.24E-04 * pow(abs(int(inner_wheel_angle)), 3));
+            (inner_wheel_angle > 0) ? back_wheel_angle : -back_wheel_angle;
+
+            steer_arguments.back.steer.angle = back_wheel_angle;
+
+            return steer_arguments;
         }
 
         tri_wheel_router_arguments SpinSteering(drive_commands commands)
@@ -21,6 +45,16 @@ namespace sjsu::drive
         {
             // TODO: Calculate tri_wheel_router_arguments
             return {};
+        }
+
+        // Helper Functions
+        float Ackerman(float inner_wheel_angle)
+        {
+            float outter_wheel_angle =
+                float(0.392 + 0.744 * abs(int(inner_wheel_angle)) +
+                      -0.0187 * pow(abs(int(inner_wheel_angle)), 2) +
+                      1.84E-04 * pow(abs(int(inner_wheel_angle)), 3));
+            return (inner_wheel_angle > 0) ? outter_wheel_angle : -outter_wheel_angle;
         }
     };
 } // sjsu::drive
