@@ -8,20 +8,20 @@ namespace sjsu::drive
     public:
         tri_wheel_router_arguments DriveSteering(drive_commands commands)
         {
-            float outter_wheel_angle = 0, inner_wheel_angle = 0, back_wheel_angle = 0;
-            // TODO: Calculate tri_wheel_router_arguments
+            float inner_wheel_angle = 0, back_wheel_angle = 0;
             tri_wheel_router_arguments steer_arguments;
-            back_wheel_angle = steer_arguments.back.steer.angle;
 
             if (commands.angle > 0)
             {
                 inner_wheel_angle = steer_arguments.right.steer.angle;
-                steer_arguments.left.steer.angle = Ackerman(inner_wheel_angle);
+                steer_arguments.right.steer.angle = commands.angle;
+                steer_arguments.left.steer.angle = CalculateAckerman(inner_wheel_angle);
             }
             else
             {
                 inner_wheel_angle = steer_arguments.left.steer.angle;
-                steer_arguments.right.steer.angle = Ackerman(inner_wheel_angle);
+                steer_arguments.left.steer.angle = commands.angle;
+                steer_arguments.right.steer.angle = CalculateAckerman(inner_wheel_angle);
             }
 
             float back_wheel_angle =
@@ -29,7 +29,6 @@ namespace sjsu::drive
                       0.0366 * pow(abs(int(inner_wheel_angle)), 2) +
                       -3.24E-04 * pow(abs(int(inner_wheel_angle)), 3));
             (inner_wheel_angle > 0) ? back_wheel_angle : -back_wheel_angle;
-
             steer_arguments.back.steer.angle = back_wheel_angle;
 
             return steer_arguments;
@@ -48,7 +47,8 @@ namespace sjsu::drive
         }
 
         // Helper Functions
-        float Ackerman(float inner_wheel_angle)
+        ///<penis>
+        float CalculateAckerman(float inner_wheel_angle)
         {
             float outter_wheel_angle =
                 float(0.392 + 0.744 * abs(int(inner_wheel_angle)) +
