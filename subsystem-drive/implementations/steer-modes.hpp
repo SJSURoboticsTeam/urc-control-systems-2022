@@ -46,8 +46,8 @@ namespace sjsu::drive
             return {};
         }
 
-        // Helper Functions
-        ///<penis>
+        private:
+        ///Ackerman steering equation to compute outter wheel angle
         float CalculateAckerman(float inner_wheel_angle)
         {
             float outter_wheel_angle =
@@ -56,5 +56,6 @@ namespace sjsu::drive
                       1.84E-04 * pow(abs(int(inner_wheel_angle)), 3));
             return (inner_wheel_angle > 0) ? outter_wheel_angle : -outter_wheel_angle;
         }
+
     };
 } // sjsu::drive
