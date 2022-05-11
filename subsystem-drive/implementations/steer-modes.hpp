@@ -57,6 +57,12 @@ namespace sjsu::drive
 
         tri_wheel_router_arguments SpinSteering(drive_commands commands)
         {
+            // TODO: Calculate tri_wheel_router_arguments
+            return {};
+        }
+
+        tri_wheel_router_arguments TranslateSteering(drive_commands commands)
+        {
             tri_wheel_router_arguments steer_arguments;
 
             steer_arguments.left.steer.angle = commands.angle;
@@ -68,12 +74,6 @@ namespace sjsu::drive
             steer_arguments.back.hub.speed = commands.speed;
 
             return steer_arguments;
-        }
-
-        tri_wheel_router_arguments TranslateSteering(drive_commands commands)
-        {
-            // TODO: Calculate tri_wheel_router_arguments
-            return {};
         }
 
     private:
