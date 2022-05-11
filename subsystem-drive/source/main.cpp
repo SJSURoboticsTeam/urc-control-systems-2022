@@ -1,13 +1,13 @@
-#include "../implementations/steer-modes.hpp"
+#include "../implementations/steer-modes.hpp";
 
-namespace sjsu::drive
+using namespace sjsu::drive;
+
+int main()
 {
-    int main(void)
-    {
-        // drive_commands commands;
-        // tri_wheel_router_arguments arguments;
-        // SteerModes steermode{};
-        // arguments = steermode.DriveSteering(commands);
-        // return 0;
-    }
+    drive_commands commands;
+    tri_wheel_router_arguments arguments;
+    SteerModes steermode{};
+    arguments = steermode.DriveSteering(commands);
+
+    return 0;
 }
