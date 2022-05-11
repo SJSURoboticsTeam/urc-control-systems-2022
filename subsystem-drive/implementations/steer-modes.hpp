@@ -15,13 +15,13 @@ namespace sjsu::drive
             if (commands.angle > 0)
             {
                 inner_wheel_angle = commands.angle;
-                steer_arguments.right.steer.angle = commands.angle;
+                steer_arguments.right.steer.angle = inner_wheel_angle;
                 steer_arguments.left.steer.angle = CalculateAckermann(inner_wheel_angle);
             }
             else
             {
                 inner_wheel_angle = commands.angle;
-                steer_arguments.left.steer.angle = commands.angle;
+                steer_arguments.left.steer.angle = inner_wheel_angle;
                 steer_arguments.right.steer.angle = CalculateAckermann(inner_wheel_angle);
             }
 
@@ -63,8 +63,17 @@ namespace sjsu::drive
 
         tri_wheel_router_arguments TranslateSteering(drive_commands commands)
         {
-            // TODO: Calculate tri_wheel_router_arguments
-            return {};
+            tri_wheel_router_arguments steer_arguments;
+
+            steer_arguments.left.steer.angle = commands.angle;
+            steer_arguments.right.steer.angle = commands.angle;
+            steer_arguments.back.steer.angle = commands.angle;
+
+            steer_arguments.left.hub.speed = commands.speed;
+            steer_arguments.right.hub.speed = commands.speed;
+            steer_arguments.back.hub.speed = commands.speed;
+
+            return steer_arguments;
         }
 
     private:
