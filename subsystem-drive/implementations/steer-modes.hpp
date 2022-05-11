@@ -16,13 +16,13 @@ namespace sjsu::drive
             {
                 inner_wheel_angle = steer_arguments.right.steer.angle;
                 steer_arguments.right.steer.angle = commands.angle;
-                steer_arguments.left.steer.angle = CalculateAckerman(inner_wheel_angle);
+                steer_arguments.left.steer.angle = CalculateAckermann(inner_wheel_angle);
             }
             else
             {
                 inner_wheel_angle = steer_arguments.left.steer.angle;
                 steer_arguments.left.steer.angle = commands.angle;
-                steer_arguments.right.steer.angle = CalculateAckerman(inner_wheel_angle);
+                steer_arguments.right.steer.angle = CalculateAckermann(inner_wheel_angle);
             }
 
             back_wheel_angle =
@@ -63,7 +63,7 @@ namespace sjsu::drive
 
     private:
         /// Ackerman steering equation to compute outter wheel angle
-        float CalculateAckerman(float inner_wheel_angle)
+        float CalculateAckermann(float inner_wheel_angle)
         {
             float outter_wheel_angle =
                 float(0.392 + 0.744 * abs(int(inner_wheel_angle)) +

@@ -1,1 +1,1 @@
-TESTS += test/steer.cpp
+TESTS += test/steer-modes_test.cpp
