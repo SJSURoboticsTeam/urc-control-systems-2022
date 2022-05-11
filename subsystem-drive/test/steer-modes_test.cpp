@@ -12,8 +12,8 @@ namespace sjsu::drive
             drive_commands commands;
             tri_wheel_router_arguments arguments;
             SteerModes steermode;
-            commands.angle = 0;
-            commands.speed = 0;
+            commands.angle = -25;
+            commands.speed = 20;
             arguments = steermode.DriveSteering(commands);
             printf("left steer: %f\n", arguments.left.steer.angle);
             printf("left steer: %f\n", arguments.left.steer.speed);
