@@ -18,7 +18,7 @@ namespace sjsu::drive
                 steer_arguments.right.steer.angle = inner_wheel_angle;
                 steer_arguments.left.steer.angle = CalculateAckermann(inner_wheel_angle);
             }
-            else if(commands.angle < 0)
+            else if (commands.angle < 0)
             {
                 inner_wheel_angle = commands.angle;
                 steer_arguments.left.steer.angle = inner_wheel_angle;
