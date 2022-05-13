@@ -14,10 +14,13 @@ namespace sjsu::drive
     {
         struct motor_arguments
         {
-            float angle = 0;
-            float speed = 0;
+            motor_arguments(float speed = 0, float angle = 0) : speed(speed), angle(angle)
+            {
+            }
+            float speed;
+            float angle;
         };
-        motor_arguments steer{};
+        motor_arguments steer{5}; //setting hub speed to a constant 5
         motor_arguments hub{};
     };
 
