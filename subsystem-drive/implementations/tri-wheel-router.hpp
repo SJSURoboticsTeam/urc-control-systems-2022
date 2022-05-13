@@ -16,7 +16,7 @@ namespace sjsu::drive
 
         TriWheelRouter();
 
-        void SetLegArguments(tri_wheel_router_arguments tri_wheel_arguments)
+        tri_wheel_router_arguments SetLegArguments(tri_wheel_router_arguments tri_wheel_arguments)
         {
             a_.steer_motor_.SetAngle(units::angle::degree_t(tri_wheel_arguments.left.steer.angle + initial_encoder_position_a_),
                                      units::angular_velocity::revolutions_per_minute_t(tri_wheel_arguments.left.steer.speed));
@@ -31,6 +31,7 @@ namespace sjsu::drive
             b_.drive_motor_.SetSpeed(units::angular_velocity::revolutions_per_minute_t(tri_wheel_arguments.back.hub.speed));
 
             tri_wheel_arguments_ = tri_wheel_arguments;
+            return tri_wheel_arguments;
         }
 
         tri_wheel_router_arguments GetTriWheelRouterArguments() const
@@ -41,13 +42,8 @@ namespace sjsu::drive
         /// At the moment, homing is where the legs turn on so we just calculate the initial encoder positions. ***Must be called in main
         void HomeLegs()
         {
-            CalculateInitialEncoderPositions();
+
         }
-
-    private:
-
-    //auxillary functions
-
         /// Gets raw data from steer motors, calculates the angles, and sets the initial_encoder_positions.
         void CalculateInitialEncoderPositions()
         {
@@ -55,6 +51,10 @@ namespace sjsu::drive
             initial_encoder_position_a_ = MapEncoderDataToDegrees(a_.steer_motor_.RequestFeedbackFromMotor().GetFeedback().encoder_position >> 8);
             initial_encoder_position_c_ = MapEncoderDataToDegrees(c_.steer_motor_.RequestFeedbackFromMotor().GetFeedback().encoder_position >> 8);
         }
+
+    private:
+
+    //auxillary functions
 
         /// takes data from encoder and maps it to degrees
         float MapEncoderDataToDegrees(float encoder_data)
