@@ -1,0 +1,1 @@
+TESTS += test/steer-modes_test.cpp
