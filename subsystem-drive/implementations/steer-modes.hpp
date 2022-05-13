@@ -66,8 +66,8 @@ namespace sjsu::drive
         tri_wheel_router_arguments SpinSteering(drive_commands commands)
         {
             tri_wheel_router_arguments temp;
-            temp.back.steer.speed  = 5; //setting the steer motors to the spin position
-            temp.left.steer.speed  = 5;
+            temp.back.steer.speed = 5; // setting the steer motors to the spin position
+            temp.left.steer.speed = 5;
             temp.right.steer.speed = 5;
             temp.back.steer.angle = 120;
             temp.left.steer.angle = -120;
@@ -84,8 +84,8 @@ namespace sjsu::drive
             tri_wheel_router_arguments steer_arguments;
 
             steer_arguments.left.steer.angle = commands.angle;
-            steer_arguments.right.steer.angle = commands.angle;
-            steer_arguments.back.steer.angle = commands.angle;
+            steer_arguments.right.steer.angle = commands.angle + 60;
+            steer_arguments.back.steer.angle = commands.angle + 110;
 
             steer_arguments.left.hub.speed = commands.speed;
             steer_arguments.right.hub.speed = commands.speed;
