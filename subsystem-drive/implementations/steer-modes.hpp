@@ -7,7 +7,9 @@ namespace sjsu::drive
     class SteerModes
     {
     public:
-        tri_wheel_router_arguments DriveSteering(drive_commands commands)
+    static constexpr float kspin_angle = 120;
+
+        static tri_wheel_router_arguments DriveSteering(drive_commands commands)
         {
             float inner_wheel_angle = 0, back_wheel_angle = 0;
             tri_wheel_router_arguments steer_arguments;
@@ -63,15 +65,12 @@ namespace sjsu::drive
             return steer_arguments;
         }
 
-        tri_wheel_router_arguments SpinSteering(drive_commands commands)
+        static tri_wheel_router_arguments SpinSteering(drive_commands commands)
         {
             tri_wheel_router_arguments temp;
-            temp.back.steer.speed = 5; // setting the steer motors to the spin position
-            temp.left.steer.speed = 5;
-            temp.right.steer.speed = 5;
-            temp.back.steer.angle = 120;
-            temp.left.steer.angle = -120;
-            temp.right.steer.angle = -120.5;
+            temp.back.steer.angle = kspin_angle;
+            temp.left.steer.angle = -kspin_angle;
+            temp.right.steer.angle = -kspin_angle;
             temp.back.hub.speed = commands.speed;
             temp.left.hub.speed = -commands.speed;
             temp.right.hub.speed = -commands.speed;
@@ -79,7 +78,7 @@ namespace sjsu::drive
             return temp;
         }
 
-        tri_wheel_router_arguments TranslateSteering(drive_commands commands)
+        static tri_wheel_router_arguments TranslateSteering(drive_commands commands)
         {
             tri_wheel_router_arguments steer_arguments;
 
@@ -96,7 +95,7 @@ namespace sjsu::drive
 
     private:
         /// Ackerman steering equation to compute outter wheel angle
-        float CalculateAckermann(float inner_wheel_angle)
+        static float CalculateAckermann(float inner_wheel_angle)
         {
             float outter_wheel_angle =
                 float(0.392 + 0.744 * abs(int(inner_wheel_angle)) +
@@ -105,7 +104,7 @@ namespace sjsu::drive
             return (inner_wheel_angle > 0) ? outter_wheel_angle : -outter_wheel_angle;
         }
 
-        float GetInnerWheelHubSpeed(float inner_wheel_speed, float inner_wheel_angle)
+        static float GetInnerWheelHubSpeed(float inner_wheel_speed, float inner_wheel_angle)
         {
             // clamps the inner wheel speed to be no faster then what will mess up the
             // correct ackerman velocity this clamp will then ensure the same for the
@@ -116,7 +115,7 @@ namespace sjsu::drive
             return inner_wheel_speed;
         }
 
-        float GetBackWheelHubSpeed(float inner_wheel_speed, float inner_wheel_angle)
+        static float GetBackWheelHubSpeed(float inner_wheel_speed, float inner_wheel_angle)
         {
             float ratio = GetBackWheelRadius(inner_wheel_angle) /
                           GetInnerWheelRadius(inner_wheel_angle);
@@ -125,24 +124,24 @@ namespace sjsu::drive
             return back_wheel_speed;
         }
 
-        float GetOutterWheelHubSpeed(float inner_wheel_speed, float inner_wheel_angle)
+        static float GetOutterWheelHubSpeed(float inner_wheel_speed, float inner_wheel_angle)
         {
             float ratio = GetOutterWheelRadius(inner_wheel_angle) /
                           GetInnerWheelRadius(inner_wheel_angle);
             return (inner_wheel_speed * ratio);
         }
 
-        float GetInnerWheelRadius(float inner_wheel_angle)
+        static float GetInnerWheelRadius(float inner_wheel_angle)
         {
             return (15 * pow(abs(inner_wheel_angle), -.971));
         }
 
-        float GetBackWheelRadius(float inner_wheel_angle)
+        static float GetBackWheelRadius(float inner_wheel_angle)
         {
             return (11.6 * pow(abs(inner_wheel_angle), -.698));
         }
 
-        float GetOutterWheelRadius(float inner_wheel_angle)
+        static float GetOutterWheelRadius(float inner_wheel_angle)
         {
             return (11.6 * pow(abs(inner_wheel_angle), -.616));
         }

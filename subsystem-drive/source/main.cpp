@@ -8,8 +8,7 @@ drive_commands SerialEnterCommands()
 {
     drive_commands commands;
     sjsu::LogInfo("Enter in commands");
-    scanf("speed: %d", &commands.speed);
-    scanf("angle: %d", &commands.angle);
+    scanf("%d,%d", &commands.speed, &commands.angle);
     return commands;
 }
 
