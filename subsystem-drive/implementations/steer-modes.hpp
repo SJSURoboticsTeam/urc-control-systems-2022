@@ -9,7 +9,7 @@ namespace sjsu::drive
     public:
         tri_wheel_router_arguments DriveSteering(drive_commands commands)
         {
-            float inner_wheel_angle, back_wheel_angle;
+            float inner_wheel_angle = 0, back_wheel_angle = 0;
             tri_wheel_router_arguments steer_arguments;
 
             if (commands.angle > 0)
@@ -18,19 +18,27 @@ namespace sjsu::drive
                 steer_arguments.right.steer.angle = inner_wheel_angle;
                 steer_arguments.left.steer.angle = CalculateAckermann(inner_wheel_angle);
             }
-            else
+            else if(commands.angle < 0)
             {
                 inner_wheel_angle = commands.angle;
                 steer_arguments.left.steer.angle = inner_wheel_angle;
                 steer_arguments.right.steer.angle = CalculateAckermann(inner_wheel_angle);
             }
-
-            back_wheel_angle =
-                float(-0.378 + -1.79 * abs(int(inner_wheel_angle)) +
-                      0.0366 * pow(abs(int(inner_wheel_angle)), 2) +
-                      -3.24E-04 * pow(abs(int(inner_wheel_angle)), 3));
-            (inner_wheel_angle > 0) ? back_wheel_angle : -back_wheel_angle;
-            steer_arguments.back.steer.angle = back_wheel_angle;
+            if (commands.angle == 0)
+            {
+                steer_arguments.back.steer.angle = 0;
+                steer_arguments.left.steer.angle = 0;
+                steer_arguments.right.steer.angle = 0;
+            }
+            else
+            {
+                back_wheel_angle =
+                    float(-0.378 + -1.79 * abs(int(inner_wheel_angle)) +
+                          0.0366 * pow(abs(int(inner_wheel_angle)), 2) +
+                          -3.24E-04 * pow(abs(int(inner_wheel_angle)), 3));
+                (inner_wheel_angle > 0) ? back_wheel_angle : -back_wheel_angle;
+                steer_arguments.back.steer.angle = back_wheel_angle;
+            }
 
             if (inner_wheel_angle > 0)
             {
@@ -39,7 +47,7 @@ namespace sjsu::drive
                 steer_arguments.back.hub.speed = GetBackWheelHubSpeed(commands.speed, inner_wheel_angle);
             }
 
-            else if(inner_wheel_angle < 0)
+            else if (inner_wheel_angle < 0)
             {
                 steer_arguments.left.hub.speed = -GetInnerWheelHubSpeed(commands.speed, inner_wheel_angle);
                 steer_arguments.right.hub.speed = -GetOutterWheelHubSpeed(commands.speed, inner_wheel_angle);
@@ -103,7 +111,7 @@ namespace sjsu::drive
             float ratio = GetBackWheelRadius(inner_wheel_angle) /
                           GetInnerWheelRadius(inner_wheel_angle);
             float back_wheel_speed = inner_wheel_speed * ratio;
-                // std::clamp(inner_wheel_speed * ratio, -100 / ratio, 100 / ratio);
+            // std::clamp(inner_wheel_speed * ratio, -100 / ratio, 100 / ratio);
             return back_wheel_speed;
         }
 
@@ -111,22 +119,22 @@ namespace sjsu::drive
         {
             float ratio = GetOutterWheelRadius(inner_wheel_angle) /
                           GetInnerWheelRadius(inner_wheel_angle);
-            return(inner_wheel_speed * ratio);
+            return (inner_wheel_speed * ratio);
         }
 
         float GetInnerWheelRadius(float inner_wheel_angle)
         {
-            return(15 * pow(abs(inner_wheel_angle), -.971));
+            return (15 * pow(abs(inner_wheel_angle), -.971));
         }
 
         float GetBackWheelRadius(float inner_wheel_angle)
         {
-            return(11.6 * pow(abs(inner_wheel_angle), -.698));
+            return (11.6 * pow(abs(inner_wheel_angle), -.698));
         }
 
         float GetOutterWheelRadius(float inner_wheel_angle)
         {
-            return(11.6 * pow(abs(inner_wheel_angle), -.616));
+            return (11.6 * pow(abs(inner_wheel_angle), -.616));
         }
     };
 } // sjsu::drive
