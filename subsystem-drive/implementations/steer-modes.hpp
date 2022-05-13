@@ -40,10 +40,9 @@ namespace sjsu::drive
             temp.back.steer.speed  = 5; //setting the steer motors to the spin position
             temp.left.steer.speed  = 5;
             temp.right.steer.speed = 5;
-            temp.back.steer.angle = 120;// it's either 120 or 60 will have to test
+            temp.back.steer.angle = 120;
             temp.left.steer.angle = -120;
-            temp.right.steer.angle = -120;
-            // insert lerping for hub speed here
+            temp.right.steer.angle = -120.5;
             temp.back.hub.speed = commands.speed;
             temp.left.hub.speed = -commands.speed;
             temp.right.hub.speed = -commands.speed;
