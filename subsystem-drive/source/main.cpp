@@ -49,6 +49,7 @@ int main()
     ModeSwitch mode_switch;
     CommandLerper lerp;
     tri_wheel.Initialize();
+    tri_wheel.HomeLegs();
     sjsu::Delay(1s);
     while (1)
     {
@@ -56,7 +57,8 @@ int main()
         commands.Print();
         sjsu::Delay(2s);
 
-        arguments = tri_wheel.SetLegArguments(ModeSelect::SelectMode(lerp.Lerp(mode_switch.SwitchSteerMode(commands, arguments))));
+        // arguments = tri_wheel.SetLegArguments(ModeSelect::SelectMode(lerp.Lerp(mode_switch.SwitchSteerMode(commands, arguments))));
+        right_steer_motor.SetAngle(units::angle::degree_t(commands.angle), units::angular_velocity::revolutions_per_minute_t(5));
         arguments.Print();
         sjsu::Delay(2s);
     }

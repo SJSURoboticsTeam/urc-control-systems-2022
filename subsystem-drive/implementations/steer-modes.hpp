@@ -8,7 +8,7 @@ namespace sjsu::drive
     class SteerModes
     {
     public:
-    static constexpr float kspin_angle = 120;
+        static constexpr float kspin_angle = 120;
 
         static tri_wheel_router_arguments DriveSteering(drive_commands commands)
         {
@@ -62,6 +62,10 @@ namespace sjsu::drive
                 steer_arguments.right.hub.speed = -commands.speed;
                 steer_arguments.back.hub.speed = commands.speed;
             }
+
+            //adding the offsets to put it into the base drive mode
+            steer_arguments.left.steer.angle += 62.3;
+            steer_arguments.right.steer.angle += 109;
 
             return steer_arguments;
         }
