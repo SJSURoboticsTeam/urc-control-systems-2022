@@ -55,13 +55,8 @@ namespace sjsu::drive
         /// At the moment, homing is where the legs turn on so we just calculate the initial encoder positions. ***Must be called in main
         void HomeLegs()
         {
-            CalculateInitialEncoderPositions();
+
         }
-
-    private:
-
-    //auxillary functions
-
         /// Gets raw data from steer motors, calculates the angles, and sets the initial_encoder_positions.
         void CalculateInitialEncoderPositions()
         {
@@ -69,6 +64,10 @@ namespace sjsu::drive
             initial_encoder_position_a_ = MapEncoderDataToDegrees(a_.steer_motor_.RequestFeedbackFromMotor().GetFeedback().encoder_position >> 8);
             initial_encoder_position_c_ = MapEncoderDataToDegrees(c_.steer_motor_.RequestFeedbackFromMotor().GetFeedback().encoder_position >> 8);
         }
+
+    private:
+
+    //auxillary functions
 
         /// takes data from encoder and maps it to degrees
         float MapEncoderDataToDegrees(float encoder_data)
