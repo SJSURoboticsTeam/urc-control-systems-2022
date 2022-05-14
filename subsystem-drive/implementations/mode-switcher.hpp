@@ -10,7 +10,7 @@ namespace sjsu::drive
         // Should handle all the logic for switching to new steer mode
         drive_commands SwitchSteerMode(drive_commands commands, tri_wheel_router_arguments previous_arguments)
         {
-            bool stopped(previous_arguments.left.hub.speed == 0 &&previous_arguments.right.hub.speed == 0 &&previous_arguments.back.hub.speed == 0);
+            bool stopped(previous_arguments.left.hub.speed == 0 && previous_arguments.right.hub.speed == 0 && previous_arguments.back.hub.speed == 0);
             if (previous_mode != commands.mode)
             {
                 // Set all wheel speed equal to 0
