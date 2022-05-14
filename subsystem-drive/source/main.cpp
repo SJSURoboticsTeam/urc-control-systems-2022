@@ -1,7 +1,9 @@
 #include "utility/log.hpp"
 #include "peripherals/lpc40xx/can.hpp"
 #include "devices/actuators/servo/rmd_x.hpp"
+#include "../common/esp.hpp"
 
+#include "../implementations/mission-control-handler.hpp"
 #include "../implementations/steer-modes.hpp"
 #include "../implementations/tri-wheel-router.hpp"
 #include "../implementations/mode-switcher.hpp"
@@ -20,6 +22,7 @@ drive_commands SerialEnterCommands()
 
 int main()
 {
+    sjsu::common::Esp esp;
     sjsu::lpc40xx::Can &can = sjsu::lpc40xx::GetCan<1>();
     sjsu::StaticMemoryResource<1024> memory_resource;
     sjsu::CanNetwork can_network(can, &memory_resource);
@@ -52,6 +55,12 @@ int main()
     sjsu::Delay(1s);
     while (1)
     {
+        //For Mission Control Mode
+        std::string endpoint = "drive" + MissionControlHandler::CreateGETRequestParameterWithRoverStatus();
+        std::string response = esp.GET(endpoint);
+        commands = MissionControlHandler::ParseMissionControlData(response);
+        
+        //For Manual Mode
         commands = SerialEnterCommands();
         commands.Print();
         sjsu::Delay(2s);

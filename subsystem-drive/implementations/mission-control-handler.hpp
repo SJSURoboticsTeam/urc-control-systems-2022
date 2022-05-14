@@ -4,12 +4,11 @@
 
 namespace sjsu::drive
 {
-    class MCHandler
+    class MissionControlHandler
     {
     public:
-        static drive_commands ParseData(std::string &response)
+        static drive_commands ParseMissionControlData(std::string &response)
         {
-            drive_commands commands;
             int actual_arguments = sscanf(
                 response.c_str(), response_body_format,
                 &commands.mode, &commands.speed, &commands.angle,
@@ -18,7 +17,18 @@ namespace sjsu::drive
             return commands;
         }
 
+        static std::string CreateGETRequestParameterWithRoverStatus()
+        {
+            snprintf(
+                request_parameter, 300,
+                "?drive_mode=%c&speed=%d&angle=%d&wheel_orientation=%d",
+                commands.mode, commands.speed, commands.angle, commands.wheel_orientation);
+            return request_parameter;
+        }
+
     private:
+        drive_commands commands;
+        char request_parameter[300];
         const char response_body_format[] =
             "\r\n\r\n{\n"
             "  \"drive_mode\": \"%c\",\n"
