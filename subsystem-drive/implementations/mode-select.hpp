@@ -1,3 +1,4 @@
+#pragma once
 #include "../dto/drive-dto.hpp"
 #include "../implementations/steer-modes.hpp"
 

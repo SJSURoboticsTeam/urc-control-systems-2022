@@ -10,11 +10,24 @@ namespace sjsu::drive
     public:
         struct leg
         {
+            leg(sjsu::RmdX &steer, sjsu::RmdX &drive) : steer_motor_(steer), drive_motor_(drive)
+            {}
             sjsu::RmdX &steer_motor_;
             sjsu::RmdX &drive_motor_;
         };
 
-        TriWheelRouter();
+        TriWheelRouter(leg right, leg left, leg back) : a_(left), b_(back), c_(right)
+        {}
+
+        void Initialize()
+        {
+            a_.steer_motor_.Initialize();
+            b_.steer_motor_.Initialize();
+            c_.steer_motor_.Initialize();
+            a_.drive_motor_.Initialize();
+            b_.drive_motor_.Initialize();
+            c_.drive_motor_.Initialize();
+        }
 
         tri_wheel_router_arguments SetLegArguments(tri_wheel_router_arguments tri_wheel_arguments)
         {
