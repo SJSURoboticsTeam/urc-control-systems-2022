@@ -57,7 +57,7 @@ int main()
     while (1)
     {
         //For Mission Control Mode
-        std::string endpoint = "drive" + mission_control.CreateGETRequestParameterWithRoverStatus();
+        std::string endpoint = mission_control.CreateGETRequestParameterWithRoverStatus();
         std::string response = esp.GetCommands(endpoint);
         commands = mission_control.ParseMissionControlData(response);
         
