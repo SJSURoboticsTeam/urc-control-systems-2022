@@ -7,9 +7,10 @@ namespace sjsu::drive
     {
     public:
         // Should handle all the logic for switching to new steer mode
-        drive_commands SwitchSteerMode(drive_commands commands, bool stopped)
+        drive_commands SwitchSteerMode(drive_commands commands, tri_wheel_router_arguments previous_arguments)
         {
-            if (current_mode != commands.mode)
+            bool stopped(previous_arguments.left.hub.speed = 0 &&previous_arguments.right.hub.speed = 0 &&previous_arguments.back.hub.speed = 0);
+            if (previous_mode != commands.mode)
             {
                 // Set all wheel speed equal to 0
                 commands.speed = 0;
@@ -17,11 +18,15 @@ namespace sjsu::drive
                 commands.wheel_orientation = 0;
                 // Set rover to home position using home function
             }
-            current_mode = commands.mode;
+            if (!stopped && previous_mode != commands.mode)
+            {
+                commands.mode = previous_mode;
+            }
+
             return commands;
         }
 
     private:
-        char current_mode = 'D';
+        char previous_mode = 'D';
     };
 }

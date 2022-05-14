@@ -22,18 +22,15 @@ int main()
     tri_wheel_router_arguments arguments;
     SteerModes steermode;
     TriWheelRouter tri_wheel;
+    ModeSwitch mode_switch;
     CommandLerper lerp;
-    bool stopped = false;
     while (1)
     {
         commands = SerialEnterCommands();
         commands.Print();
         sjsu::Delay(2s);
-
-        if(arguments.back.hub.speed == 0 && arguments.right.hub.speed == 0 && arguments.left.hub.speed == 0) stopped = true;
-        else stopped = false;
         
-        arguments = tri_wheel.SetLegArguments(ModeSelect::SelectMode(lerp.Lerp(ModeSwitch::SwitchSteerMode(commands, stopped))));
+        arguments = tri_wheel.SetLegArguments(ModeSelect::SelectMode(lerp.Lerp(mode_switch.SwitchSteerMode(commands, arguments))));
         arguments.Print();
         sjsu::Delay(2s);
     }
