@@ -52,23 +52,38 @@ int main()
     TriWheelRouter tri_wheel{right, left, back};
     ModeSwitch mode_switch;
     CommandLerper lerp;
+    esp.Connect();
     tri_wheel.Initialize();
     sjsu::Delay(1s);
     while (1)
     {
-        //For Mission Control Mode
-        std::string endpoint = mission_control.CreateGETRequestParameterWithRoverStatus();
-        std::string response = esp.GetCommands(endpoint);
-        commands = mission_control.ParseMissionControlData(response);
-        
-        //For Manual Mode
-        commands = SerialEnterCommands();
-        commands.Print();
-        sjsu::Delay(2s);
+        try
+        {
+            // For Mission Control Mode
+            std::string endpoint = mission_control.CreateGETRequestParameterWithRoverStatus();
+            std::string response = esp.GetCommands(endpoint);
+            commands = mission_control.ParseMissionControlData(response);
 
-        arguments = tri_wheel.SetLegArguments(ModeSelect::SelectMode(lerp.Lerp(mode_switch.SwitchSteerMode(commands, arguments))));
-        arguments.Print();
-        sjsu::Delay(2s);
+            // For Manual Mode
+            commands = SerialEnterCommands();
+            commands.Print();
+            sjsu::Delay(2s);
+
+            arguments = tri_wheel.SetLegArguments(ModeSelect::SelectMode(lerp.Lerp(mode_switch.SwitchSteerMode(commands, arguments))));
+            arguments.Print();
+            sjsu::Delay(2s);
+        }
+        catch (std::exception &e)
+        {
+            sjsu::LogError("Uncaught error in main() - Stopping Rover!");
+            arguments.left.hub.speed = 0;
+            arguments.right.hub.speed = 0;
+            arguments.back.hub.speed = 0;
+            if (!esp.IsConnected())
+            {
+                esp.Connect();
+            }
+        }
     }
 
     return 0;
