@@ -1,13 +1,21 @@
 #pragma once
 #include "../dto/drive-dto.hpp"
-#include "../utility/log.hpp"
+#include <string>
+#include <array>
 
 namespace sjsu::drive
 {
+    const char response_body_format[] =
+        "\r\n\r\n{\n"
+        "  \"drive_mode\": \"%c\",\n"
+        "  \"speed\": %d,\n"
+        "  \"angle\": %d\n"
+        "  \"wheel_orientation\": %d,\n"
+        "}";
     class MissionControlHandler
     {
     public:
-        static drive_commands ParseMissionControlData(std::string &response)
+        drive_commands ParseMissionControlData(std::string &response)
         {
             int actual_arguments = sscanf(
                 response.c_str(), response_body_format,
@@ -16,8 +24,7 @@ namespace sjsu::drive
 
             return commands;
         }
-
-        static std::string CreateGETRequestParameterWithRoverStatus()
+        std::string CreateGETRequestParameterWithRoverStatus()
         {
             snprintf(
                 request_parameter, 300,
@@ -29,13 +36,6 @@ namespace sjsu::drive
     private:
         drive_commands commands;
         char request_parameter[300];
-        const char response_body_format[] =
-            "\r\n\r\n{\n"
-            "  \"drive_mode\": \"%c\",\n"
-            "  \"speed\": %d,\n"
-            "  \"angle\": %d\n"
-            "  \"wheel_orientation\": %d,\n"
-            "}";
     };
 
 }

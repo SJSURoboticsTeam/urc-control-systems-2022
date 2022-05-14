@@ -46,6 +46,7 @@ int main()
     TriWheelRouter::leg left(left_steer_motor, left_hub_motor);
     TriWheelRouter::leg back(back_steer_motor, back_hub_motor);
 
+    MissionControlHandler mission_control;
     drive_commands commands;
     tri_wheel_router_arguments arguments;
     TriWheelRouter tri_wheel{right, left, back};
@@ -56,9 +57,9 @@ int main()
     while (1)
     {
         //For Mission Control Mode
-        std::string endpoint = "drive" + MissionControlHandler::CreateGETRequestParameterWithRoverStatus();
-        std::string response = esp.GET(endpoint);
-        commands = MissionControlHandler::ParseMissionControlData(response);
+        std::string endpoint = "drive" + mission_control.CreateGETRequestParameterWithRoverStatus();
+        std::string response = esp.GetCommands(endpoint);
+        commands = mission_control.ParseMissionControlData(response);
         
         //For Manual Mode
         commands = SerialEnterCommands();
