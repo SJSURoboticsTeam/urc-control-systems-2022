@@ -1,12 +1,12 @@
 #include "../dto/drive-dto.hpp"
-#include "../steer-modes.hpp"
+#include "../implementations/steer-modes.hpp"
 
 namespace sjsu::drive
 {
     class ModeSelect
     {
     public:
-        tri_wheel_router_arguments SelectMode(drive_commands commands)
+        static tri_wheel_router_arguments SelectMode(drive_commands commands)
         {
             switch (commands.mode)
             {
@@ -17,7 +17,7 @@ namespace sjsu::drive
                 return SteerModes::SpinSteering(commands);
                 break;
             case 'T':
-                return SteerModes::TurnSteering(commands);
+                return SteerModes::TranslateSteering(commands);
                 break;
             default:
                 return tri_wheel_router_arguments{};

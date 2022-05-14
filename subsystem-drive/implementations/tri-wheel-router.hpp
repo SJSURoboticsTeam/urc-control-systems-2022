@@ -1,6 +1,6 @@
 #pragma once
-#include "SJSU-Dev2/library/devices/actuators/servo/rmd_x.hpp"
-#include "urc-control-systems-2022/subsystem-drive/dto/drive-dto.hpp"
+#include "../library/devices/actuators/servo/rmd_x.hpp"
+#include "../subsystem-drive/dto/drive-dto.hpp"
 #include "utility/math/units.hpp"
 
 namespace sjsu::drive
@@ -16,7 +16,7 @@ namespace sjsu::drive
 
         TriWheelRouter();
 
-        void SetLegArguments(tri_wheel_router_arguments tri_wheel_arguments)
+        tri_wheel_router_arguments SetLegArguments(tri_wheel_router_arguments tri_wheel_arguments)
         {
             a_.steer_motor_.SetAngle(units::angle::degree_t(tri_wheel_arguments.left.steer.angle + initial_encoder_position_a_),
                                      units::angular_velocity::revolutions_per_minute_t(tri_wheel_arguments.left.steer.speed));
@@ -31,6 +31,7 @@ namespace sjsu::drive
             b_.drive_motor_.SetSpeed(units::angular_velocity::revolutions_per_minute_t(tri_wheel_arguments.back.hub.speed));
 
             tri_wheel_arguments_ = tri_wheel_arguments;
+            return tri_wheel_arguments_;
         }
 
         tri_wheel_router_arguments GetTriWheelRouterArguments() const
