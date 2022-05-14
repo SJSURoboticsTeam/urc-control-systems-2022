@@ -1,6 +1,6 @@
 #pragma once
-#include "SJSU-Dev2/library/devices/actuators/servo/rmd_x.hpp"
-#include "urc-control-systems-2022/subsystem-drive/dto/drive-dto.hpp"
+#include "../library/devices/actuators/servo/rmd_x.hpp"
+#include "../subsystem-drive/dto/drive-dto.hpp"
 #include "utility/math/units.hpp"
 
 namespace sjsu::drive
@@ -10,11 +10,24 @@ namespace sjsu::drive
     public:
         struct leg
         {
+            leg(sjsu::RmdX &steer, sjsu::RmdX &drive) : steer_motor_(steer), drive_motor_(drive)
+            {}
             sjsu::RmdX &steer_motor_;
             sjsu::RmdX &drive_motor_;
         };
 
-        TriWheelRouter();
+        TriWheelRouter(leg right, leg left, leg back) : a_(left), b_(back), c_(right)
+        {}
+
+        void Initialize()
+        {
+            a_.steer_motor_.Initialize();
+            b_.steer_motor_.Initialize();
+            c_.steer_motor_.Initialize();
+            a_.drive_motor_.Initialize();
+            b_.drive_motor_.Initialize();
+            c_.drive_motor_.Initialize();
+        }
 
         tri_wheel_router_arguments SetLegArguments(tri_wheel_router_arguments tri_wheel_arguments)
         {
@@ -31,7 +44,7 @@ namespace sjsu::drive
             b_.drive_motor_.SetSpeed(units::angular_velocity::revolutions_per_minute_t(tri_wheel_arguments.back.hub.speed));
 
             tri_wheel_arguments_ = tri_wheel_arguments;
-            return tri_wheel_arguments;
+            return tri_wheel_arguments_;
         }
 
         tri_wheel_router_arguments GetTriWheelRouterArguments() const
