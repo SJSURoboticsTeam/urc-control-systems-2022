@@ -67,8 +67,8 @@ namespace sjsu::drive
             }
 
             //adding the offsets to put it into the base drive mode
-            steer_arguments.left.steer.angle += 50;
-            steer_arguments.right.steer.angle -= 80;
+            steer_arguments.left.steer.angle += kleft_leg_drive_offset;
+            steer_arguments.right.steer.angle += kright_leg_drive_offset;
 
             return steer_arguments;
         }
