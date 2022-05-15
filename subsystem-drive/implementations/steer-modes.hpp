@@ -8,10 +8,10 @@ namespace sjsu::drive
     class SteerModes
     {
     public:
-        static constexpr float kback_right_spin_angle = 120;
-        static constexpr float kleft_spin_angle = 87.5;
-        static constexpr float kleft_leg_drive_offset = 50;
-        static constexpr float kright_leg_drive_offset = -80;
+        static constexpr float kBackRightSpinAngle = 120;
+        static constexpr float kLeftSpinAngle = 87.5;
+        static constexpr float kLeftLegDriveOffset = 50;
+        static constexpr float kRightLegDriveOffset = -80;
 
         static tri_wheel_router_arguments DriveSteering(drive_commands commands)
         {
