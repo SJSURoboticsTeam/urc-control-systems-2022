@@ -16,7 +16,7 @@ drive_commands SerialEnterCommands()
 {
     drive_commands commands;
     sjsu::LogInfo("Enter in commands");
-    scanf("%d,%d", &commands.speed, &commands.angle);
+    scanf("%d,%d,%c", &commands.speed, &commands.angle, &commands.mode);
     return commands;
 }
 
@@ -53,6 +53,7 @@ int main()
     ModeSwitch mode_switch;
     CommandLerper lerp;
     tri_wheel.Initialize();
+    tri_wheel.HomeLegs();
     sjsu::Delay(1s);
     while (1)
     {
@@ -64,11 +65,17 @@ int main()
         //For Manual Mode
         commands = SerialEnterCommands();
         commands.Print();
-        sjsu::Delay(2s);
-
+        sjsu::Delay(1s);
+        
+        commands.speed = 100;
+        if(arguments.back.hub.speed > 50)
+        {
+            commands.mode = 'S';
+        }
         arguments = tri_wheel.SetLegArguments(ModeSelect::SelectMode(lerp.Lerp(mode_switch.SwitchSteerMode(commands, arguments))));
         arguments.Print();
-        sjsu::Delay(2s);
+
+        sjsu::Delay(1s);
     }
 
     return 0;
