@@ -69,6 +69,14 @@ namespace sjsu::drive
             sjsu::LogInfo("right encoder: %f: ", initial_encoder_position_right_);
         }
 
+        units::angular_velocity::revolutions_per_minute_t GetMotorFeedback(){
+            motor_feedback motor_speeds;
+            motor_speeds.left_hub_speed = left_.drive_motor_.RequestFeedbackFromMotor().GetFeedback().speed;
+            motor_speeds.right_hub_speed = right_.drive_motor_.RequestFeedbackFromMotor().GetFeedback().speed;
+            motor_speeds.back_hub_speed = back_.drive_motor_.RequestFeedbackFromMotor().GetFeedback().speed;
+            return motor_speeds;
+        }
+
     private:
 
     //auxillary functions

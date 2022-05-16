@@ -9,6 +9,7 @@
 #include "../implementations/mode-switcher.hpp"
 #include "../implementations/mode-select.hpp"
 #include "../implementations/command-lerper.hpp"
+#include "../dto/motor-feedback-dto.hpp"
 
 using namespace sjsu::drive;
 
@@ -48,6 +49,7 @@ int main()
 
     MissionControlHandler mission_control;
     drive_commands commands;
+    motor_feedback motor_speed_dto;
     tri_wheel_router_arguments arguments;
     TriWheelRouter tri_wheel{right, left, back};
     ModeSwitch mode_switch;
@@ -72,6 +74,8 @@ int main()
         {
             commands.mode = 'S';
         }
+
+        motor_speed_dto = tri_wheel.GetMotorFeedback();
         arguments = tri_wheel.SetLegArguments(ModeSelect::SelectMode(lerp.Lerp(mode_switch.SwitchSteerMode(commands, arguments))));
         arguments.Print();
 
