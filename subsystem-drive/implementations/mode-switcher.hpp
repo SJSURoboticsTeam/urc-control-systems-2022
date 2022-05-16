@@ -23,6 +23,10 @@ namespace sjsu::drive
             {
                 commands.mode = previous_mode_;
             }
+            else
+            {
+                previous_mode_ = commands.mode;
+            }
 
             return commands;
         }
