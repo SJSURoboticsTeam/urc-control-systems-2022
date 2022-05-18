@@ -14,10 +14,10 @@ namespace sjsu::drive
             bool steers_stopped(current_motor_feedback.left_steer_speed == 0_rpm && current_motor_feedback.right_steer_speed == 0_rpm && current_motor_feedback.back_steer_speed == 0_rpm);
             if (previous_mode_ != commands.mode)
             {
-                in_the_middle_of_switchingmodes_ = true;
+                in_the_middle_of_switching_modes_ = true;
                 skip_once_ = true;
             }
-            if (in_the_middle_of_switchingmodes_)
+            if (in_the_middle_of_switching_modes_)
             {
                 commands.speed = 0;
                 if (!hubs_stopped)
@@ -25,13 +25,13 @@ namespace sjsu::drive
                     commands.mode = previous_mode_;
                     return commands;
                 } // hubs must be stopped to pass here
-                else if (skip_once_ && steers_stopped)
+                else if (skip_once_)
                 {
                     skip_once_ = false;
                 } // will start moving steer motors before exiting middle of switching modes
                 else if (steers_stopped)
                 {
-                    in_the_middle_of_switchingmodes_ = false;
+                    in_the_middle_of_switching_modes_ = false;
                     skip_once_ = true;
                 } // only once steer motors have stopped moving after hubs stopped will we exit switching modes
                 previous_mode_ = commands.mode;
@@ -41,7 +41,7 @@ namespace sjsu::drive
 
     private:
         char previous_mode_ = 'D';
-        bool in_the_middle_of_switchingmodes_ = true;
+        bool in_the_middle_of_switching_modes_ = true;
         bool skip_once_ = true;
     };
 }
