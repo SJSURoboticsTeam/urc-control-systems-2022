@@ -1,6 +1,7 @@
 #pragma once
 #include "../library/devices/actuators/servo/rmd_x.hpp"
 #include "../subsystem-drive/dto/drive-dto.hpp"
+#include "../subsystem-drive/dto/motor-feedback-dto.hpp"
 #include "utility/math/units.hpp"
 #include "utility/log.hpp"
 
@@ -62,18 +63,15 @@ namespace sjsu::drive
         void CalculateInitialEncoderPositions()
         {
             initial_encoder_position_back_ = MapEncoderDataToDegrees(back_.steer_motor_.RequestFeedbackFromMotor().GetFeedback().encoder_position >> 8);
-            sjsu::LogInfo("back encoder: %f: ", initial_encoder_position_back_);
             initial_encoder_position_left_ = MapEncoderDataToDegrees(left_.steer_motor_.RequestFeedbackFromMotor().GetFeedback().encoder_position >> 8);
-            sjsu::LogInfo("left encoder: %f: ", initial_encoder_position_left_);
             initial_encoder_position_right_ = MapEncoderDataToDegrees(right_.steer_motor_.RequestFeedbackFromMotor().GetFeedback().encoder_position >> 8);
-            sjsu::LogInfo("right encoder: %f: ", initial_encoder_position_right_);
         }
 
-        units::angular_velocity::revolutions_per_minute_t GetMotorFeedback(){
+        motor_feedback GetMotorFeedback(){
             motor_feedback motor_speeds;
-            motor_speeds.left_hub_speed = left_.drive_motor_.RequestFeedbackFromMotor().GetFeedback().speed;
-            motor_speeds.right_hub_speed = right_.drive_motor_.RequestFeedbackFromMotor().GetFeedback().speed;
-            motor_speeds.back_hub_speed = back_.drive_motor_.RequestFeedbackFromMotor().GetFeedback().speed;
+            motor_speeds.left_steer_speed = left_.drive_motor_.RequestFeedbackFromMotor().GetFeedback().speed;
+            motor_speeds.right_steer_speed = right_.drive_motor_.RequestFeedbackFromMotor().GetFeedback().speed;
+            motor_speeds.back_steer_speed = back_.drive_motor_.RequestFeedbackFromMotor().GetFeedback().speed;
             return motor_speeds;
         }
 

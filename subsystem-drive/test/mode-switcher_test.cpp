@@ -1,6 +1,7 @@
 #include "testing/testing_frameworks.hpp"
 #include "utility/log.hpp"
 #include "../implementations/mode-switcher.hpp"
+#include "../dto/motor-feedback-dto.hpp"
 
 namespace sjsu::drive
 {
@@ -11,42 +12,49 @@ namespace sjsu::drive
         {
             drive_commands commands;
             tri_wheel_router_arguments arguments;
+            motor_feedback feedback;
             ModeSwitch switcher;
-            commands = switcher.SwitchSteerMode(commands, arguments);
+            commands = switcher.SwitchSteerMode(commands, arguments, feedback);
             CHECK_EQ(commands.mode, 'D');
             CHECK_EQ(commands.angle, 0);
             CHECK_EQ(commands.speed, 0);
         }
-        SECTION("1.2: shouldn't change drive mode when speed is not 0...")
+        SECTION("1.2: shouldn't change drive mode when speed is not 0 and when the steer speed is also 0, ")
         {
             drive_commands commands;
             tri_wheel_router_arguments arguments;
+            motor_feedback feedback;
             ModeSwitch switcher;
             commands.mode = 'T';
             arguments.back.hub.speed = 10;
-            commands = switcher.SwitchSteerMode(commands, arguments);
-            CHECK_EQ(commands.mode, 'D');
+            commands = switcher.SwitchSteerMode(commands, arguments, feedback);
+            CHECK_EQ(commands.mode, 'O');
             CHECK_EQ(commands.angle, 0);
+            commands.mode = 'T';
             arguments.back.hub.speed = 0;
             arguments.left.hub.speed = 10;
-            commands = switcher.SwitchSteerMode(commands, arguments);
-            CHECK_EQ(commands.mode, 'D');
+            commands = switcher.SwitchSteerMode(commands, arguments, feedback);
+            CHECK_EQ(commands.mode, 'O');
             CHECK_EQ(commands.angle, 0);
+            commands.mode = 'T';
             arguments.left.hub.speed = 0;
             arguments.right.hub.speed = 10;
-            commands = switcher.SwitchSteerMode(commands, arguments);
-            CHECK_EQ(commands.mode, 'D');
+            commands = switcher.SwitchSteerMode(commands, arguments, feedback);
+            CHECK_EQ(commands.mode, 'O');
             CHECK_EQ(commands.angle, 0);
+            arguments.right.hub.speed = 0;
+            commands.mode = 'D';
+            CHECK_EQ(commands.mode, 'D');
         }
         SECTION("1.3: should change drive mode when speed is 0...")
         {
             drive_commands commands;
             tri_wheel_router_arguments arguments;
+            motor_feedback feedback;
             ModeSwitch switcher;
             commands.mode = 'T';
-            commands = switcher.SwitchSteerMode(commands, arguments);
+            commands = switcher.SwitchSteerMode(commands, arguments, feedback);
             CHECK_EQ(commands.mode, 'T');
         }
-        
     }
 }

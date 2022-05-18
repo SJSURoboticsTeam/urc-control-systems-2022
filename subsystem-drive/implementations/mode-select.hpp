@@ -17,7 +17,7 @@ namespace sjsu::drive
             case 'S':
                 return SteerModes::SpinSteering(commands);
                 break;
-            case 'T':
+            case 'T': 
                 return SteerModes::TranslateSteering(commands);
                 break;
             default:
