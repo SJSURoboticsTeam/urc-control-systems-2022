@@ -69,9 +69,9 @@ namespace sjsu::drive
 
         motor_feedback GetMotorFeedback(){
             motor_feedback motor_speeds;
-            motor_speeds.left_steer_speed = left_.drive_motor_.RequestFeedbackFromMotor().GetFeedback().speed;
-            motor_speeds.right_steer_speed = right_.drive_motor_.RequestFeedbackFromMotor().GetFeedback().speed;
-            motor_speeds.back_steer_speed = back_.drive_motor_.RequestFeedbackFromMotor().GetFeedback().speed;
+            motor_speeds.left_steer_speed = left_.steer_motor_.RequestFeedbackFromMotor().GetFeedback().speed;
+            motor_speeds.right_steer_speed = right_.steer_motor_.RequestFeedbackFromMotor().GetFeedback().speed;
+            motor_speeds.back_steer_speed = back_.steer_motor_.RequestFeedbackFromMotor().GetFeedback().speed;
             return motor_speeds;
         }
 

@@ -25,16 +25,13 @@ namespace sjsu::drive
                     commands.mode = previous_mode_;
                     return commands;
                 } // hubs must be stopped to pass here
-                else if (skip_once_)
-                {
-                    skip_once_ = false;
-                } // will start moving steer motors before exiting middle of switching modes
-                else if (steers_stopped)
+                else if (!skip_once_ && steers_stopped)
                 {
                     in_the_middle_of_switching_modes_ = false;
                     skip_once_ = true;
                 } // only once steer motors have stopped moving after hubs stopped will we exit switching modes
                 previous_mode_ = commands.mode;
+                skip_once_ = false;
             }
             return commands;
         }

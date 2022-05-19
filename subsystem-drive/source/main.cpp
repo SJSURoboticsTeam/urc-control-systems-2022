@@ -57,17 +57,18 @@ int main()
     tri_wheel.Initialize();
     tri_wheel.HomeLegs();
     sjsu::Delay(1s);
+    sjsu::LogInfo("Starting control loop...");
     while (1)
     {
-        //For Mission Control Mode
-        std::string endpoint = mission_control.CreateGETRequestParameterWithRoverStatus();
-        std::string response = esp.GetCommands(endpoint);
-        commands = mission_control.ParseMissionControlData(response);
+        // //For Mission Control Mode
+        // std::string endpoint = mission_control.CreateGETRequestParameterWithRoverStatus();
+        // std::string response = esp.GetCommands(endpoint);
+        // commands = mission_control.ParseMissionControlData(response);
         
-        //For Manual Mode
-        commands = SerialEnterCommands();
+        // //For Manual Mode
+        // commands = SerialEnterCommands();
         commands.Print();
-        sjsu::Delay(1s);
+        // sjsu::Delay(1s);
         
         commands.speed = 100;
         if(arguments.back.hub.speed > 50)
@@ -76,10 +77,11 @@ int main()
         }
 
         arguments = tri_wheel.SetLegArguments(ModeSelect::SelectMode(lerp.Lerp(mode_switch.SwitchSteerMode(commands, arguments, motor_speeds))));
-        arguments.Print();
-        motor_speeds = tri_wheel.GetMotorFeedback();
 
-        sjsu::Delay(1s);
+        arguments.Print();
+        motor_speeds.print();
+        motor_speeds = tri_wheel.GetMotorFeedback();
+        // sjsu::Delay(50ms);
     }
 
     return 0;
