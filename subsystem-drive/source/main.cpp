@@ -9,6 +9,7 @@
 #include "../implementations/mode-switcher.hpp"
 #include "../implementations/mode-select.hpp"
 #include "../implementations/command-lerper.hpp"
+#include "../dto/motor-feedback-dto.hpp"
 
 using namespace sjsu::drive;
 
@@ -48,6 +49,7 @@ int main()
 
     MissionControlHandler mission_control;
     drive_commands commands;
+    motor_feedback motor_speeds;
     tri_wheel_router_arguments arguments;
     TriWheelRouter tri_wheel{right, left, back};
     ModeSwitch mode_switch;
@@ -55,27 +57,31 @@ int main()
     tri_wheel.Initialize();
     tri_wheel.HomeLegs();
     sjsu::Delay(1s);
+    sjsu::LogInfo("Starting control loop...");
     while (1)
     {
-        //For Mission Control Mode
-        std::string endpoint = mission_control.CreateGETRequestParameterWithRoverStatus();
-        std::string response = esp.GetCommands(endpoint);
-        commands = mission_control.ParseMissionControlData(response);
+        // //For Mission Control Mode
+        // std::string endpoint = mission_control.CreateGETRequestParameterWithRoverStatus();
+        // std::string response = esp.GetCommands(endpoint);
+        // commands = mission_control.ParseMissionControlData(response);
         
-        //For Manual Mode
-        commands = SerialEnterCommands();
+        // //For Manual Mode
+        // commands = SerialEnterCommands();
         commands.Print();
-        sjsu::Delay(1s);
+        // sjsu::Delay(1s);
         
         commands.speed = 100;
         if(arguments.back.hub.speed > 50)
         {
             commands.mode = 'S';
         }
-        arguments = tri_wheel.SetLegArguments(ModeSelect::SelectMode(lerp.Lerp(mode_switch.SwitchSteerMode(commands, arguments))));
-        arguments.Print();
 
-        sjsu::Delay(1s);
+        arguments = tri_wheel.SetLegArguments(ModeSelect::SelectMode(lerp.Lerp(mode_switch.SwitchSteerMode(commands, arguments, motor_speeds))));
+
+        arguments.Print();
+        motor_speeds.print();
+        motor_speeds = tri_wheel.GetMotorFeedback();
+        // sjsu::Delay(50ms);
     }
 
     return 0;

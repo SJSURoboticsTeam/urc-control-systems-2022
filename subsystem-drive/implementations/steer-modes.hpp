@@ -9,7 +9,7 @@ namespace sjsu::drive
     {
     public:
         static constexpr float kBackRightSpinAngle = 120;
-        static constexpr float kLeftSpinAngle = 87.5;
+        static constexpr float kLeftSpinAngle = 150;
         static constexpr float kLeftLegDriveOffset = 50;
         static constexpr float kRightLegDriveOffset = -80;
 
@@ -66,7 +66,7 @@ namespace sjsu::drive
                 steer_arguments.back.hub.speed = commands.speed;
             }
 
-            //adding the offsets to put it into the base drive mode
+            // adding the offsets to put it into the base drive mode
             steer_arguments.left.steer.angle += kLeftLegDriveOffset;
             steer_arguments.right.steer.angle += kRightLegDriveOffset;
 

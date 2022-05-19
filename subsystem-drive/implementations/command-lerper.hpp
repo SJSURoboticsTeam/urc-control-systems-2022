@@ -16,7 +16,7 @@ namespace sjsu::drive
         }
 
     private:
-        const double kSpeedLerp = .25;
+        const double kSpeedLerp = .1;
         const double kAngleLerp = .20;
         drive_commands last_lerped_command_{}; // don't touch mode or wheel orientation logic
     };
