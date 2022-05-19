@@ -66,15 +66,21 @@ int main()
         // commands = mission_control.ParseMissionControlData(response);
         
         // //For Manual Mode
-        // commands = SerialEnterCommands();
+        commands = SerialEnterCommands();
         commands.Print();
-        // sjsu::Delay(1s);
+        sjsu::Delay(50ms);
         
-        commands.speed = 100;
-        if(arguments.back.hub.speed > 50)
-        {
-            commands.mode = 'S';
-        }
+        // commands.speed = 100;
+        // if(arguments.back.hub.speed > 90)
+        // {
+        //     commands.mode = 'T';
+        //     commands.angle = 60;
+        // }
+        // else if(arguments.back.hub.speed > 50 && once)
+        // {
+        //     once = false;
+        //     commands.mode = 'S';
+        // }
 
         arguments = tri_wheel.SetLegArguments(ModeSelect::SelectMode(lerp.Lerp(mode_switch.SwitchSteerMode(commands, arguments, motor_speeds))));
 
