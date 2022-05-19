@@ -90,12 +90,12 @@ namespace sjsu::drive
         {
             tri_wheel_router_arguments steer_arguments;
 
-            steer_arguments.left.steer.angle = commands.angle;
-            steer_arguments.right.steer.angle = commands.angle + 60;
-            steer_arguments.back.steer.angle = commands.angle + 110;
+            steer_arguments.left.steer.angle = commands.angle + kLeftLegDriveOffset;
+            steer_arguments.right.steer.angle = commands.angle + kRightLegDriveOffset;
+            steer_arguments.back.steer.angle = commands.angle;
 
-            steer_arguments.left.hub.speed = commands.speed;
-            steer_arguments.right.hub.speed = commands.speed;
+            steer_arguments.left.hub.speed = -commands.speed;
+            steer_arguments.right.hub.speed = -commands.speed;
             steer_arguments.back.hub.speed = commands.speed;
 
             return steer_arguments;

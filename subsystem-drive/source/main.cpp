@@ -57,6 +57,7 @@ int main()
     tri_wheel.Initialize();
     tri_wheel.HomeLegs();
     sjsu::Delay(1s);
+    bool once = true;
     sjsu::LogInfo("Starting control loop...");
     while (1)
     {
@@ -71,8 +72,14 @@ int main()
         // sjsu::Delay(1s);
         
         commands.speed = 100;
-        if(arguments.back.hub.speed > 50)
+        if(arguments.back.hub.speed > 90)
         {
+            commands.mode = 'T';
+            commands.angle = 60;
+        }
+        else if(arguments.back.hub.speed > 50 && once)
+        {
+            once = false;
             commands.mode = 'S';
         }
 
