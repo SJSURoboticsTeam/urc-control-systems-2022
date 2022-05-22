@@ -1,9 +1,13 @@
 #include "utility/log.hpp"
-#include "peripherals/lpc40xx/i2c.hpp"
-#include "peripherals/lpc40xx/can.hpp"
-#include "peripherals/lpc17xx/pwm.hpp"
-#include "devices/actuators/servo/rmd_x.hpp"
-#include "devices/sensors/movement/accelerometer/mpu6050.hpp"
+#include "../../../../library/peripherals/lpc40xx/i2c.hpp"
+#include "../../../../library/peripherals/lpc40xx/can.hpp"
+#include "../../../../library/peripherals/lpc17xx/pwm.hpp"
+#include "../../../../library/devices/actuators/servo/rmd_x.hpp"
+#include "../../../../library/devices/sensors/movement/accelerometer/mpu6050.hpp"
+#include "../dto/arm-dto.hpp"
+#include "../implementations/mpu-router.hpp"
+
+
 
 int main()
 {

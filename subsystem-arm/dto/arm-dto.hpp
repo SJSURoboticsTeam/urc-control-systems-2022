@@ -1,15 +1,16 @@
 #pragma once
+#include "utility/math/units.hpp"
 
-namespace sjsu::arguments{
+namespace sjsu::arm{
     struct arm_commands
     {
-        std::int16_t rotunda_angle = 0;
-        std::int16_t shoulder_angle = 0;
-        std::int16_t elbow_angle = 0;
-        std::int16_t wrist_pitch_angle = 0;
-        std::int16_t wrist_yaw_angle = 0;
-        std::int16_t finger_angle = 0;
-        char mode = ‘A’;
+        int rotunda_angle = 0;
+        int shoulder_angle = 0;
+        int elbow_angle = 0;
+        int wrist_pitch_angle = 0;
+        int wrist_yaw_angle = 0;
+        int finger_angle = 0;
+        char mode = 'A';
 
         void Print()
         {}
@@ -17,11 +18,11 @@ namespace sjsu::arguments{
 
     struct motor_arguments
     {
-        std::int16_t rotunda_angle = 0;
-        std::int16_t shoulder_angle = 0;
-        std::int16_t elbow_angle = 0;
-        std::int16_t wrist_pitch_angle = 0;
-        std::int16_t wrist_yaw_angle = 0;
+        int rotunda_angle = 0;
+        int shoulder_angle = 0;
+        int elbow_angle = 0;
+        int wrist_pitch_angle = 0;
+        int wrist_yaw_angle = 0;
 
         void Print()
         {}
@@ -29,9 +30,9 @@ namespace sjsu::arguments{
 
     struct accelerometer_feedback
     {
-        std::int16_t x = 0;
-        std::int16_t y = 0;
-        std::int16_t z = 0;
+        int x = 0;
+        int y = 0;
+        int z = 0;
     };
 
     struct imu_accelerometers_feedback

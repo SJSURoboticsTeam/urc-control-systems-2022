@@ -1,7 +1,7 @@
 #pragma once
-#include "../dto/drive-dto.hpp"
+#include "../dto/arm-dto.hpp"
 
-namespace sjsu::drive
+namespace sjsu::arm
 {
     class CommandLerper
     {
