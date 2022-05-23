@@ -3,12 +3,14 @@
 #include "../subsystem-arm/dto/arm-dto.hpp"
 #include "utility/math/units.hpp"
 #include "utility/log.hpp"
+#include "devices/actuators/servo/rmd_x.hpp"
 
 namespace sjsu::arm
 {
     class ArmRouter
     {
-        Arm(sjsu::RmdX & routnda, sjsu::RmdX & shoulder, sjsu::RmdX & elbow, sjsu::RmdX & wrist_pitch, sjsu::RmdX & wrist_yaw){
+        public: 
+        ArmRouter(sjsu::RmdX & routnda, sjsu::RmdX & shoulder, sjsu::RmdX & elbow, sjsu::RmdX & wrist_pitch, sjsu::RmdX & wrist_yaw){
 
         }
 
@@ -24,6 +26,8 @@ namespace sjsu::arm
         {
 
         }
+  
         private:
-    }
+        sjsu::arm::motor_arguments motors;
+    };
 }

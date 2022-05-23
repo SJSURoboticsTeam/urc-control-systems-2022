@@ -1,5 +1,5 @@
 #pragma once
-#include "library/devices/sensors/movement/accelerometer/mpu6050.hpp"
+#include "../library/devices/sensors/movement/accelerometer/mpu6050.hpp"
 #include "../subsystem-arm/dto/arm-dto.hpp"
 #include "utility/math/units.hpp"
 #include "utility/log.hpp"
@@ -15,5 +15,5 @@ namespace sjsu::arm
         imu_accelerometers_feedback GetFeedback(){
             return {};
         }
-    }
+    };
 }
