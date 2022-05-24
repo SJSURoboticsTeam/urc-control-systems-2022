@@ -3,7 +3,15 @@
 #include "peripherals/lpc40xx/can.hpp"
 #include "peripherals/lpc17xx/pwm.hpp"
 #include "devices/actuators/servo/rmd_x.hpp"
-#include "devices/sensors/movement/accelerometer/mpu6050.hpp"
+#include "../library/devices/sensors/movement/accelerometer/mpu6050.hpp"
+#include "dto/arm-dto.hpp"
+#include "implementations/mpu-router.hpp"
+#include "../implementations/arm-router.hpp"
+
+
+
+
+
 
 int main()
 {
@@ -32,10 +40,10 @@ int main()
   
 
   while(true){
-    motor_arguments arguments{5, 0, 20, 0, 0};
+    sjsu::arm::motor_arguments arguments{5, 0, 20, 0, 0};
     arm.SetArmArguments(arguments);
     sjsu::Delay(3s);
-    motor_arguments arguments2{25, -10, 0, 0, 0};
+    sjsu::arm::motor_arguments arguments2{25, -10, 0, 0, 0};
     arm.SetArmArguments(arguments);
     sjsu::Delay(3s);
   }
