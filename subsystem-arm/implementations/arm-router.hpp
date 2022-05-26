@@ -9,25 +9,30 @@ namespace sjsu::arm
 {
     class ArmRouter
     {
-        public: 
-        ArmRouter(sjsu::RmdX & routnda, sjsu::RmdX & shoulder, sjsu::RmdX & elbow, sjsu::RmdX & wrist_pitch, sjsu::RmdX & wrist_yaw){
-
+    public:
+        ArmRouter(sjsu::RmdX &rotunda, sjsu::RmdX &shoulder, sjsu::RmdX &elbow, sjsu::RmdX &left_wrist, sjsu::RmdX &right_wrist) : 
+        rotunda_(rotunda), shoulder_(shoulder), elbow_(elbow), left_wrist_(left_wrist), right_wrist_(right_wrist)
+        {
         }
 
         void Initialize(){};
 
-        motor_arguments SetArmArguments (motor_arguments arguments)
+        arm_arguments SetArmArguments(arm_arguments arguments)
         {
-            //TODO: Set angles for each motor
+            // TODO: Set angles for each motor
             return {};
         }
 
         void HomeArm(imu_accelerometers_feedback mpu_feedback, motors_feedback motors_feedback)
         {
-
         }
-  
-        private:
-        sjsu::arm::motor_arguments motors;
+
+    private:
+        sjsu::arm::arm_arguments arguments_;
+        sjsu::RmdX &rotunda_;
+        sjsu::RmdX &shoulder_;
+        sjsu::RmdX &elbow_;
+        sjsu::RmdX &left_wrist_;
+        sjsu::RmdX &right_wrist_;
     };
 }

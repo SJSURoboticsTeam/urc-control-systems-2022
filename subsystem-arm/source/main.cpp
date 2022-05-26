@@ -40,10 +40,10 @@ int main()
   
 
   while(true){
-    sjsu::arm::motor_arguments arguments{5, 0, 20, 0, 0};
+    sjsu::arm::arm_arguments arguments{5, 0, 20, 0, 0};
     arm.SetArmArguments(arguments);
     sjsu::Delay(3s);
-    sjsu::arm::motor_arguments arguments2{25, -10, 0, 0, 0};
+    sjsu::arm::arm_arguments arguments2{25, -10, 0, 0, 0};
     arm.SetArmArguments(arguments);
     sjsu::Delay(3s);
   }
