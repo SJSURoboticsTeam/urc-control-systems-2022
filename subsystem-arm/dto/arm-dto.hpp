@@ -16,7 +16,7 @@ namespace sjsu::arm{
         {}
     };
 
-    struct motor_arguments
+    struct arm_arguments
     {
         int rotunda_angle = 0;
         int shoulder_angle = 0;
