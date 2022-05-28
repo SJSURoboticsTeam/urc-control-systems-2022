@@ -12,7 +12,7 @@ const char response_body_format[] =
 
 char mode;
 int speed, angle, wheel_orientation;
-char response[300];
+char response[300] = R"({"drive_mode":"D","speed":68,"angle":0,"wheel_orientation":0})";
 
 int main()
 {
@@ -20,6 +20,7 @@ int main()
 
     int number = 0;
     printf("Type in a number: ");
+    scanf("%s", response);
 
     sscanf(
         response, response_body_format,
