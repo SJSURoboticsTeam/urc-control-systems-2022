@@ -12,6 +12,7 @@ const char response_body_format[] =
 
 char mode;
 int speed, angle, wheel_orientation;
+char response[300];
 
 int main()
 {
@@ -21,11 +22,11 @@ int main()
     printf("Type in a number: ");
 
     sscanf(
-        response_body_format,
+        response, response_body_format,
         &mode, &speed, &angle,
         &wheel_orientation);
 
-    printf("\n--> Mode %c\n \n--> Speed %d\n \n--> Angle %d\n \n--> Wheel_orientation %d\n", mode, speed, angle, wheel_orientation);
+    printf("\n--> Mode %c \n--> Speed %d \n--> Angle %d \n--> Wheel_orientation %d\n", mode, speed, angle, wheel_orientation);
 
     return 0;
 }
