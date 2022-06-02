@@ -8,7 +8,7 @@ namespace sjsu::arm
     public:
         arm_commands Lerp(arm_commands commands)
         {
-            //TODO
+            // TODO
             return commands;
         }
 
