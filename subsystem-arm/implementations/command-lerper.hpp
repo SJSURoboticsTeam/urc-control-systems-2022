@@ -9,6 +9,9 @@ namespace sjsu::arm
         arm_commands Lerp(arm_commands commands)
         {
             // TODO
+            
+            last_lerped_command_.elbow_angle = std::lerp(last_lerped_command_.elbow_angle, commands.elbow_angle, kSpeedLerp);
+            commands = last_lerped_command_;
             return commands;
         }
 
