@@ -11,13 +11,13 @@ namespace sjsus::arm
         static arm_arguments SimulataneousMode(arm_commands commands)
         {
             arm_arguments temp;
-            temp.rotunda_angle = anglesconvert(commands.rotunda_angle);
-            temp.shoulder_angle = anglesconvert(commands.shoulder_angle);
-            temp.elbow_angle = anglesconvert(commands.elbow_angle);
-            temp.wrist_pitch_angle = anglesconvert(commands.wrist_pitch_angle);
-            temp.wrist_yaw_angle = anglesconvert(commands.wrist_yaw_angle);
-            temp.finger_angle = anglesconvert(commands.finger_angle);
-            return{}
+            temp.rotunda_angle = AnglesConvert(commands.rotunda_angle);
+            temp.shoulder_angle = AnglesConvert(commands.shoulder_angle);
+            temp.elbow_angle = AnglesConvert(commands.elbow_angle);
+            temp.wrist_pitch_angle = AnglesConvert(commands.wrist_pitch_angle);
+            temp.wrist_yaw_angle = AnglesConvert(commands.wrist_yaw_angle);
+            temp.finger_angle = AnglesConvert(commands.finger_angle);
+            return temp;
         }
 
         static arm_arguments CondensedMode(arm_commands commands)
@@ -26,9 +26,9 @@ namespace sjsus::arm
         }
         //TODO: come up with other possible modes
         private:
-        int anglesconvert(int a){
+        int AnglesConvert(int angle){
             int temp;
-            temp = a%360;
+            temp = angle %360;
             if(temp>180){
                 temp=-360;
             }

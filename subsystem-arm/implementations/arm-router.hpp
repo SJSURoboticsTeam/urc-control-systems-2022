@@ -28,7 +28,7 @@ namespace sjsu::arm
             elbow_.SetAngle(units::angle::degree_t(arguments.elbow_angle));
             left_wrist_.SetAngle(units::angle::degree_t(arguments.wrist_pitch_angle));//dunno if it's pitch or yaw fix when we test
             right_wrist_.SetAngle(units::angle::degree_t(arguments.wrist_yaw_angle));
-            return {arguments};
+            return arguments;
         }
 
         void HomeArm(imu_accelerometers_feedback mpu_feedback, motors_feedback motors_feedback)
