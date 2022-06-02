@@ -5,7 +5,7 @@
 
 namespace sjsu::arm
 {
-    TEST_CASE("Tri wheel router testing")
+    TEST_CASE("Command Lerper Testing")
     {
         CommandLerper lerp;
         SECTION("should lerp all angles by certain ammount")
