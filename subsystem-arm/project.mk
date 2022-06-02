@@ -1,0 +1,1 @@
+TESTS += test/command-lerper_test.cpp
