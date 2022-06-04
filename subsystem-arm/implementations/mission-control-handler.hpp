@@ -18,13 +18,15 @@ namespace sjsu::arm
 
             return commands;
         }
-        std::string CreateGETRequestParameterWithRoverStatus()
+        std::string CreateGETRequestParameterWithRoverStatus( imu_accelerometers_feedback mpus , motors_feedback motors)
         {
             snprintf(
                 request_parameter, 300,
-                "drive?drive_mode=%c&speed=%d&angle=%d&wheel_orientation=%d",
-                commands.mode, commands.speed, commands.angle, commands.wheel_orientation);
-            return request_parameter;
+                "arm?arm_mode=%crotunda_x=%d&rotunda_y=%d&rotunda_z=%d",
+                commands.mode,
+                mpus.rotunda.x, mpus.rotunda.y, mpus.rotunda.z, 
+                commands.wrist_yaw_angle);
+            return request_parameter
         }
 
     private:
