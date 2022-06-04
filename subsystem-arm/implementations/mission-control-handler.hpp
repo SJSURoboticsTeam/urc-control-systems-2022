@@ -10,29 +10,14 @@ namespace sjsu::arm
     {
     public:
         arm_commands ParseMissionControlData(std::string &response)
-  {
-        char arm_mode, hand_mode;
-        int actual_arguments = sscanf(
-            response.c_str(), response_body_format, &mc_data_.heartbeat_count,
-            &mc_data_.is_operational, &arm_mode, &hand_mode, &mc_data_.speed,
-            &arm_mc_data_.arm_angles.rotunda, &arm_mc_data_.arm_angles.shoulder,
-            &arm_mc_data_.arm_angles.elbow, &hand_mc_data_.wrist_data.roll,
-            &hand_mc_data_.wrist_data.pitch,
-            &hand_mc_data_.finger_angles.pinky_angle,
-            &hand_mc_data_.finger_angles.ring_angle,
-            &hand_mc_data_.finger_angles.middle_angle,
-            &hand_mc_data_.finger_angles.pointer_angle,
-            &hand_mc_data_.finger_angles.thumb_angle);
-    
-        arm_mc_data_.arm_mode   = Arm::MissionControlData::ArmModes{ arm_mode };
-        hand_mc_data_.hand_mode = Hand::MissionControlData::HandModes{ hand_mode };
-        if (actual_arguments != kExpectedArguments)
         {
-          sjsu::LogError("Arguments# %d != expected# %d!", actual_arguments,
-                         kExpectedArguments);
-          throw ParseError{};
+              int actual_arguments = sscanf(
+                response.c_str(), response_body_format,
+                &commands.rotunda_angle, &commands.shoulder_angle, &commands.elbow_angle,
+                &commands.wrist_pitch_angle, &commands.wrist_yaw_angle, &commands.mode);
+
+            return commands;
         }
-  }
         std::string CreateGETRequestParameterWithRoverStatus()
         {
             char request_parameter[300];
