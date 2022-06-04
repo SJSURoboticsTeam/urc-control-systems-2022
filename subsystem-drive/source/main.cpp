@@ -16,6 +16,14 @@ const char response_body_format[] =
     "  \"wheel_orientation\": %d,\n"
     "}";
 
+// const std::string_view response_body_format_string =
+//     "{\n
+//     drive_mode: D,\n
+//     speed: 100,\n
+//     angle: 45,\n
+//     wheel_orientation: 0,\n
+//     }";
+
 char mode;
 int speed, angle, wheel_orientation;
 char response[300] = R"({"drive_mode":"D","speed":68,"angle":0,"wheel_orientation":0})";
@@ -41,17 +49,23 @@ int main()
     const size_t kReadBytes = uart2.Read(receive_buffer);
 
     // Print out the number of bytes read and the actual buffer
-    sjsu::LogInfo("(%zu) Bytes received: %.*s",
-                  kReadBytes,
-                  kReadBytes,
-                  receive_buffer.data());
+    while (1)
+    {
+        std::string_view payload = "Data is tranfering through Serial";
+        sjsu::LogInfo("Transmitting \"%s\" ...", payload.data());
+        uart2.Write(payload);
+        sjsu::LogInfo("(%zu) Bytes received: %.*s",
+                      kReadBytes,
+                      kReadBytes,
+                      receive_buffer.data());
 
-    sscanf(
-        response, response_body_format,
-        &mode, &speed, &angle,
-        &wheel_orientation);
+        sscanf(
+            response, response_body_format,
+            &mode, &speed, &angle,
+            &wheel_orientation);
 
-    printf("\n--> Mode %c \n--> Speed %d \n--> Angle %d \n--> Wheel_orientation %d\n", mode, speed, angle, wheel_orientation);
-
+        printf("\n--> Mode %c \n--> Speed %d \n--> Angle %d \n--> Wheel_orientation %d\n", mode, speed, angle, wheel_orientation);
+        receive_buffer.fill(0);
+    }
     return 0;
 }
