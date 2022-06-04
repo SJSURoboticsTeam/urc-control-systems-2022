@@ -42,7 +42,7 @@ int main()
   while(true){
     for(int i = 0; i < 25; i++){
     arm.SetArmArguments({0, i, 0, 0, 0});
-    sjsu::Delay(50ms);
+    sjsu::Delay(500ms);
     }
     // sjsu::arm::arm_arguments arguments{5, 0, 20, 0, 0};
     // arm.SetArmArguments(arguments);
