@@ -7,12 +7,12 @@ namespace sjsu::arm
     class ArmModes
     {
         public:
-            static constexpr float kCondRotundaAngle = 0;
-            static constexpr float kCondShoulderAngle = -18;
-            static constexpr float kCondElbowAngle = 74;
-            static constexpr float kCondWristPitchAngle = 0;
-            static constexpr float kCondWristYawAngle = 0;
-            static constexpr float kCondFingerAngle = 0;
+            static constexpr float kCondensedRotundaAngle = 0;
+            static constexpr float kCondensedShoulderAngle = -18;
+            static constexpr float kCondensedElbowAngle = 74;
+            static constexpr float kCondensedWristPitchAngle = 0;
+            static constexpr float kCondensedWristYawAngle = 0;
+            static constexpr float kCondensedFingerAngle = 0;
 
             static arm_arguments SimulataneousMode(arm_commands commands)
             {}
@@ -20,11 +20,11 @@ namespace sjsu::arm
             static arm_arguments CondensedMode(arm_commands commands)
             {
                 arm_arguments temp;
-                temp.rotunda_angle = kCondRotundaAngle;
-                temp.shoulder_angle = kCondShoulderAngle;
-                temp.elbow_angle = kCondElbowAngle;
-                temp.wrist_pitch_angle = kCondWristPitchAngle;
-                temp.wrist_yaw_angle = kCondWristYawAngle;
+                temp.rotunda_angle = kCondensedRotundaAngle;
+                temp.shoulder_angle = kCondensedShoulderAngle;
+                temp.elbow_angle = kCondensedElbowAngle;
+                temp.wrist_pitch_angle = kCondensedWristPitchAngle;
+                temp.wrist_yaw_angle = kCondensedWristYawAngle;
 
                 return temp;
             }
