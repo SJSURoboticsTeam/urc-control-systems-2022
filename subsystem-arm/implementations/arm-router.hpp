@@ -11,23 +11,24 @@ namespace sjsu::arm
     {
     public:
         ArmRouter(sjsu::RmdX &rotunda, sjsu::RmdX &shoulder, sjsu::RmdX &elbow, sjsu::RmdX &left_wrist, sjsu::RmdX &right_wrist) : 
-        rotunda_(rotunda), shoulder_(shoulder), elbow_(elbow), left_wrist_(left_wrist), right_wrist_(right_wrist)
-        {
-        }
+        rotunda_(rotunda), shoulder_(shoulder), elbow_(elbow), left_wrist_(left_wrist), right_wrist_(right_wrist) {}
 
         void Initialize()
         {
-            
+            rotunda_.Initialize();
+            shoulder_.Initialize();
+            elbow_.Initialize();
+            left_wrist_.Initialize();
+            right_wrist_.Initialize();
         };
 
         arm_arguments SetArmArguments(arm_arguments arguments)
         {
-
-            rotunda_.SetAngle(units::angle::degree_t(arguments.rotunda_angle));
-            shoulder_.SetAngle(units::angle::degree_t(arguments.shoulder_angle));
-            elbow_.SetAngle(units::angle::degree_t(arguments.elbow_angle));
-            left_wrist_.SetAngle(units::angle::degree_t(arguments.wrist_pitch_angle));//dunno if it's pitch or yaw fix when we test
-            right_wrist_.SetAngle(units::angle::degree_t(arguments.wrist_yaw_angle));
+            rotunda_.SetAngle(units::angle::degree_t(arguments.rotunda_angle), 10_rpm);
+            shoulder_.SetAngle(units::angle::degree_t(arguments.shoulder_angle), 10_rpm);
+            elbow_.SetAngle(units::angle::degree_t(arguments.elbow_angle), 10_rpm);
+            left_wrist_.SetAngle(units::angle::degree_t(arguments.wrist_pitch_angle), 10_rpm);
+            right_wrist_.SetAngle(units::angle::degree_t(arguments.wrist_yaw_angle), 10_rpm);
             return arguments;
         }
 

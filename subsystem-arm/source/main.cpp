@@ -29,7 +29,7 @@ int main()
 
   rotunda_motor.settings.gear_ratio     = 8;
   shoulder_motor.settings.gear_ratio    = 8*65/16;  //gear ratio of motor times gear ratio of shoulder
-  elbow_motor.settings.gear_ratio       = 8*5/2;        //gear ratio of motor times gear ratio of elbow
+  elbow_motor.settings.gear_ratio       = 8*5/2;    //gear ratio of motor times gear ratio of elbow
   left_wrist_motor.settings.gear_ratio  = 8;
   right_wrist_motor.settings.gear_ratio = 8;
 
@@ -40,11 +40,15 @@ int main()
   
 
   while(true){
-    sjsu::arm::arm_arguments arguments{5, 0, 20, 0, 0};
-    arm.SetArmArguments(arguments);
-    sjsu::Delay(3s);
-    sjsu::arm::arm_arguments arguments2{25, -10, 0, 0, 0};
-    arm.SetArmArguments(arguments);
-    sjsu::Delay(3s);
+    for(int i = 0; i < 25; i++){
+    arm.SetArmArguments({0, i, 0, 0, 0});
+    sjsu::Delay(50ms);
+    }
+    // sjsu::arm::arm_arguments arguments{5, 0, 20, 0, 0};
+    // arm.SetArmArguments(arguments);
+    // sjsu::Delay(3s);
+    // sjsu::arm::arm_arguments arguments2{25, -10, 0, 0, 0};
+    // arm.SetArmArguments(arguments);
+    // sjsu::Delay(3s);
   }
 }
