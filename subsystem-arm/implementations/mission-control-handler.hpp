@@ -20,7 +20,11 @@ namespace sjsu::arm
         }
         std::string CreateGETRequestParameterWithRoverStatus()
         {
-            
+            snprintf(
+                request_parameter, 300,
+                "drive?drive_mode=%c&speed=%d&angle=%d&wheel_orientation=%d",
+                commands.mode, commands.speed, commands.angle, commands.wheel_orientation);
+            return request_parameter;
         }
 
     private:
