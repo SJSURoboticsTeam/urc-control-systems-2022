@@ -9,7 +9,6 @@ namespace sjsu::arm{
         int elbow_angle = 0;
         int wrist_pitch_angle = 0;
         int wrist_yaw_angle = 0;
-        int finger_angle = 0;
         char mode = 'A';
 
         void Print()
@@ -26,6 +25,15 @@ namespace sjsu::arm{
 
         void Print()
         {}
+    };
+
+    struct hand_arguments
+    {
+        int pinky_angle = 0;
+        int ring_angle = 0;
+        int middle_angle = 0;
+        int index_angle = 0;
+        int thumb_angle = 0;
     };
 
     struct accelerometer_feedback
