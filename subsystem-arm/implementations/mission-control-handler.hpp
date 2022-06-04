@@ -26,7 +26,7 @@ namespace sjsu::arm
                 commands.mode,
                 mpus.rotunda.x, mpus.rotunda.y, mpus.rotunda.z, 
                 commands.wrist_yaw_angle);
-            return request_parameter
+            return request_parameter;
         }
 
     private:
