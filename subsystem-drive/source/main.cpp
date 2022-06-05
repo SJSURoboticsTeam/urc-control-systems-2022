@@ -74,18 +74,7 @@ int main()
         commands = SerialEnterCommands();
         commands.Print();
         sjsu::Delay(50ms);
-        
-        // commands.speed = 100;
-        // if(arguments.back.hub.speed > 90)
-        // {
-        //     commands.mode = 'T';
-        //     commands.angle = 60;
-        // }
-        // else if(arguments.back.hub.speed > 50 && once)
-        // {
-        //     once = false;
-        //     commands.mode = 'S';
-        // }
+
         commands = rules_engine.Check(commands);
         commands = mode_switch.SwitchSteerMode(commands, arguments, motor_speeds);
         commands = lerp.Lerp(commands);
@@ -95,7 +84,6 @@ int main()
         arguments.Print();
         motor_speeds.print();
         motor_speeds = tri_wheel.GetMotorFeedback();
-        // sjsu::Delay(50ms);
     }
 
     return 0;
