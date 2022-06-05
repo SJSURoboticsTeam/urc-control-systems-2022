@@ -7,7 +7,7 @@
 #include "dto/arm-dto.hpp"
 #include "implementations/mpu-router.hpp"
 #include "../implementations/arm-router.hpp"
-
+#include "../implementations/mission-control-handler.hpp"
 
 
 
@@ -36,11 +36,14 @@ int main()
   sjsu::arm::ArmRouter arm(rotunda_motor, shoulder_motor, elbow_motor, left_wrist_motor, right_wrist_motor);
 
   arm.Initialize();
-
-  
-
-  while(true){
-    for(int i = 0; i < 25; i++){
+  sjsu::LogInfo("Testing arm now");
+  int i;
+  while (true)
+  {
+    for(i = 0; i < 25; i++){
+    arm.SetArmArguments({0, i, 0, 0, 0});
+    sjsu::Delay(500ms);
+    for(i; i > 0; i--){
     arm.SetArmArguments({0, i, 0, 0, 0});
     sjsu::Delay(500ms);
     }
@@ -51,4 +54,4 @@ int main()
     // arm.SetArmArguments(arguments);
     // sjsu::Delay(3s);
   }
-}
+  }
