@@ -13,16 +13,17 @@ namespace sjsu::arm
             static constexpr float kCondensedWristPitchAngle = 0;
             static constexpr float kCondensedWristYawAngle = 0;
             static constexpr float kCondensedFingerAngle = 0;
+            static constexpr int kMaxAngle = 180;
             
         //TODO: come up with other possible modes
         static arm_arguments SimulataneousMode(arm_commands commands)
         {
             arm_arguments temp;
-            temp.rotunda_angle = static_cast<int>(std::clamp(commands.rotunda_angle, -180, 180));
-            temp.shoulder_angle = static_cast<int>(std::clamp(commands.shoulder_angle, -180, 180));
-            temp.elbow_angle = static_cast<int>(std::clamp(commands.elbow_angle, -180, 180));
-            temp.wrist_pitch_angle = static_cast<int>(std::clamp(commands.wrist_pitch_angle, -180, 180));
-            temp.wrist_yaw_angle = static_cast<int>(std::clamp(commands.wrist_yaw_angle, -180, 180));
+            temp.rotunda_angle = static_cast<int>(std::clamp(commands.rotunda_angle, -kMaxAngle, kMaxAngle));
+            temp.shoulder_angle = static_cast<int>(std::clamp(commands.shoulder_angle, -kMaxAngle, kMaxAngle));
+            temp.elbow_angle = static_cast<int>(std::clamp(commands.elbow_angle, -kMaxAngle, kMaxAngle));
+            temp.wrist_pitch_angle = static_cast<int>(std::clamp(commands.wrist_pitch_angle, -kMaxAngle, kMaxAngle));
+            temp.wrist_yaw_angle = static_cast<int>(std::clamp(commands.wrist_yaw_angle, -kMaxAngle, kMaxAngle));
             return temp;
         }
 
