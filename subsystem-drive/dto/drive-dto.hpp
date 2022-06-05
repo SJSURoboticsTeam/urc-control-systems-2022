@@ -9,6 +9,8 @@ namespace sjsu::drive
         int speed = 0; // -100 <--> 100
         int angle = 0; // -180 <--> 180
         int wheel_orientation = 0;
+        int is_operational = 0;
+        int heartbeat_count = 0;
 
         void Print()
         {
