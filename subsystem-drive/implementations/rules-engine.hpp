@@ -1,6 +1,6 @@
 #pragma once
 #include "../dto/drive-dto.hpp"
-#include "../common/hearbeat.hpp"
+#include "../common/heartbeat.hpp"
 
 namespace sjsu::drive
 {
