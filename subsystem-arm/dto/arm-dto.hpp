@@ -4,11 +4,14 @@
 namespace sjsu::arm{
     struct arm_commands
     {
+        int speed = 0;
         int rotunda_angle = 0;
         int shoulder_angle = 0;
         int elbow_angle = 0;
         int wrist_pitch_angle = 0;
         int wrist_yaw_angle = 0;
+        int is_operational = 0;
+        int heartbeat_count = 0;
         char mode = 'A';
 
         void Print()
@@ -21,6 +24,7 @@ namespace sjsu::arm{
 
     struct arm_arguments
     {
+        int speed = 0;
         int rotunda_angle = 0;
         int shoulder_angle = 0;
         int elbow_angle = 0;

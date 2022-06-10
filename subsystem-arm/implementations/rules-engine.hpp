@@ -1,14 +1,17 @@
 #pragma once
-#include "../dto/drive-dto.hpp"
+
+#include "../dto/arm-dto.hpp"
 #include "../common/heartbeat.hpp"
 
-namespace sjsu::drive
+namespace sjsu::arm
 {
+
     class RulesEngine
     {
         public:
-        static constexpr int kMaxSpeed = 100;
-        drive_commands ValidateCommands(drive_commands commands)
+        static constexpr int kMaxShoulderAngle = 90;
+        static constexpr int kMaxSpeed = 20;
+        arm_commands ValidateCommands(arm_commands commands)
         {
             if(!heartbeat_.IsSyncedWithMissionControl(commands.heartbeat_count))
             {
@@ -26,11 +29,14 @@ namespace sjsu::drive
                 commands.speed = std::clamp(commands.speed, -kMaxSpeed, kMaxSpeed);
                 sjsu::LogInfo("Specified speed is too fast... clamping speed");
             }
+            if(commands.shoulder_angle > kMaxShoulderAngle || commands.shoulder_angle < -kMaxShoulderAngle)
+            {
+                std::clamp(commands.shoulder_angle, -kMaxShoulderAngle, kMaxShoulderAngle);
+            }
             heartbeat_.IncrementHeartbeatCount();
             return commands;
         }
-
         private:
-        sjsu::common::Heartbeat heartbeat_;
+        sjsu::common::Heartbeat hearbeat_;
     };
 }
