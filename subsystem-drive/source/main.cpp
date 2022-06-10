@@ -75,7 +75,7 @@ int main()
         commands.Print();
         sjsu::Delay(50ms);
 
-        commands = rules_engine.Check(commands);
+        commands = rules_engine.ValidateCommands(commands);
         commands = mode_switch.SwitchSteerMode(commands, arguments, motor_speeds);
         commands = lerp.Lerp(commands);
         arguments = ModeSelect::SelectMode(commands);
