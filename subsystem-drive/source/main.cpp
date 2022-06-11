@@ -9,6 +9,7 @@
 #include "../implementations/mode-switcher.hpp"
 #include "../implementations/mode-select.hpp"
 #include "../implementations/command-lerper.hpp"
+#include "../implementations/rules-engine.hpp"
 #include "../dto/motor-feedback-dto.hpp"
 
 using namespace sjsu::drive;
@@ -47,13 +48,17 @@ int main()
     TriWheelRouter::leg left(left_steer_motor, left_hub_motor);
     TriWheelRouter::leg back(back_steer_motor, back_hub_motor);
 
+    TriWheelRouter tri_wheel{right, left, back};
+
     MissionControlHandler mission_control;
     drive_commands commands;
     motor_feedback motor_speeds;
     tri_wheel_router_arguments arguments;
-    TriWheelRouter tri_wheel{right, left, back};
+
+    RulesEngine rules_engine;
     ModeSwitch mode_switch;
     CommandLerper lerp;
+
     tri_wheel.Initialize();
     tri_wheel.HomeLegs();
     sjsu::Delay(1s);
@@ -69,25 +74,16 @@ int main()
         commands = SerialEnterCommands();
         commands.Print();
         sjsu::Delay(50ms);
-        
-        // commands.speed = 100;
-        // if(arguments.back.hub.speed > 90)
-        // {
-        //     commands.mode = 'T';
-        //     commands.angle = 60;
-        // }
-        // else if(arguments.back.hub.speed > 50 && once)
-        // {
-        //     once = false;
-        //     commands.mode = 'S';
-        // }
 
-        arguments = tri_wheel.SetLegArguments(ModeSelect::SelectMode(lerp.Lerp(mode_switch.SwitchSteerMode(commands, arguments, motor_speeds))));
+        commands = rules_engine.ValidateCommands(commands);
+        commands = mode_switch.SwitchSteerMode(commands, arguments, motor_speeds);
+        commands = lerp.Lerp(commands);
+        arguments = ModeSelect::SelectMode(commands);
+        arguments = tri_wheel.SetLegArguments(arguments);
 
         arguments.Print();
         motor_speeds.print();
         motor_speeds = tri_wheel.GetMotorFeedback();
-        // sjsu::Delay(50ms);
     }
 
     return 0;
