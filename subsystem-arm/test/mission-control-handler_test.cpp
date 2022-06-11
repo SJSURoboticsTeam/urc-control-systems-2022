@@ -10,6 +10,8 @@ namespace sjsu::arm
         MissionControlHandler mc_handler;
         imu_accelerometers_feedback mpu_feedback;
         motors_feedback arm_motors_feedback;
+        hand_arguments hand_feedback;
+        arm_commands arm_feedback;
 
         SECTION("should return default arm status on startup")
         {
@@ -23,7 +25,7 @@ namespace sjsu::arm
             "&elbow_accel_x=0&elbow_accel_y=0&elbow_accel_z=0"
             "&wrist_accel_x=0&wrist_accel_y=0&wrist_accel_z=0";
 
-            std::string actual_formatted_rover_status = mc_handler.CreateGETRequestParameterWithRoverStatus(mpu_feedback, arm_motors_feedback);
+            std::string actual_formatted_rover_status = mc_handler.CreateGETRequestParameterWithRoverStatus(mpu_feedback, arm_motors_feedback, hand_feedback, arm_feedback);
 
             CHECK_EQ(expected_formatted_rover_status, actual_formatted_rover_status);
         }
