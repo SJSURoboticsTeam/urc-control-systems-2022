@@ -32,7 +32,8 @@ namespace sjsu::arm
             if(commands.shoulder_angle > kMaxShoulderAngle || commands.shoulder_angle < -kMaxShoulderAngle)
             {
                 std::clamp(commands.shoulder_angle, -kMaxShoulderAngle, kMaxShoulderAngle);
-            }
+            } 
+            
             heartbeat_.IncrementHeartbeatCount();
             return commands;
         }
