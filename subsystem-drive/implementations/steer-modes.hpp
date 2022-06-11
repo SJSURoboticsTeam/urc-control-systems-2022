@@ -38,7 +38,6 @@ namespace sjsu::drive
             }
             else
             {
-                //-.0474 + -1.93x + -.0813x^2 + .000555x^3
                 back_wheel_angle =
                     float(-.0474 + -1.93 * abs(int(outter_wheel_angle)) +
                           -.0813 * pow(abs(int(outter_wheel_angle)), 2) +
@@ -106,7 +105,6 @@ namespace sjsu::drive
         /// Ackerman steering equation to compute outter wheel angle
         static float CalculateAckermann(float outter_wheel_angle)
         {
-            //-.583 + 1.97x + -.224x^2 + .0278x^3
             float inner_wheel_angle =
                 float(-.583 + 1.97 * abs(int(outter_wheel_angle)) +
                       -.224 * pow(abs(int(outter_wheel_angle)), 2) +
