@@ -21,7 +21,7 @@ namespace sjsu::arm
         std::string CreateGETRequestParameterWithRoverStatus( imu_accelerometers_feedback mpus , motors_feedback motors, hand_arguments hand, arm_commands arm_)
         {
             snprintf( 
-                request_parameter, 300,
+                request_parameter, 504,
                 "?heartbeat_count=0&is_operational=0&arm_mode=%c&hand_mode=%c&rotunda_speed=%d"
                 "&shoulder_speed%d&elbow_speed%d&wrist_speed%d&battery=0&rotunda_angle=%d&shoulder_angle=%d&elbow_angle=%d&wrist_"
                 "roll=%d&wrist_pitch=%d&pinky_angle=%d&ring_angle=%d&middle_angle=%d&"
@@ -44,6 +44,6 @@ namespace sjsu::arm
 
     private:
         arm_commands commands;
-        char request_parameter[300];
+        char request_parameter[504];
     };
 }
