@@ -10,7 +10,7 @@ namespace sjsu::arm
         CommandLerper lerp;
         SECTION("should lerp all angles by certain ammount")
         {
-            arm_commands original_commands {100, 100, 100, 100, 100};
+            arm_commands original_commands {100, 100, 100, 100, 100, 100, 100, 100};
             arm_commands lerped_commands = lerp.Lerp(original_commands);
             CHECK(lerped_commands.rotunda_angle != original_commands.rotunda_angle);
             CHECK(lerped_commands.shoulder_angle != original_commands.shoulder_angle);
