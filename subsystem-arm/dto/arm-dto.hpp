@@ -1,8 +1,10 @@
 #pragma once
 #include "utility/math/units.hpp"
+#include "sensor-dto.hpp"
 
-namespace sjsu::arm{
-    struct arm_commands
+namespace sjsu::arm
+{
+    struct joint_arguments
     {
         int speed = 0;
         int rotunda_angle = 0;
@@ -15,20 +17,8 @@ namespace sjsu::arm{
         char mode = 'A';
 
         void Print()
-        {}
-    };
-
-    struct arm_arguments
-    {
-        int speed = 0;
-        int rotunda_angle = 0;
-        int shoulder_angle = 0;
-        int elbow_angle = 0;
-        int wrist_pitch_angle = 0;
-        int wrist_yaw_angle = 0;
-
-        void Print()
-        {}
+        {
+        }
     };
 
     struct hand_arguments
@@ -38,38 +28,12 @@ namespace sjsu::arm{
         int middle_angle = 0;
         int index_angle = 0;
         int thumb_angle = 0;
-    };
-
-    struct accelerometer_feedback
-    {
-        int x = 0;
-        int y = 0;
-        int z = 0;
-    };
-
-    struct imu_accelerometers_feedback
-    {
-        accelerometer_feedback rotunda{};
-        accelerometer_feedback shoulder{};
-        accelerometer_feedback elbow{};
-        accelerometer_feedback wrist{};
+        int is_operational = 0;
+        int heartbeat_count = 0;
+        char mode;
 
         void Print()
-        {}
-    };
-
-    struct motors_feedback
-    {
-        units::angular_velocity::revolutions_per_minute_t rotunda_speed = 0_rpm;
-        units::angular_velocity::revolutions_per_minute_t shoulder_speed = 0_rpm;
-        units::angular_velocity::revolutions_per_minute_t elbow_speed = 0_rpm;
-        units::angular_velocity::revolutions_per_minute_t wrist_speed = 0_rpm;
-        units::angle::degree_t  rotunda_angle = 0_deg;
-        units::angle::degree_t  shoulder_angle = 0_deg;
-        units::angle::degree_t  elbow_angle = 0_deg;
-        units::angle::degree_t  wrist_angle = 0_deg;
-        
-        void Print()
-        {}
+        {
+        }
     };
 }

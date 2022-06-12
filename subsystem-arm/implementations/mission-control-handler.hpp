@@ -5,32 +5,30 @@ namespace sjsu::arm
 {
 
     const char response_body_format[] = "";
-
+    //this parses both hand and joints data
     class MissionControlHandler
     {
     public:
-        arm_commands ParseMissionControlData(std::string &response)
+        void ParseMissionControlData(std::string &response, joint_arguments &joint_argument, hand_arguments &hand_argument)
         {
               int actual_arguments = sscanf(
                 response.c_str(), response_body_format,
-                &commands.rotunda_angle, &commands.shoulder_angle, &commands.elbow_angle,
-                &commands.wrist_pitch_angle, &commands.wrist_yaw_angle, &commands.mode);
-
-            return commands;
+                &joint_argument.rotunda_angle, &joint_argument.shoulder_angle, &joint_argument.elbow_angle,
+                &joint_argument.wrist_pitch_angle, &joint_argument.wrist_yaw_angle, &joint_argument.mode);
         }
-        std::string CreateGETRequestParameterWithRoverStatus( imu_accelerometers_feedback mpus , motors_feedback motors)
+        
+        std::string CreateGETRequestParameterWithRoverStatus(arm_accelerometer_feedback mpus , motors_feedback motors)
         {
-            snprintf(
-                request_parameter, 300,
-                "arm?arm_mode=%crotunda_x=%d&rotunda_y=%d&rotunda_z=%d",
-                commands.mode,
-                mpus.rotunda.x, mpus.rotunda.y, mpus.rotunda.z, 
-                commands.wrist_yaw_angle);
-            return request_parameter;
+            // snprintf(
+            //     request_parameter, 300,
+            //     "arm?arm_mode=%crotunda_x=%d&rotunda_y=%d&rotunda_z=%d",
+            //     joint_argument.mode,
+            //     mpus.rotunda.x, mpus.rotunda.y, mpus.rotunda.z, 
+            //     commands.wrist_yaw_angle);
+            // return request_parameter;
         }
 
     private:
-        arm_commands commands;
         char request_parameter[300];
     };
 }

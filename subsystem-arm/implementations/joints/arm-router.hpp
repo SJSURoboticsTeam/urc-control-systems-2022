@@ -32,7 +32,7 @@ namespace sjsu::arm
             return arguments;
         }
 
-        void HomeArm(imu_accelerometers_feedback mpu_feedback, motors_feedback motors_feedback)
+        void HomeArm(arm_accelerometer_feedback mpu_feedback, motors_feedback motors_feedback)
         {
             
         }

@@ -5,8 +5,8 @@
 #include "devices/actuators/servo/rmd_x.hpp"
 #include "../library/devices/sensors/movement/accelerometer/mpu6050.hpp"
 #include "dto/arm-dto.hpp"
-#include "implementations/mpu-router.hpp"
-#include "../implementations/arm-router.hpp"
+#include "../implementations/arm/mpu-router.hpp"
+#include "../implementations/arm/arm-router.hpp"
 #include "../implementations/mission-control-handler.hpp"
 
 
@@ -55,3 +55,4 @@ int main()
     // sjsu::Delay(3s);
   }
   }
+}
