@@ -45,6 +45,7 @@ namespace sjsu::arm{
         int middle_angle = 0;
         int index_angle = 0;
         int thumb_angle = 0;
+        char mode = 'A';
     };
 
     struct accelerometer_feedback
