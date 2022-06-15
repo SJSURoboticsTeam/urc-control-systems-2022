@@ -18,6 +18,9 @@ namespace sjsu::arm
 
         void Print()
         {
+            sjsu::LogInfo("ArmCommands\tMode\tRotunda\tShoulder\tElbow\tWrist\n");
+            sjsu::LogInfo("\t%c\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\n", mode, rotunda_angle, shoulder_angle, elbow_angle, wrist_pitch_angle, wrist_yaw_angle);
+            
         }
     };
 
@@ -34,6 +37,13 @@ namespace sjsu::arm
 
         void Print()
         {
+            sjsu::LogInfo("AccelerometerFeedbackX\tRotunda\tShoulder\tElbow\tWrist\n");
+            sjsu::LogInfo("\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\n", rotunda.x, shoulder.x, elbow.x, wrist.x);
+            sjsu::LogInfo("AccelerometerFeedbackY\tRotunda\tShoulder\tElbow\tWrist\n");
+            sjsu::LogInfo("\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\n", rotunda.y, shoulder.y, elbow.y, wrist.y);
+            sjsu::LogInfo("AccelerometerFeedbackZ\tRotunda\tShoulder\tElbow\tWrist\n");
+            sjsu::LogInfo("\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\n", rotunda.z, shoulder.z, elbow.z, wrist.z);
+
         }
     };
 }
