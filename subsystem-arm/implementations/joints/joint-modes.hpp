@@ -4,7 +4,7 @@
 
 namespace sjsu::arm
 {
-    class ArmModes
+    class JointModes
     {
         public:
             static constexpr float kCondensedRotundaAngle = 0;

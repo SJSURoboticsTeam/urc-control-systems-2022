@@ -1,4 +1,5 @@
 #pragma once
+#include "utility/math/units.hpp"
 
 namespace sjsu::arm{    
     struct accelerometer_feedback

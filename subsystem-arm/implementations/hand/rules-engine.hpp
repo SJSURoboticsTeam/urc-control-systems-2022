@@ -6,7 +6,7 @@ namespace sjsu::arm
     class RulesEngine
     {
         public:
-        RulesEngine()
+        RulesEngine(hand_arguments hand_arguments)
         {};
     };
 }

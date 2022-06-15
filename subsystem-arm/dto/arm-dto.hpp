@@ -1,6 +1,5 @@
 #pragma once
 #include "utility/math/units.hpp"
-#include "sensor-dto.hpp"
 
 namespace sjsu::arm
 {
@@ -31,19 +30,12 @@ namespace sjsu::arm
         int middle_angle = 0;
         int index_angle = 0;
         int thumb_angle = 0;
-        int is_operational = 0;
-        int heartbeat_count = 0;
-        char mode;
-
-        void Print()
-        {
-            sjsu::LogInfo("AccelerometerFeedbackX\tRotunda\tShoulder\tElbow\tWrist\n");
-            sjsu::LogInfo("\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\n", rotunda.x, shoulder.x, elbow.x, wrist.x);
-            sjsu::LogInfo("AccelerometerFeedbackY\tRotunda\tShoulder\tElbow\tWrist\n");
-            sjsu::LogInfo("\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\n", rotunda.y, shoulder.y, elbow.y, wrist.y);
-            sjsu::LogInfo("AccelerometerFeedbackZ\tRotunda\tShoulder\tElbow\tWrist\n");
-            sjsu::LogInfo("\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\n", rotunda.z, shoulder.z, elbow.z, wrist.z);
-
-        }
+        char mode = 'A';
     };
+
+    struct arm_arguments
+    {
+        joint_arguments joint_arguments;
+        hand_arguments hand_arguments;
+    }
 }
