@@ -7,7 +7,7 @@
 #include "dto/arm-dto.hpp"
 #include "implementations/mpu-router.hpp"
 #include "../implementations/arm-router.hpp"
-
+#include "../implementations/mission-control-handler.hpp"
 
 
 
@@ -29,22 +29,30 @@ int main()
 
   rotunda_motor.settings.gear_ratio     = 8;
   shoulder_motor.settings.gear_ratio    = 8*65/16;  //gear ratio of motor times gear ratio of shoulder
-  elbow_motor.settings.gear_ratio       = 8*5/2;        //gear ratio of motor times gear ratio of elbow
+  elbow_motor.settings.gear_ratio       = 8*5/2;    //gear ratio of motor times gear ratio of elbow
   left_wrist_motor.settings.gear_ratio  = 8;
   right_wrist_motor.settings.gear_ratio = 8;
 
   sjsu::arm::ArmRouter arm(rotunda_motor, shoulder_motor, elbow_motor, left_wrist_motor, right_wrist_motor);
 
   arm.Initialize();
-
-  
-
-  while(true){
-    sjsu::arm::arm_arguments arguments{5, 0, 20, 0, 0};
-    arm.SetArmArguments(arguments);
-    sjsu::Delay(3s);
-    sjsu::arm::arm_arguments arguments2{25, -10, 0, 0, 0};
-    arm.SetArmArguments(arguments);
-    sjsu::Delay(3s);
+  sjsu::LogInfo("Testing arm now");
+  int i;
+  while (true)
+  {
+    for(i = 0; i < 25; i++){
+    arm.SetArmArguments({0, i, 0, 0, 0});
+    sjsu::Delay(500ms);
+    for(i; i > 0; i--){
+    arm.SetArmArguments({0, i, 0, 0, 0});
+    sjsu::Delay(500ms);
+    }
+    // sjsu::arm::arm_arguments arguments{5, 0, 20, 0, 0};
+    // arm.SetArmArguments(arguments);
+    // sjsu::Delay(3s);
+    // sjsu::arm::arm_arguments arguments2{25, -10, 0, 0, 0};
+    // arm.SetArmArguments(arguments);
+    // sjsu::Delay(3s);
+  }
   }
 }
