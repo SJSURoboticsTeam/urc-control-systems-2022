@@ -5,16 +5,6 @@
 
 namespace sjsu::drive
 {
-    /*
-        {
-        "heartbeat_count": null,
-        "is_operational": 1,
-        "wheel_shift": 0,
-        "drive_mode": "S",
-        "speed": 0,
-        "angle": 0
-        }
-    */
     const char response_body_format[] =
         "\r\n\r\n{\n"
         "  \"heartbeat_count\": %d,\n"
