@@ -17,10 +17,12 @@ namespace sjsu::drive
     */
     const char response_body_format[] =
         "\r\n\r\n{\n"
+        "  \"heartbeat_count\": %d,\n"
+        "  \"is_operational\": %d,\n"
+        "  \"wheel_shift\": %d,\n"
         "  \"drive_mode\": \"%c\",\n"
         "  \"speed\": %d,\n"
         "  \"angle\": %d\n"
-        "  \"wheel_orientation\": %d,\n"
         "}";
     class MissionControlHandler
     {
@@ -29,8 +31,8 @@ namespace sjsu::drive
         {
             int actual_arguments = sscanf(
                 response.c_str(), response_body_format,
-                &commands.mode, &commands.speed, &commands.angle,
-                &commands.wheel_orientation);
+                &commands.heartbeat_count, &commands.is_operational, &commands.wheel_orientation,
+                &commands.mode,&commands.speed, &commands.angle);
 
             return commands;
         }
