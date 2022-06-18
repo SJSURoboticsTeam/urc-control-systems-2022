@@ -19,7 +19,6 @@ namespace sjsu::arm
         {
             sjsu::LogInfo("ArmCommands\tMode\tRotunda\tShoulder\tElbow\tWrist\n");
             sjsu::LogInfo("\t%c\t%.2f\t%.2f\t%.2f\t%.2f\t%.2f\n", mode, rotunda_angle, shoulder_angle, elbow_angle, wrist_pitch_angle, wrist_yaw_angle);
-            
         }
     };
 
@@ -37,5 +36,5 @@ namespace sjsu::arm
     {
         joint_arguments joint_arguments;
         hand_arguments hand_arguments;
-    }
+    };
 }
