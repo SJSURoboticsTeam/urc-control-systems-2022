@@ -69,11 +69,11 @@ int main()
         // std::string endpoint = mission_control.CreateGETRequestParameterWithRoverStatus();
         // std::string response = esp.GetCommands(endpoint);
         // commands = mission_control.ParseMissionControlData(response);
-        
+
         // //For Manual Mode
-        commands = SerialEnterCommands();
-        commands.Print();
-        sjsu::Delay(50ms);
+        // commands = SerialEnterCommands();
+        // commands.Print();
+        // sjsu::Delay(50ms);
 
         commands = rules_engine.ValidateCommands(commands);
         commands = mode_switch.SwitchSteerMode(commands, arguments, motor_speeds);
