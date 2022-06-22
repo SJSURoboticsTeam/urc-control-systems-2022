@@ -34,7 +34,7 @@ namespace sjsu::arm
 
     struct arm_arguments
     {
-        joint_arguments joint_arguments;
-        hand_arguments hand_arguments;
+        joint_arguments joint_args;
+        hand_arguments hand_args;
     };
 }

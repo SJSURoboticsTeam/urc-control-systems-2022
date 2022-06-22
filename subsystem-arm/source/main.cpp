@@ -5,8 +5,8 @@
 #include "devices/actuators/servo/rmd_x.hpp"
 #include "../library/devices/sensors/movement/accelerometer/mpu6050.hpp"
 #include "dto/arm-dto.hpp"
-#include "../implementations/arm/mpu-router.hpp"
-#include "../implementations/arm/arm-router.hpp"
+#include "../implementations/joints/mpu-router.hpp"
+#include "../implementations/joints/joint-router.hpp"
 #include "../implementations/mission-control-handler.hpp"
 
 
@@ -45,7 +45,7 @@ int main()
   while (true)
   {
     arm_arguments = mc_handler(arm_arguments);
-    arm_arguments.joint_arguments = rules_engine.ValidateCommands(arm_arguments.joint_arguments)
+    arm_arguments.joint_args = rules_engine.ValidateCommands(arm_arguments.joint_args)
     for(i = 0; i < 25; i++){
     arm.SetArmArguments({0, i, 0, 0, 0});
     sjsu::Delay(500ms);
