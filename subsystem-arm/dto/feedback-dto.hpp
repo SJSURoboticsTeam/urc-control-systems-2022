@@ -14,6 +14,7 @@ namespace sjsu::arm{
         accelerometer_feedback rotunda{};
         accelerometer_feedback shoulder{};
         accelerometer_feedback elbow{};
+        accelerometer_feedback wrist{}; 
 
         void Print()
         {}

@@ -11,32 +11,32 @@ namespace sjsu::arm
         public:
         static constexpr int kMaxShoulderAngle = 90;
         static constexpr int kMaxSpeed = 20;
-        arm_commands ValidateCommands(arm_commands commands)
+        arm_arguments ValidateCommands(arm_arguments commands)
         {
-            if(!heartbeat_.IsSyncedWithMissionControl(commands.heartbeat_count))
+            if(!heartbeat_.IsSyncedWithMissionControl(commands.joint_args.heartbeat_count))
             {
-                commands.speed = 0;
+                commands.joint_args.speed = 0;
                 sjsu::LogInfo("Overriding speed");
                 return commands;
             }
-            if(!commands.is_operational)
+            if(!commands.joint_args.is_operational)
             {
-                commands.speed = 0;
+                commands.joint_args.speed = 0;
                 sjsu::LogInfo("System is not operational... overriding speed");
             }
-            if(commands.speed > kMaxSpeed || commands.speed < -kMaxSpeed)
+            if(commands.joint_args.speed > kMaxSpeed || commands.joint_args.speed < -kMaxSpeed)
             {
-                commands.speed = std::clamp(commands.speed, -kMaxSpeed, kMaxSpeed);
+                commands.joint_args.speed = std::clamp(commands.joint_args.speed, -kMaxSpeed, kMaxSpeed);
                 sjsu::LogInfo("Specified speed is too fast... clamping speed");
             }
-            if(commands.shoulder_angle > kMaxShoulderAngle || commands.shoulder_angle < -kMaxShoulderAngle)
+            if(commands.joint_args.shoulder_angle > kMaxShoulderAngle || commands.joint_args.shoulder_angle < -kMaxShoulderAngle)
             {
-                std::clamp(commands.shoulder_angle, -kMaxShoulderAngle, kMaxShoulderAngle);
+                std::clamp(commands.joint_args.shoulder_angle, -kMaxShoulderAngle, kMaxShoulderAngle);
             }
             heartbeat_.IncrementHeartbeatCount();
             return commands;
         }
         private:
-        sjsu::common::Heartbeat hearbeat_;
+        sjsu::common::Heartbeat heartbeat_;
     };
 }

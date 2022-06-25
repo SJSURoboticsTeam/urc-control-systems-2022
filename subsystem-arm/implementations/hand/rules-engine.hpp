@@ -1,7 +1,7 @@
 #pragma once
 #include "dto/hand-dto.hpp"
 
-namespace sjsu::arm
+namespace sjsu::hand
 {
     class RulesEngine
     {

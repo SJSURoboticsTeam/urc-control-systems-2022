@@ -3,7 +3,7 @@
 #include "../subsystem-arm/dto/arm-dto.hpp"
 #include "utility/math/units.hpp"
 #include "utility/log.hpp"
-
+#include "../subsystem-arm/dto/feedback-dto.hpp"
 namespace sjsu::arm
 {
     class MpuRouter

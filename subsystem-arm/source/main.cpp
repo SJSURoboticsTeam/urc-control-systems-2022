@@ -34,7 +34,6 @@ int main()
   right_wrist_motor.settings.gear_ratio = 8;
 
   sjsu::arm::JointRouter arm(rotunda_motor, shoulder_motor, elbow_motor, left_wrist_motor, right_wrist_motor);
-  sjsu::arm::RulesEngine rules_engine;
   sjsu::arm::MissionControlHandler mc_handler;
 
   sjsu::arm::arm_arguments arm_arguments;
@@ -44,8 +43,7 @@ int main()
   int i;
   while (true)
   {
-    arm_arguments = mc_handler(arm_arguments);
-    arm_arguments.joint_args = rules_engine.ValidateCommands(arm_arguments.joint_args)
+    // arm_arguments = mc_handler(arm_arguments);
     for(i = 0; i < 25; i++){
     arm.SetArmArguments({0, i, 0, 0, 0});
     sjsu::Delay(500ms);
