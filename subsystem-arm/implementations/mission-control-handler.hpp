@@ -1,5 +1,6 @@
 #pragma once
 #include "../dto/arm-dto.hpp"
+#include "../dto/feedback-dto.hpp"
 
 namespace sjsu::arm
 {
