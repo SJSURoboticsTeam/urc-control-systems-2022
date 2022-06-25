@@ -3,7 +3,7 @@
 #include "../subsystem-arm/dto/arm-dto.hpp"
 #include "utility/math/units.hpp"
 #include "utility/log.hpp"
-
+#include "../subsystem-arm/dto/feedback-dto.hpp"
 namespace sjsu::arm
 {
     class MpuRouter
@@ -21,9 +21,9 @@ namespace sjsu::arm
             wrist_.ModuleInitialize();
         }
 
-        imu_accelerometers_feedback GetFeedback()
+        arm_accelerometer_feedback GetFeedback()
         {
-            imu_accelerometers_feedback temp;
+            arm_accelerometer_feedback temp;
 
             Accelerometer::Acceleration_t rotunda_mpu = rotunda_.Read();
             Accelerometer::Acceleration_t shoulder_mpu = shoulder_.Read();
@@ -41,10 +41,6 @@ namespace sjsu::arm
             temp.elbow.x = static_cast<int>(elbow_mpu.x);
             temp.elbow.y = static_cast<int>(elbow_mpu.y);
             temp.elbow.z = static_cast<int>(elbow_mpu.z);
-
-            temp.wrist.x = static_cast<int>(wrist_mpu.x);
-            temp.wrist.y = static_cast<int>(wrist_mpu.y);
-            temp.wrist.z = static_cast<int>(wrist_mpu.z);
 
             return temp;
         }

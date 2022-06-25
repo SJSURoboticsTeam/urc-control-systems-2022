@@ -5,8 +5,8 @@
 #include "devices/actuators/servo/rmd_x.hpp"
 #include "../library/devices/sensors/movement/accelerometer/mpu6050.hpp"
 #include "dto/arm-dto.hpp"
-#include "implementations/mpu-router.hpp"
-#include "../implementations/arm-router.hpp"
+#include "../implementations/joints/mpu-router.hpp"
+#include "../implementations/joints/joint-router.hpp"
 #include "../implementations/mission-control-handler.hpp"
 
 
@@ -33,13 +33,17 @@ int main()
   left_wrist_motor.settings.gear_ratio  = 8;
   right_wrist_motor.settings.gear_ratio = 8;
 
-  sjsu::arm::ArmRouter arm(rotunda_motor, shoulder_motor, elbow_motor, left_wrist_motor, right_wrist_motor);
+  sjsu::arm::JointRouter arm(rotunda_motor, shoulder_motor, elbow_motor, left_wrist_motor, right_wrist_motor);
+  sjsu::arm::MissionControlHandler mc_handler;
+
+  sjsu::arm::arm_arguments arm_arguments;
 
   arm.Initialize();
   sjsu::LogInfo("Testing arm now");
   int i;
   while (true)
   {
+    // arm_arguments = mc_handler(arm_arguments);
     for(i = 0; i < 25; i++){
     arm.SetArmArguments({0, i, 0, 0, 0});
     sjsu::Delay(500ms);
