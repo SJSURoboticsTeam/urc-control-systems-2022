@@ -1,12 +1,29 @@
 #pragma once
-#include "dto/hand-dto.hpp"
+#include "../../dto/arm-dto.hpp"
 
-namespace sjsu::hand
+namespace sjsu::arm
 {
     class RulesEngine
     {
         public:
-        RulesEngine(hand_arguments hand_args)
-        {};
+        hand_arguments ValidateCommands(hand_arguments commands)
+        {
+            if(!heartbeat_.IsSyncedWithMissionControl(commands.hand_args.heartbeat_count))
+            {
+                commands.hand_args.speed = 0;
+                sjsu::LogInfo("Overriding hand speed");
+                return commands;
+            }
+            if(!commands.hand_args.is_operational)
+            {
+                commands.hand_args.speed = 0;
+                sjsu::LogInfo("Hand is not operational... overriding speed");
+            }
+            heartbeat_.IncrementHeartbeatCount();
+            return commands;
+        };
+
+        private:
+        sjsu::common::Heartbeat heartbeat_;
     };
 }

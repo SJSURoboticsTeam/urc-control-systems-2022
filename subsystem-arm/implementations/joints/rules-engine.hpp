@@ -16,18 +16,18 @@ namespace sjsu::arm
             if(!heartbeat_.IsSyncedWithMissionControl(commands.joint_args.heartbeat_count))
             {
                 commands.joint_args.speed = 0;
-                sjsu::LogInfo("Overriding speed");
+                sjsu::LogInfo("Overriding joint speed");
                 return commands;
             }
             if(!commands.joint_args.is_operational)
             {
                 commands.joint_args.speed = 0;
-                sjsu::LogInfo("System is not operational... overriding speed");
+                sjsu::LogInfo("Joint is not operational... overriding speed");
             }
             if(commands.joint_args.speed > kMaxSpeed || commands.joint_args.speed < -kMaxSpeed)
             {
                 commands.joint_args.speed = std::clamp(commands.joint_args.speed, -kMaxSpeed, kMaxSpeed);
-                sjsu::LogInfo("Specified speed is too fast... clamping speed");
+                sjsu::LogInfo("Specified joint speed is too fast... clamping speed");
             }
             if(commands.joint_args.shoulder_angle > kMaxShoulderAngle || commands.joint_args.shoulder_angle < -kMaxShoulderAngle)
             {
