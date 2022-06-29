@@ -8,6 +8,8 @@ namespace sjsu::arm
     class RulesEngine
     {
     public:
+        static constexpr int kMaxFingerAngle = 180;
+
         hand_arguments ValidateCommands(hand_arguments commands)
         {
             if (!heartbeat_.IsSyncedWithMissionControl(commands.heartbeat_count))
@@ -17,8 +19,12 @@ namespace sjsu::arm
             }
             if (!commands.is_operational)
             {
-                sjsu::LogInfo("Hand is not operational... overriding speed");
+                sjsu::LogInfo("Hand is not operational... holding previous state!");
                 return previous_commands;
+            }
+            if (commands.index_angle > 180) // WIP: Potential issue with desyncing and previous commands not being clamped
+            {
+                commands.index_angle = 180;
             }
             heartbeat_.IncrementHeartbeatCount();
             previous_commands = commands;

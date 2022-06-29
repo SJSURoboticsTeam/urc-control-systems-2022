@@ -33,5 +33,14 @@ namespace sjsu::arm
             CHECK_NE(commands.middle_angle, response.middle_angle);
             CHECK_NE(commands.index_angle, response.index_angle);
         }
+
+        SECTION("should validate is_operational logic")
+        {
+            commands.is_operational = 0;
+            commands.index_angle = 100;
+
+            hand_arguments response = engine.ValidateCommands(commands);
+            CHECK_NE(commands.index_angle, response.index_angle);
+        }
     }
 }
