@@ -4,37 +4,37 @@
 
 namespace sjsu::common
 {
-class Heartbeat
-{
- public:
-  int GetHeartbeatCount() const
+  class Heartbeat
   {
-    return heartbeat_count_;
-  }
-
-  void IncrementHeartbeatCount()
-  {
-    heartbeat_count_++;
-  }
-
-  bool IsSyncedWithMissionControl(int heartbeat_count)
-  {
-    if (heartbeat_count_ != heartbeat_count)
+  public:
+    int GetHeartbeatCount() const
     {
-      // TODO: Should throw error ?
-      sjsu::LogError("Heartbeat out of sync - resetting!");
-      ResetHeartbeatCount();
-      return false;
+      return heartbeat_count_;
     }
-    return true;
-  }
 
- private:
-  void ResetHeartbeatCount()
-  {
-    heartbeat_count_ = 0;
-  }
+    void IncrementHeartbeatCount()
+    {
+      heartbeat_count_++;
+    }
 
-  int heartbeat_count_ = 0;
-};
-}  // namespace sjsu::common
+    bool IsSyncedWithMissionControl(int heartbeat_count)
+    {
+      if (heartbeat_count_ != heartbeat_count)
+      {
+        // TODO: Should throw error ?
+        sjsu::LogWarning("Heartbeat out of sync - resetting!");
+        ResetHeartbeatCount();
+        return false;
+      }
+      return true;
+    }
+
+  private:
+    void ResetHeartbeatCount()
+    {
+      heartbeat_count_ = 0;
+    }
+
+    int heartbeat_count_ = 0;
+  };
+} // namespace sjsu::common
