@@ -42,5 +42,13 @@ namespace sjsu::arm
             hand_arguments response = engine.ValidateCommands(commands);
             CHECK_NE(commands.index_angle, response.index_angle);
         }
+
+        SECTION("should validate max and min finger angles")
+        {
+            commands.is_operational = 1;
+            commands.index_angle = 200;
+            hand_arguments response = engine.ValidateCommands(commands);
+            CHECK_NE(commands.index_angle, response.index_angle);
+        }
     }
 }

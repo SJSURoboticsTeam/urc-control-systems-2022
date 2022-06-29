@@ -9,6 +9,7 @@ namespace sjsu::arm
     {
     public:
         static constexpr int kMaxFingerAngle = 180;
+        static constexpr int kMinFingerAngle = 0;
 
         hand_arguments ValidateCommands(hand_arguments commands)
         {
@@ -24,7 +25,7 @@ namespace sjsu::arm
             }
             if (commands.index_angle > 180) // WIP: Potential issue with desyncing and previous commands not being clamped
             {
-                commands.index_angle = 180;
+                commands.index_angle = std::clamp(commands.index_angle, kMinFingerAngle, kMaxFingerAngle);
             }
             heartbeat_.IncrementHeartbeatCount();
             previous_commands = commands;
