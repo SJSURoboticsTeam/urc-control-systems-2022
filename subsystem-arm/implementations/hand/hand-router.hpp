@@ -30,28 +30,6 @@ namespace sjsu::arm
             pca_module_.setPulseWidth(3, AngleToPulseWidth(hand_arguments_.index_angle));
             pca_module_.setPulseWidth(4, AngleToPulseWidth(hand_arguments_.thumb_angle));
         }
-
-        // // SetFingerArguments
-        // arm_arguments SetFingerArguments(arm_arguments arguments)
-        // {
-        //     thumb_,SetAngle(units::angle::degree_t(arguments.thumb_angle)), units::angular_velocity::revolutions_per_minute_t(arguments.speed));
-        //     pointer_.SetAngle(units::angle::degree_t(arguments.thumb_angle)), units::angular_velocity::revolutions_per_minute_t(arguments.speed));
-        //     arguments = arguments return arguments;
-        // }
-
-        // // GetFingerArguments
-        // arm_arguments GetFingerArguments(arm_argumen)
-
-        //     // HomeFingers
-        //     void HomeFingers()
-        // {
-        //     thumb_.setPulseWidth(1, 10ms)
-        //         pointer_.setPulseWidth(2, )
-        //             middle_.setPulseWidth(3, )
-        //                 ring_.setPulseWidth(4, )
-        //                     pinky_.setPulseWidth(5, )
-        // }
-
     private:
         //sjsu::arm::arm_arguments arguments_;
         hand_arguments hand_arguments_;
