@@ -11,7 +11,6 @@ namespace sjsu::arm
 
         static hand_arguments CloseHand(hand_arguments arguments_)
         {
-            hand_arguments arguments_;
             arguments_.pinky_angle = min_angle_;
             arguments_.ring_angle = min_angle_;
             arguments_.middle_angle = min_angle_;
@@ -22,7 +21,6 @@ namespace sjsu::arm
 
         static hand_arguments OpenHand(hand_arguments arguments_)
         {
-            hand_arguments arguments_;
             arguments_.pinky_angle = max_angle_;
             arguments_.ring_angle = max_angle_;
             arguments_.middle_angle = max_angle_;
@@ -33,7 +31,6 @@ namespace sjsu::arm
 
         static hand_arguments PointHand(hand_arguments arguments_)
         {
-            hand_arguments arguments_;
             arguments_.pinky_angle = min_angle_;
             arguments_.ring_angle = min_angle_;
             arguments_.middle_angle = min_angle_;
