@@ -1,9 +1,12 @@
-#include "../common/esp.hpp"
+#include "../../common/esp.hpp"
+#include "../../subsystem-drive/implementations/mission-control-handler.hpp"
 
 using namespace sjsu::drive;
 
 int main()
 {
+    MissionControlHandler mission_control;
+    drive_commands commands;
     sjsu::common::Esp esp;
     sjsu::LogInfo("Starting ESP...");
     esp.Connect();
