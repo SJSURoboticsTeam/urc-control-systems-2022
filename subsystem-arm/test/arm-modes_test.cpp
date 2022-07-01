@@ -9,7 +9,7 @@ namespace sjsu::arm
     {
         SECTION("should set angles to correct simulataneous mode angles")
         {
-            arm_arguments original_commands {100, 100, 100, 100, 100, 100, 100, 100};
+            arm_arguments original_commands {50, 50, 50, 50, 50, 50, 50, 50};
             arm_arguments args = JointModes::SimulataneousMode(original_commands);
             CHECK(args.joint_args.rotunda_angle == original_commands.joint_args.rotunda_angle);
             CHECK(args.joint_args.shoulder_angle == original_commands.joint_args.shoulder_angle);
