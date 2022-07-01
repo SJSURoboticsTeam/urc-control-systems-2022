@@ -1,7 +1,7 @@
 #pragma once
 #include "dto/hand-dto.hpp"
 #include "peripherals/lpc40xx/i2c.hpp"
-#include "pca9685.hpp"
+#include "pca9685.hpp" 
 
 namespace sjsu::arm
 {
@@ -37,6 +37,17 @@ namespace sjsu::arm
             arguments_.index_angle = neutral_angle_;
             arguments_.thumb_angle = max_angle_;
             return arguments_;
+        }
+
+        static hand_arguments ManualHand(hand_arguments arguments_)
+        {
+            hand_arguments temp_;
+            temp_.pinky_angle = arguments_.pinky_angle;
+            temp_.ring_ange = arguments_.ring_angle;
+            temp_.middle_angle = arguments_.middle_angle;
+            temp_.index_angle; = arguments_.index_angle;
+            temp_.thumb_angle = arguments_.thumb_angle;
+            return temp_;
         }
 
     private:
