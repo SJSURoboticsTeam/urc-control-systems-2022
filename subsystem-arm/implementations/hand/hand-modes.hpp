@@ -2,6 +2,7 @@
 #include "dto/hand-dto.hpp"
 #include "peripherals/lpc40xx/i2c.hpp"
 #include "pca9685.hpp" 
+#include "hand-router.hpp"
 
 namespace sjsu::arm
 {

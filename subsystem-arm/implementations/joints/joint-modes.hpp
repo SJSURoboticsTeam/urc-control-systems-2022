@@ -13,7 +13,7 @@ namespace sjsu::arm
             static constexpr float kCondensedWristPitchAngle = 0;
             static constexpr float kCondensedWristYawAngle = 0;
             static constexpr float kCondensedFingerAngle = 0;
-            static constexpr int kMaxAngle = 180;
+            static constexpr int kMaxAngle = 75;
             
         //TODO: come up with other possible modes
         static arm_arguments SimulataneousMode(arm_arguments commands)

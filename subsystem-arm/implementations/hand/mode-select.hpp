@@ -20,7 +20,7 @@ namespace sjsu::arm
             case 'C':
                 return HandModes::PointHand(commands);
                 break;
-            case 'D':
+            case 'M':
                 return HandModes::ManualHand(commands);
                 break;
             default:
