@@ -7,24 +7,37 @@ namespace sjsu::drive {
     {
         SECTION("")
         {
-            WheelOrientation pos;
             tri_wheel_router_arguments orig;
-            tri_wheel_router_arguments news = pos.step_up(1);
+            WheelOrientation pos(orig);
+            tri_wheel_router_arguments news = pos.switch_to(1);
 
-            CHECK_EQ(orig.left, news.right);
-            CHECK_EQ(orig.right, news.back);
-            CHECK_EQ(orig.back, news.left);
+            CHECK_EQ(orig.left.hub.speed, news.right.hub.speed);
+            CHECK_EQ(orig.right.hub.speed, news.back.hub.speed);
+            CHECK_EQ(orig.back.hub.speed, news.left.hub.speed);
+            CHECK_EQ(orig.left.steer.speed, news.right.steer.speed);
+            CHECK_EQ(orig.right.steer.speed, news.back.steer.speed);
+            CHECK_EQ(orig.back.steer, news.left.steer.speed);
+            CHECK_EQ(orig.left.hub.angle, news.right.hub.angle);
+            CHECK_EQ(orig.right.hub.angle, news.back.hub.angle);
+            CHECK_EQ(orig.back.hub.angle, news.left.hub.angle);
+            CHECK_EQ(orig.left.steer.angle, news.right.steer.angle);
+            CHECK_EQ(orig.right.steer.angle, news.back.steer.angle);
+            CHECK_EQ(orig.back.steer.angle, news.left.steer.angle);
 
-            news = pos.step_down(1);
+            news = pos.switch_to(0);
 
-            CHECK_EQ(orig.left, news.left);
-            CHECK_EQ(orig.right, news.right);
-            CHECK_EQ(orig.back, news.back);
-
-
-
-            
-
+            CHECK_EQ(orig.left.hub.speed, news.left.hub.speed);
+            CHECK_EQ(orig.right.hub.speed, news.right.hub.speed);
+            CHECK_EQ(orig.back.hub.speed, news.back.hub.speed);
+            CHECK_EQ(orig.left.steer.speed, news.left.steer.speed);
+            CHECK_EQ(orig.right.steer.speed, news.right.steer.speed);
+            CHECK_EQ(orig.back.steer.speed, news.back.steer.speed);
+            CHECK_EQ(orig.left.hub.angle, news.left.hub.angle);
+            CHECK_EQ(orig.right.hub.angle, news.right.hub.angle);
+            CHECK_EQ(orig.back.hub.angle, news.back.hub.angle);
+            CHECK_EQ(orig.left.steer.angle, news.left.steer.angle);
+            CHECK_EQ(orig.right.steer.angle, news.right.steer.angle);
+            CHECK_EQ(orig.back.steer.angle, news.back.steer.angle);
 
         }
     }
