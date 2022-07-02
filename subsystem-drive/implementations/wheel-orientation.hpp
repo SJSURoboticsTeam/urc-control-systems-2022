@@ -15,14 +15,15 @@ namespace sjsu::drive
     {
         public:
 
-        private:
-        tri_wheel_router_arguments ligma;
         tri_wheel_router_arguments step_up(int pos){
 
         }
         tri_wheel_router_arguments step_down(int pos){
 
         }
+
+        private:
+        tri_wheel_router_arguments ligma;
         int position = 0;
     };
 }
