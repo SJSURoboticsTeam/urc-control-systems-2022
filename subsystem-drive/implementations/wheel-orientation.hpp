@@ -41,6 +41,8 @@ namespace sjsu::drive
 
         private:
         tri_wheel_router_arguments ligma;
+        int position;
+        
         void step_up(){
             leg_arguments temp;
             temp = ligma.back;
@@ -58,6 +60,5 @@ namespace sjsu::drive
             ligma.right = temp;
  
         }
-        int position;
     };
 }

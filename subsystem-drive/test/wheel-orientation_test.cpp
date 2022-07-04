@@ -93,7 +93,27 @@ namespace sjsu::drive {
             CHECK_EQ(orig.back.hub.angle, news.back.hub.angle);
             CHECK_EQ(orig.back.steer.speed, news.back.steer.speed);
             CHECK_EQ(orig.back.steer.angle, news.back.steer.angle);
-            
+
+            news = pos.switch_to(6);
+            printf("Test case: 0 \nOriginal:");
+            orig.Print();
+            printf("New:");
+            news.Print();
+
+            CHECK_EQ(orig.left.hub.speed, news.left.hub.speed);
+            CHECK_EQ(orig.left.hub.angle, news.left.hub.angle);
+            CHECK_EQ(orig.left.steer.speed, news.left.steer.speed);
+            CHECK_EQ(orig.left.steer.angle, news.left.steer.angle);
+
+            CHECK_EQ(orig.right.hub.speed, news.right.hub.speed);
+            CHECK_EQ(orig.right.hub.angle, news.right.hub.angle);
+            CHECK_EQ(orig.right.steer.speed, news.right.steer.speed);
+            CHECK_EQ(orig.right.steer.angle, news.right.steer.angle);
+
+            CHECK_EQ(orig.back.hub.speed, news.back.hub.speed);
+            CHECK_EQ(orig.back.hub.angle, news.back.hub.angle);
+            CHECK_EQ(orig.back.steer.speed, news.back.steer.speed);
+            CHECK_EQ(orig.back.steer.angle, news.back.steer.angle);
 
         }
     }
