@@ -95,7 +95,7 @@ namespace sjsu::drive {
             CHECK_EQ(orig.back.steer.angle, news.back.steer.angle);
 
             news = pos.switch_to(6);
-            printf("Test case: 0 \nOriginal:");
+            printf("Test case: 6 \nOriginal:");
             orig.Print();
             printf("New:");
             news.Print();
