@@ -19,9 +19,12 @@ namespace sjsu::drive
             position = 0;
             ligma = init;
         }
-        tri_wheel_router_arguments switch_to(int pos)
+        /*works the form position 0-2, though I believe every time we start up our code i
+        t sets it's current position to 0. */
+        tri_wheel_router_arguments switch_to(int pos) 
         {   
             pos = pos % 3; // adds a layer of safety so that we don't end up passing to position 3k
+            printf("Postion: %d\n",position);
 
             if (pos > position){
                 for(int i = 0; i < pos-position; i++){
@@ -29,10 +32,10 @@ namespace sjsu::drive
                 }
             }else if(pos < position){
                 for(int i = 0; i < position - pos; i++){
-                    step_down();
+                    step_down();  
                 }
             }
-
+            position = pos;
             return ligma;
         }
 
@@ -45,8 +48,6 @@ namespace sjsu::drive
             ligma.right = ligma.left;
             ligma.left = temp;
 
-            position++;
-            position = position % 3;
         }
         tri_wheel_router_arguments step_down(){
             //here handles the swiching logic
@@ -55,10 +56,7 @@ namespace sjsu::drive
             ligma.back = ligma.left;
             ligma.left = ligma.right;
             ligma.right = temp;
-
-            //updates the position value
-            position--;
-            position = position % 3;
+ 
         }
         int position;
     };
