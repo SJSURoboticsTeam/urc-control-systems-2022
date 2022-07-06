@@ -42,13 +42,12 @@ namespace sjsu::arm
 
         static hand_arguments ManualHand(hand_arguments arguments_)
         {
-            hand_arguments temp_;
-            temp_.pinky_angle = arguments_.pinky_angle;
-            temp_.ring_ange = arguments_.ring_angle;
-            temp_.middle_angle = arguments_.middle_angle;
-            temp_.index_angle; = arguments_.index_angle;
-            temp_.thumb_angle = arguments_.thumb_angle;
-            return temp_;
+            arguments_.pinky_angle;
+            arguments_.ring_angle;
+            arguments_.middle_angle;
+            arguments_.index_angle;
+            arguments_.thumb_angle;
+            return arguments_;
         }
 
     private:
