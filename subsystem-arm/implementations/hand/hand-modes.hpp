@@ -10,45 +10,46 @@ namespace sjsu::arm
     {
     public:
 
-        static hand_arguments CloseHand(hand_arguments arguments_)
+        static hand_arguments CloseHand(hand_arguments arguments)
         {
-            arguments_.pinky_angle = min_angle_;
-            arguments_.ring_angle = min_angle_;
-            arguments_.middle_angle = min_angle_;
-            arguments_.index_angle = min_angle_;
-            arguments_.thumb_angle = min_angle_;
-            return arguments_;
+            arguments.pinky_angle = min_angle_;
+            arguments.ring_angle = min_angle_;
+            arguments.middle_angle = min_angle_;
+            arguments.index_angle = min_angle_;
+            arguments.thumb_angle = min_angle_;
+            return arguments;
         }
 
-        static hand_arguments OpenHand(hand_arguments arguments_)
+        static hand_arguments OpenHand(hand_arguments arguments)
         {
-            arguments_.pinky_angle = max_angle_;
-            arguments_.ring_angle = max_angle_;
-            arguments_.middle_angle = max_angle_;
-            arguments_.index_angle = max_angle_;
-            arguments_.thumb_angle = max_angle_;
-            return arguments_;
+            arguments.pinky_angle = max_angle_;
+            arguments.ring_angle = max_angle_;
+            arguments.middle_angle = max_angle_;
+            arguments.index_angle = max_angle_;
+            arguments.thumb_angle = max_angle_;
+            return arguments;
         }
 
-        static hand_arguments PointHand(hand_arguments arguments_)
+        static hand_arguments PointHand(hand_arguments arguments)
         {
-            arguments_.pinky_angle = min_angle_;
-            arguments_.ring_angle = min_angle_;
-            arguments_.middle_angle = min_angle_;
-            arguments_.index_angle = neutral_angle_;
-            arguments_.thumb_angle = max_angle_;
-            return arguments_;
+            arguments.pinky_angle = min_angle_;
+            arguments.ring_angle = min_angle_;
+            arguments.middle_angle = min_angle_;
+            arguments.index_angle = neutral_angle_;
+            arguments.thumb_angle = max_angle_;
+            return arguments;
         }
 
-        static hand_arguments ManualHand(hand_arguments arguments_)
+        static hand_arguments ManualHand(hand_arguments arguments)
         {
-            arguments_.pinky_angle;
-            arguments_.ring_angle;
-            arguments_.middle_angle;
-            arguments_.index_angle;
-            arguments_.thumb_angle;
-            return arguments_;
+            return arguments;
         }
+
+        static hand_arguments ClawHand(hand_arguments arguments)
+        {
+
+        }
+
 
     private:
         int min_angle_     = 30;
