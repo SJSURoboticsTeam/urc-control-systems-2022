@@ -1,7 +1,7 @@
 #include "testing/testing_frameworks.hpp"
 #include "utility/log.hpp"
 #include "../implementations/joints/joint-modes.hpp"
-#include "../dto/hand-dto.hpp"
+#include "../dto/arm-dto.hpp"
 
 namespace sjsu::arm
 {
