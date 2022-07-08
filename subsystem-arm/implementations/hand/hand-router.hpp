@@ -1,5 +1,4 @@
 #pragma once
-//#include "dto/hand-dto.hpp"
 #include "utility/math/units.hpp"
 #include "../subsystem-arm/dto/arm-dto.hpp"
 #include "../implementations/pca9685.hpp"

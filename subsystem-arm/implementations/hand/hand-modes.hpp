@@ -1,5 +1,4 @@
 #pragma once
-//#include "dto/hand-dto.hpp"
 #include "peripherals/lpc40xx/i2c.hpp"
 #include "../implementations/pca9685.hpp" 
 #include "hand-router.hpp"
@@ -30,22 +29,17 @@ namespace sjsu::arm
             return arguments;
         }
 
-        static hand_arguments PointMode(hand_arguments arguments)
-        {
-            arguments.pinky_angle = min_angle_;
-            arguments.ring_angle = min_angle_;
-            arguments.middle_angle = min_angle_;
-            arguments.index_angle = neutral_angle_;
-            arguments.thumb_angle = max_angle_;
-            return arguments;
-        }
-
         static hand_arguments ManualMode(hand_arguments arguments)
         {
             return arguments;
         }
 
         static hand_arguments ClawMode(hand_arguments arguments)
+        {
+
+        }
+
+        static hand_arguments RestMode(hand_arguments arguments)
         {
 
         }
