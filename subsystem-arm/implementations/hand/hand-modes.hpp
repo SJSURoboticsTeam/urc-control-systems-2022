@@ -1,7 +1,7 @@
 #pragma once
-#include "dto/hand-dto.hpp"
+//#include "dto/hand-dto.hpp"
 #include "peripherals/lpc40xx/i2c.hpp"
-#include "pca9685.hpp" 
+#include "../implementations/pca9685.hpp" 
 #include "hand-router.hpp"
 
 namespace sjsu::arm
@@ -10,7 +10,7 @@ namespace sjsu::arm
     {
     public:
 
-        static hand_arguments CloseHand(hand_arguments arguments)
+        static hand_arguments CloseMode(hand_arguments arguments)
         {
             arguments.pinky_angle = min_angle_;
             arguments.ring_angle = min_angle_;
@@ -20,7 +20,7 @@ namespace sjsu::arm
             return arguments;
         }
 
-        static hand_arguments OpenHand(hand_arguments arguments)
+        static hand_arguments OpenMode(hand_arguments arguments)
         {
             arguments.pinky_angle = max_angle_;
             arguments.ring_angle = max_angle_;
@@ -30,7 +30,7 @@ namespace sjsu::arm
             return arguments;
         }
 
-        static hand_arguments PointHand(hand_arguments arguments)
+        static hand_arguments PointMode(hand_arguments arguments)
         {
             arguments.pinky_angle = min_angle_;
             arguments.ring_angle = min_angle_;
@@ -40,20 +40,20 @@ namespace sjsu::arm
             return arguments;
         }
 
-        static hand_arguments ManualHand(hand_arguments arguments)
+        static hand_arguments ManualMode(hand_arguments arguments)
         {
             return arguments;
         }
 
-        static hand_arguments ClawHand(hand_arguments arguments)
+        static hand_arguments ClawMode(hand_arguments arguments)
         {
 
         }
 
 
     private:
-        int min_angle_     = 30;
-        int neutral_angle_ = 90;
-        int max_angle_     = 180;
+        static constexpr int min_angle_     = 30;
+        static constexpr int neutral_angle_ = 90;
+        static constexpr int max_angle_     = 180;
     };
 }

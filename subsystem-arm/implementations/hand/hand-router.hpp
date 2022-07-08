@@ -1,8 +1,8 @@
 #pragma once
-#include "dto/hand-dto.hpp"
+//#include "dto/hand-dto.hpp"
 #include "utility/math/units.hpp"
 #include "../subsystem-arm/dto/arm-dto.hpp"
-#include "../implementations/hand/pca9685.hpp"
+#include "../implementations/pca9685.hpp"
 
 namespace sjsu::arm
 {
@@ -33,5 +33,6 @@ namespace sjsu::arm
     private:
         //sjsu::arm::arm_arguments arguments_;
         hand_arguments hand_arguments_;
+        sjsu::Pca9685 &pca_module_;
     };
 }
