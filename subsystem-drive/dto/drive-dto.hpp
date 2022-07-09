@@ -33,6 +33,7 @@ namespace sjsu::drive
 
     struct tri_wheel_router_arguments
     {
+        int wheel_orientation;
         leg_arguments left{};
         leg_arguments right{};
         leg_arguments back{};

@@ -17,6 +17,7 @@ namespace sjsu::drive
         {
             float outter_wheel_angle = 0, back_wheel_angle = 0;
             tri_wheel_router_arguments steer_arguments;
+            steer_arguments.wheel_orientation = commands.wheel_orientation;
 
             if (commands.angle > 0)
             {
@@ -76,6 +77,7 @@ namespace sjsu::drive
         static tri_wheel_router_arguments SpinSteering(drive_commands commands)
         {
             tri_wheel_router_arguments temp;
+            temp.wheel_orientation = commands.wheel_orientation;
             temp.back.steer.angle = kBackRightSpinAngle;
             temp.left.steer.angle = -kLeftSpinAngle;
             temp.right.steer.angle = -kBackRightSpinAngle;
@@ -89,7 +91,7 @@ namespace sjsu::drive
         static tri_wheel_router_arguments TranslateSteering(drive_commands commands)
         {
             tri_wheel_router_arguments steer_arguments;
-
+            steer_arguments.wheel_orientation = commands.wheel_orientation;
             steer_arguments.left.steer.angle = commands.angle + kLeftLegDriveOffset;
             steer_arguments.right.steer.angle = commands.angle + kRightLegDriveOffset;
             steer_arguments.back.steer.angle = commands.angle;
