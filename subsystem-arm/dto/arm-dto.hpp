@@ -30,6 +30,8 @@ namespace sjsu::arm
         int index_angle = 0;
         int thumb_angle = 0;
         char mode = 'A';
+        int is_operational = 0;
+        int heartbeat_count = 0;
     };
 
     struct arm_arguments
