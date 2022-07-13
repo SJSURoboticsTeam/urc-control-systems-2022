@@ -1,12 +1,12 @@
 #pragma once
-
+#include "utility/log.hpp"
 #include "../dto/arm-dto.hpp"
 #include "../common/heartbeat.hpp"
 
 namespace sjsu::arm
 {
 
-    class RulesEngine
+    class JointsRulesEngine
     {
         public:
         static constexpr int kMaxShoulderAngle = 90;
