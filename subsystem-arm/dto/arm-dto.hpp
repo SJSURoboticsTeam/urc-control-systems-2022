@@ -32,6 +32,8 @@ namespace sjsu::arm
         char mode = 'A';
         int is_operational = 0;
         int heartbeat_count = 0;
+        int finger_angle=0 //this variable represents an angle that will be used to 
+                        //control the angle of the five fingers thru mission control
     };
 
     struct arm_arguments

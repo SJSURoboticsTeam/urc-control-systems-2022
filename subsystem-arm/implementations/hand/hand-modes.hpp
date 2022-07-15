@@ -46,8 +46,13 @@ namespace sjsu::arm
         }
 
         static hand_arguments ClawMode(hand_arguments arguments)
-        {
-
+        {//the finger_angle will be used by mission control which will be used to control the angles of the five fingers
+            arguments.pinky_angle = finger_angle;
+            arguments.ring_angle = finger_angle;
+            arguments.middle_angle = finger_angle;
+            arguments.index_angle = finger_angle;
+            arguments.thumb_angle = finger_angle; 
+            return arguments.
         }
 
 

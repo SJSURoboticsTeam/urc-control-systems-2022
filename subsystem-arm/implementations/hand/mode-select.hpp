@@ -23,6 +23,9 @@ namespace sjsu::arm
             case 'M':
                 return HandModes::ManualHand(commands);
                 break;
+            case 'C':
+                return HandModes::ClawHand(commands);
+                break;
             default:
                 break;
             }
