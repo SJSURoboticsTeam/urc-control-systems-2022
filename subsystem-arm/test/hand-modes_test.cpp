@@ -3,8 +3,6 @@
 #include "../implementations/hand/hand-modes.hpp"
 #include "../dto/arm-dto.hpp"
 #include "../implementations/pca9685.hpp"
-//#include "../dto/hamd-dto.hpp"
-
 
 namespace sjsu::arm
 {
