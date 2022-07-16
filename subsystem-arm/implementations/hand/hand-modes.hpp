@@ -9,6 +9,7 @@ namespace sjsu::arm
     {
     public:
 
+        //Closes the hand to the minimum angle
         static hand_arguments CloseMode(hand_arguments arguments)
         {
             arguments.pinky_angle = min_angle_;
@@ -18,7 +19,7 @@ namespace sjsu::arm
             arguments.thumb_angle = min_angle_;
             return arguments;
         }
-
+        //Opens the hand to the maximum angle
         static hand_arguments OpenMode(hand_arguments arguments)
         {
             arguments.pinky_angle = max_angle_;
@@ -28,22 +29,22 @@ namespace sjsu::arm
             arguments.thumb_angle = max_angle_;
             return arguments;
         }
-
+        //Sets angle of each finger according to what mission control sends to each individual finger.
         static hand_arguments ManualMode(hand_arguments arguments)
         {
             return arguments;
         }
-
+        //The five finger angles will be given the same angle from mission control
         static hand_arguments ClawMode(hand_arguments arguments)
-        {//the finger_angle will be used by mission control which will be used to control the angles of the five fingers
-            arguments.pinky_angle = finger_angle;
-            arguments.ring_angle = finger_angle;
-            arguments.middle_angle = finger_angle;
-            arguments.index_angle = finger_angle;
-            arguments.thumb_angle = finger_angle; 
-            return arguments.
+        {
+            arguments.pinky_angle = arguments.finger_angle;
+            arguments.ring_angle = arguments.finger_angle;
+            arguments.middle_angle = arguments.finger_angle;
+            arguments.index_angle = arguments.finger_angle;
+            arguments.thumb_angle = arguments.finger_angle; 
+            return arguments;
         }
-
+        //sets fingers to resting angle
         static hand_arguments RestMode(hand_arguments arguments)
         {
 

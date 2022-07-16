@@ -22,9 +22,6 @@ namespace sjsu::arm
             return commands;
         }
 
-        static arm_arguments ExtendMode(arm_arguments commands)
-        {
-        }
         // TODO: come up with other possible modes
 
     private:
