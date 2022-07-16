@@ -11,14 +11,17 @@ namespace sjsu::arm
         {
             switch (commands.mode)
             {
-            case 'A':
+            case 'C':
                 return HandModes::CloseHand(commands);
                 break;
-            case 'B':
+            case 'O':
                 return HandModes::OpenHand(commands);
                 break;
-            case 'C':
-                return HandModes::PointHand(commands);
+            case 'I':
+                return HandModes::IndividualHand(commands);
+                break;
+            case 'S':
+                return HandModes::SimultaneousHand(commands);
                 break;
             default:
                 break;
