@@ -11,7 +11,7 @@ namespace sjsu::arm
         SECTION("Should set angles to correct given manual mode angles")
         {
             hand_arguments original_commands{100, 100, 100, 100, 100, 100, 100, 100};
-            hand_arguments args = HandModes::ManualMode(original_commands);
+            hand_arguments args = HandModes::IndividualMode(original_commands);
             CHECK(args.pinky_angle == original_commands.pinky_angle);
             CHECK(args.ring_angle == original_commands.ring_angle);
             CHECK(args.middle_angle == original_commands.middle_angle);

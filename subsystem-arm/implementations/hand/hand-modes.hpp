@@ -30,12 +30,12 @@ namespace sjsu::arm
             return arguments;
         }
         //Sets angle of each finger according to what mission control sends to each individual finger.
-        static hand_arguments ManualMode(hand_arguments arguments)
+        static hand_arguments IndividualMode(hand_arguments arguments)
         {
             return arguments;
         }
-        //The five finger angles will be given the same angle from mission control
-        static hand_arguments ClawMode(hand_arguments arguments)
+        //Sets angle of all fingers according to what mission control sends to finger_angle.
+        static hand_arguments SimuultaneousMode(hand_arguments arguments)
         {
             arguments.pinky_angle = arguments.finger_angle;
             arguments.ring_angle = arguments.finger_angle;
@@ -44,12 +44,6 @@ namespace sjsu::arm
             arguments.thumb_angle = arguments.finger_angle; 
             return arguments;
         }
-        //sets fingers to resting angle
-        static hand_arguments RestMode(hand_arguments arguments)
-        {
-
-        }
-
 
     private:
         static constexpr int min_angle_     = 30;
