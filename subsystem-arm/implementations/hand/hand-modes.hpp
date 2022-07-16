@@ -35,7 +35,7 @@ namespace sjsu::arm
             return arguments;
         }
         //Sets angle of all fingers according to what mission control sends to finger_angle.
-        static hand_arguments SimuultaneousMode(hand_arguments arguments)
+        static hand_arguments SimultaneousMode(hand_arguments arguments)
         {
             arguments.pinky_angle = arguments.finger_angle;
             arguments.ring_angle = arguments.finger_angle;
