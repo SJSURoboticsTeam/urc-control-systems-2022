@@ -35,11 +35,11 @@ namespace sjsu::arm
        // void HomeArm(arm_accelerometer_feedback mpu_feedback, motors_feedback motors_feedback)
           void HomeArm() 
         {
-            initial_rotunda_position_  = MapEncoderDataToDegrees(rotunda_.RequestFeedbackFromMotor().GetFeedback().encoder_position);
-            initial_shoulder_position_  = MapEncoderDataToDegrees(shoulder_.RequestFeedbackFromMotor().GetFeedback().encoder_position);
-            initial_elbow_position_  = MapEncoderDataToDegrees(elbow_.RequestFeedbackFromMotor().GetFeedback().encoder_position);
-            initial_left_wrist_position_  = MapEncoderDataToDegrees(left_wrist_.RequestFeedbackFromMotor().GetFeedback().encoder_position);
-            initial_right_wrist_position_  = MapEncoderDataToDegrees(right_wrist_.RequestFeedbackFromMotor().GetFeedback().encoder_position);
+            initial_rotunda_position_  = MapEncoderDataToDegrees(rotunda_.RequestFeedbackFromMotor().GetFeedback().encoder_position >> 8);
+            initial_shoulder_position_  = MapEncoderDataToDegrees(shoulder_.RequestFeedbackFromMotor().GetFeedback().encoder_position >> 8);
+            initial_elbow_position_  = MapEncoderDataToDegrees(elbow_.RequestFeedbackFromMotor().GetFeedback().encoder_position >> 8);
+            initial_left_wrist_position_  = MapEncoderDataToDegrees(left_wrist_.RequestFeedbackFromMotor().GetFeedback().encoder_position >> 8);
+            initial_right_wrist_position_  = MapEncoderDataToDegrees(right_wrist_.RequestFeedbackFromMotor().GetFeedback().encoder_position >> 8);
         }
 
     private:
