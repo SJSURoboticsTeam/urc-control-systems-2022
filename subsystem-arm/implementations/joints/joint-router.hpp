@@ -32,12 +32,30 @@ namespace sjsu::arm
             return arguments;
         }
 
-        void HomeArm(arm_accelerometer_feedback mpu_feedback, motors_feedback motors_feedback)
+       // void HomeArm(arm_accelerometer_feedback mpu_feedback, motors_feedback motors_feedback)
+          void HomeArm() 
         {
-            
+            initial_rotunda_position_  = MapEncoderDataToDegrees(rotunda_.RequestFeedbackFromMotor().GetFeedback().encoder_position >> 8);
+            initial_shoulder_position_  = MapEncoderDataToDegrees(shoulder_.RequestFeedbackFromMotor().GetFeedback().encoder_position >> 8);
+            initial_elbow_position_  = MapEncoderDataToDegrees(elbow_.RequestFeedbackFromMotor().GetFeedback().encoder_position >> 8);
+            initial_left_wrist_position_  = MapEncoderDataToDegrees(left_wrist_.RequestFeedbackFromMotor().GetFeedback().encoder_position >> 8);
+            initial_right_wrist_position_  = MapEncoderDataToDegrees(right_wrist_.RequestFeedbackFromMotor().GetFeedback().encoder_position >> 8);
         }
 
     private:
+
+
+        float initial_rotunda_position_ = 0;
+        float initial_shoulder_position_ = 0;
+        float initial_elbow_position_ = 0;
+        float initial_left_wrist_position_ = 0;
+        float initial_right_wrist_position_ = 0;
+
+        /// takes data from encoder and maps it to degrees
+        float MapEncoderDataToDegrees(float encoder_data)
+        {
+            return (60.0 * encoder_data / 256.0);
+        }
         sjsu::arm::arm_arguments arguments_;
         sjsu::RmdX &rotunda_;
         sjsu::RmdX &shoulder_;
