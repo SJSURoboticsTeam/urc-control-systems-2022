@@ -41,6 +41,7 @@ int main()
   arm.Initialize();
   sjsu::LogInfo("Testing arm now");
   int i;
+  arm.HomeArm();
   while (true)
   {
     // arm_arguments = mc_handler(arm_arguments);
