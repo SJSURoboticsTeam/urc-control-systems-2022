@@ -7,8 +7,10 @@
 
 namespace sjsu::arm
 {
-    TEST_CASE("Hand Mode Testing")
+    TEST_CASE("Hand Mode Select Testing")
     {
-
+        //Stay in the default mode be rover powers on
+        //Shouldn't change modes unless told to
+        //Change to the correct mode it's given from mission control
     }
 }

@@ -6,29 +6,27 @@
 namespace sjsu::arm
 {
 
-    class ModeSelect
+    inline arm_arguments SelectMode(arm_commands commands)
     {
-    public:
-        static arm_arguments SelectMode(arm_commands commands)
+        switch (commands.mode)
         {
-            switch (commands.mode)
-            {
-                case 'S':
-                {
-                    return JointModes::SimulataneousMode(commands);
-                    break;
-                }
-                case 'C':
-                {   
-                    return JointModes::CondensedMode(commands);
-                    break;
-                }
-                default:
-                {
-                    return arm_arguments{};
-                    break;
-                }
-            }
+        case 'S':
+        {
+            return JointModes::SimulataneousMode(commands);
+            break;
         }
-    };
+        case 'C':
+        {
+            return JointModes::CondensedMode(commands);
+            break;
+        }
+        default:
+        {
+            return arm_arguments{};
+            break;
+        }
+        }
+    }
+
+    
 }
