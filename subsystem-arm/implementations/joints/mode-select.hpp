@@ -15,12 +15,12 @@ namespace sjsu::arm
             {
                 case 'S':
                 {
-                    return ArmModes::SimulataneousMode(commands);
+                    return JointModes::SimulataneousMode(commands);
                     break;
                 }
                 case 'C':
                 {   
-                    return ArmModes::CondensedMode(commands);
+                    return JointModes::CondensedMode(commands);
                     break;
                 }
                 default:

@@ -2,16 +2,17 @@
 #include "utility/log.hpp"
 #include "implementations/mission-control-handler.hpp"
 #include "../dto/arm-dto.hpp"
+#include "../dto/feedback-dto.hpp"
 
 namespace sjsu::arm
 {
     TEST_CASE("Mission Control Testing")
     {
         MissionControlHandler mc_handler;
-        imu_accelerometers_feedback mpu_feedback;
+        arm_accelerometer_feedback mpu_feedback;
         motors_feedback arm_motors_feedback;
         hand_arguments hand_feedback;
-        arm_commands arm_feedback;
+        arm_arguments arm_feedback;
 
         SECTION("should return default arm status on startup")
         {

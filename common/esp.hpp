@@ -26,6 +26,12 @@ namespace sjsu::common
         {
             wifi_.DisconnectFromAccessPoint();
         }
+        /// Verifies that the Wi-Fi module is still connected to the network
+        /// @return true if the module is still connected to the internet
+        bool IsConnected()
+        {
+            return wifi_.IsConnected(); // TODO: Always returns false
+        };
 
         std::string GetCommands(std::string request)
         {
@@ -84,8 +90,8 @@ namespace sjsu::common
         sjsu::InternetSocket &socket_;
         const uint16_t kPort = 5000;
         const std::string kUrl = "172.23.163.9";
-        const std::string kSsid = "wifi name";
-        const std::string kPassword = "wifi password";
+        const std::string kSsid = "Adrien";
+        const std::string kPassword = "LetsFly!";
         std::chrono::seconds kDefaultTimeout = 10s;
     };
 } // namespace sjsu::common

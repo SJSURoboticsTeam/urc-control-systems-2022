@@ -22,6 +22,7 @@ int main()
 
     while (1)
     {
+<<<<<<< HEAD
         std::array<uint8_t, 64> receive_buffer;
         receive_buffer.fill(0);
 
@@ -34,6 +35,26 @@ int main()
                           receive_buffer.data());
         }
         sjsu::Delay(1s);
+=======
+        // //For Mission Control Mode
+        // std::string endpoint = mission_control.CreateGETRequestParameterWithRoverStatus();
+        // std::string response = esp.GetCommands(endpoint);
+        // commands = mission_control.ParseMissionControlData(response);
+
+        // //For Manual Mode
+        // commands = SerialEnterCommands();
+        // commands.Print();
+        // sjsu::Delay(50ms);
+        commands = rules_engine.ValidateCommands(commands);
+        commands = mode_switch.SwitchSteerMode(commands, arguments, motor_speeds);
+        commands = lerp.Lerp(commands);
+        arguments = ModeSelect::SelectMode(commands);
+        arguments = tri_wheel.SetLegArguments(arguments);
+
+        arguments.Print();
+        motor_speeds.print();
+        motor_speeds = tri_wheel.GetMotorFeedback();
+>>>>>>> b32eeb3bdb833588a123a3d852ad971b6c9f4e7c
     }
     return 0;
 }
