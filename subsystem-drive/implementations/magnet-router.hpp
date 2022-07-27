@@ -38,9 +38,9 @@ namespace sjsu::drive
             back_gpio_.SetAsInput();
         }
         //todo change pins and ports
-        sjsu::Gpio left_gpio_ = sjsu::lpc40xx::GetGpio<1, 19>();
-        sjsu::Gpio right_gpio_ = sjsu::lpc40xx::GetGpio<1, 19>();
-        sjsu::Gpio back_gpio_ = sjsu::lpc40xx::GetGpio<1, 19>();
+        sjsu::Gpio left_gpio_;
+        sjsu::Gpio right_gpio_;
+        sjsu::Gpio back_gpio_;
 
 
 
