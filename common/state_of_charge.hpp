@@ -18,7 +18,7 @@ namespace sjsu::common
     {
       units::voltage::volt_t battery_voltage = module_.GetVoltage();
       float voltage_percent = static_cast<float>(battery_voltage);
-      voltage_percent = (voltage_percent - low_battery_voltage) / (full_battery_voltage - low_battery_voltage);
+      voltage_percent = (voltage_percent - kLowBatteryVoltage) / (kFullBatteryVoltage - kLowBatteryVoltage);
       voltage_percent = voltage_percent * 100;
       return voltage_percent;
     }
@@ -32,8 +32,8 @@ namespace sjsu::common
     {}
 
   private:
-    const float full_battery_voltage = 4.2;
-    const float low_battery_voltage = 3.0;
+    const float kFullBatteryVoltage = 4.2;
+    const float kLowBatteryVoltage = 3.0;
     sjsu::Max17043 &module_;
   };
 } // namespace sjsu::common
