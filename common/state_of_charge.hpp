@@ -6,8 +6,7 @@ namespace sjsu::common
 
   class StateOfCharge
   {
-    public:
-    sjsu::Max17043 &module_;
+  public:
     StateOfCharge(sjsu::Max17043 &module) : module_(module) {}
 
     void Initialize()
@@ -18,16 +17,15 @@ namespace sjsu::common
     double BatteryPercentage()
     {
       units::voltage::volt_t battery_voltage = module_.GetVoltage();
-      double voltage_percent = double(battery_voltage);
-      voltage_percent = (voltage_percent - 3) / (4.2 - 3);
+      double voltage_percent = static_cast<double>(battery_voltage);
+      voltage_percent = (voltage_percent - low_battery_voltage) / (full_battery_voltage - low_battery_voltage);
       voltage_percent = voltage_percent * 100;
       return voltage_percent;
     }
 
-    float StateOfCharge()
+    double GetStateOfCharge()
     {
-      units::voltage::volt_t battery_voltage = module_.GetVoltage();
-      return double(battery_voltage);
+      return static_cast<double>(module_.GetVoltage());
     }
 
     bool IsBatteryLow()
@@ -53,5 +51,10 @@ namespace sjsu::common
       }
       return false;
     }
+
+  private:
+    double full_battery_voltage = 4.2;
+    double low_battery_voltage = 3.05;
+    sjsu::Max17043 &module_;
   };
 } // namespace sjsu::common

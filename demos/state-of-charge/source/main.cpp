@@ -18,7 +18,7 @@ int main()
     while (1)
     {
         sjsu::Delay(2000ms);
-        sjsu::LogInfo("Battery Percentage: %f%% | Remaining Current Voltage: %fV", battery.BatteryPercentage(), battery.StateOfCharge());
+        sjsu::LogInfo("Battery Percentage: %f%% | Remaining Current Voltage: %fV", battery.BatteryPercentage(), battery.GetStateOfCharge());
     }
 
     return 0;
