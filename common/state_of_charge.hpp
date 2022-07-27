@@ -14,47 +14,26 @@ namespace sjsu::common
       module_.ModuleInitialize();
     }
 
-    double BatteryPercentage()
+    float BatteryPercentage()
     {
       units::voltage::volt_t battery_voltage = module_.GetVoltage();
-      double voltage_percent = static_cast<double>(battery_voltage);
+      float voltage_percent = static_cast<float>(battery_voltage);
       voltage_percent = (voltage_percent - low_battery_voltage) / (full_battery_voltage - low_battery_voltage);
       voltage_percent = voltage_percent * 100;
       return voltage_percent;
     }
 
-    double GetStateOfCharge()
+    float GetStateOfCharge()
     {
-      return static_cast<double>(module_.GetVoltage());
+      return static_cast<float>(module_.GetVoltage());
     }
 
     bool IsBatteryLow()
-    {
-      bool callback_was_called = true;
-      if (GetStateOfCharge() < 3.05)
-      {
-        sjsu::LogWarning("Cell Voltage below 3. Battery dangerously low!");
-        return true;
-      }
-      else if (GetStateOfCharge() < 3.25)
-        InterruptCallback callback = [&callback_was_called]()
-        { callback_was_called = true; };
-
-      if (GetStateOfCharge() < 3.05)
-      {
-        sjsu::LogWarning("Cell Voltage below 3. Battery dangerously low!");
-        return true;
-      }
-      else if (GetStateOfCharge() < 3.25)
-      {
-        sjsu::LogWarning("Cell Voltage below 3.25. Battery is low");
-      }
-      return false;
-    }
+    {}
 
   private:
-    double full_battery_voltage = 4.2;
-    double low_battery_voltage = 3.05;
+    const float full_battery_voltage = 4.2;
+    const float low_battery_voltage = 3.0;
     sjsu::Max17043 &module_;
   };
 } // namespace sjsu::common
