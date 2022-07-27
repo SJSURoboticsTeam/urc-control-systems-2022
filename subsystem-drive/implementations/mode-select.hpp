@@ -23,7 +23,7 @@ namespace sjsu::drive
             default:
                 return tri_wheel_router_arguments{};
                 break;
-            }
+            }        
         }
 
     private:

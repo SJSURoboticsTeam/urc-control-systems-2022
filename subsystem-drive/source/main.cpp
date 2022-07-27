@@ -11,6 +11,7 @@
 #include "../implementations/command-lerper.hpp"
 #include "../implementations/rules-engine.hpp"
 #include "../dto/motor-feedback-dto.hpp"
+#include "../implementations/wheel-orientation.hpp"
 
 using namespace sjsu::drive;
 
@@ -52,13 +53,17 @@ int main()
 
     MissionControlHandler mission_control;
     drive_commands commands;
+    commands.is_operational = 1;
+    commands.mode = 'D';
+    commands.wheel_orientation = 0;
     motor_feedback motor_speeds;
     tri_wheel_router_arguments arguments;
+    WheelOrientation position;
 
     RulesEngine rules_engine;
     ModeSwitch mode_switch;
     CommandLerper lerp;
-
+        int i = 0;
     tri_wheel.Initialize();
     tri_wheel.HomeLegs();
     sjsu::Delay(1s);
@@ -74,10 +79,22 @@ int main()
         // commands = SerialEnterCommands();
         // commands.Print();
         // sjsu::Delay(50ms);
-        commands = rules_engine.ValidateCommands(commands);
+        // commands = rules_engine.ValidateCommands(commands);
+        if(i++ == 150){
+            commands.wheel_orientation = 1;
+        }
+        sjsu::LogInfo("%d", i);
+        sjsu::LogInfo("Before mode switch: %d", commands.wheel_orientation);
         commands = mode_switch.SwitchSteerMode(commands, arguments, motor_speeds);
+                sjsu::LogInfo("Before Lerp: %d", commands.wheel_orientation);
         commands = lerp.Lerp(commands);
+                sjsu::LogInfo("Before modeselect: %d", commands.wheel_orientation);
         arguments = ModeSelect::SelectMode(commands);
+                sjsu::LogInfo("Before switch_to: %d", commands.wheel_orientation);
+        arguments.Print();
+        arguments = position.switch_to(arguments);
+                sjsu::LogInfo("Before set leg arguments: %d", commands.wheel_orientation);
+        
         arguments = tri_wheel.SetLegArguments(arguments);
 
         arguments.Print();
