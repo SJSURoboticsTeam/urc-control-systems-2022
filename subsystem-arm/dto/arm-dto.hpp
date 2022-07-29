@@ -30,7 +30,7 @@ namespace sjsu::arm
         int index_angle = 0;
         int thumb_angle = 0;
         int finger_angle = 0;
-        char mode = 'A';
+        char mode = 'I';
         int is_operational = 0;
         int heartbeat_count = 0;
     };

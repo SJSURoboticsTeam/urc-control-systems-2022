@@ -4,14 +4,13 @@
 #include "../dto/arm-dto.hpp"
 #include "../implementations/pca9685.hpp"
 
-
 namespace sjsu::arm
 {
     TEST_CASE("Hand Mode Testing")
     {
         SECTION("1.1 Should set angles to correct given individual mode angles")
         {
-            hand_arguments original_commands{100, 100, 100, 100, 100};
+            hand_arguments original_commands{100, 69, 22, 132, 40};
             hand_arguments args = HandModes::IndividualMode(original_commands);
             CHECK_EQ(args.pinky_angle, original_commands.pinky_angle);
             CHECK_EQ(args.ring_angle, original_commands.ring_angle);
@@ -22,7 +21,8 @@ namespace sjsu::arm
 
         SECTION("2.1 Should set angles to minimum angle when in close mode")
         {
-            hand_arguments original_commands{30, 30, 30, 30, 30};
+            HandModes hand_modes_;
+            hand_arguments original_commands{hand_modes_.min_angle_, hand_modes_.min_angle_, hand_modes_.min_angle_, hand_modes_.min_angle_, hand_modes_.min_angle_};
             hand_arguments args = HandModes::CloseMode(original_commands);
             CHECK_EQ(args.pinky_angle, original_commands.pinky_angle);
             CHECK_EQ(args.ring_angle, original_commands.ring_angle);
@@ -33,7 +33,8 @@ namespace sjsu::arm
 
         SECTION("3.1 Should set angles to correct angle give OpenMode mode angles")
         {
-            hand_arguments original_commands{180, 180, 180, 180, 180};
+            HandModes hand_modes_;
+            hand_arguments original_commands{hand_modes_.max_angle_, hand_modes_.max_angle_, hand_modes_.max_angle_, hand_modes_.max_angle_, hand_modes_.max_angle_};
             hand_arguments args = HandModes::OpenMode(original_commands);
             CHECK_EQ(args.pinky_angle, original_commands.pinky_angle);
             CHECK_EQ(args.ring_angle, original_commands.ring_angle);
@@ -53,12 +54,11 @@ namespace sjsu::arm
             CHECK_EQ(args.index_angle, original_commands.finger_angle);
             CHECK_EQ(args.thumb_angle, original_commands.finger_angle);
         }
-        SECTION("4.2 Hand Arguments should recieve correct finger_angle from mission control"){
-            
+        SECTION("4.2 Hand Arguments should recieve correct finger_angle from mission control")
+        {
             hand_arguments original_commands{90};
             hand_arguments args = HandModes::SimultaneousMode(original_commands);
             CHECK_EQ(args.finger_angle, original_commands.finger_angle);
-
         }
     }
 }

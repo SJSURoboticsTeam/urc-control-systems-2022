@@ -8,6 +8,10 @@ namespace sjsu::arm
     class HandModes
     {
     public:
+        static constexpr int min_angle_ = 30;
+        static constexpr int neutral_angle_ = 90;
+        static constexpr int max_angle_ = 180;
+        
         // Closes the hand to the minimum angle
         static hand_arguments CloseMode(hand_arguments arguments)
         {
@@ -45,8 +49,6 @@ namespace sjsu::arm
         }
 
     private:
-        static constexpr int min_angle_ = 30;
-        static constexpr int neutral_angle_ = 90;
-        static constexpr int max_angle_ = 180;
+
     };
 }
