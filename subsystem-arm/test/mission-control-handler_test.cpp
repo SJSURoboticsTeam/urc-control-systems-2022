@@ -19,8 +19,8 @@ namespace sjsu::arm
             std::string expected_formatted_rover_status =
                 "?heartbeat_count=0&is_operational=0&arm_mode=A&hand_mode=I&rotunda_speed=0"
                 "&shoulder_speed=0&elbow_speed=0&wrist_speed=0&battery=0&rotunda_angle=0&shoulder_angle=0&elbow_angle=0&wrist_"
-                "roll=0&wrist_pitch=0&pinky_angle=0&ring_angle=0&middle_angle=0&"
-                "pointer_angle=0&thumb_angle=0&finger_angle=0&rountda_accel_x=0&rountda_accel_y=0&rountda_accel_z=0"
+                "roll=0&wrist_pitch=0&pinky_angle=0&ring_angle=0&middle_angle=0&pointer_angle=0&thumb_angle=0&finger_angle=0"
+                "&rountda_accel_x=0&rountda_accel_y=0&rountda_accel_z=0"
                 "&shoulder_accel_x=0&shoulder_accel_y=0&shoulder_accel_z=0"
                 "&elbow_accel_x=0&elbow_accel_y=0&elbow_accel_z=0"
                 "&wrist_accel_x=0&wrist_accel_y=0&wrist_accel_z=0";
