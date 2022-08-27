@@ -37,7 +37,7 @@ int main()
     // RMD addresses 0x141 - 0x148 are available
     sjsu::RmdX elbow_motor(can_network, 0x143);
     sjsu::RmdX shoulder_motor(can_network, 0x142);
-    // sjsu::RmdX wrist_motor1(can_network, 0x144);
+    sjsu::RmdX wrist_motor(can_network, 0x144);
     // sjsu::RmdX wrist_motor2(can_network, 0x145);
 
     // sjsu::RmdX elbow_motor(can_network, 0x143);
@@ -45,49 +45,31 @@ int main()
     // wrist_motor1.settings.gear_ratio = 8 * 65 / 16; // gear ratio of motor times gear ratio of shoulder
     // wrist_motor2.settings.gear_ratio = 8 * 65 / 16; // gear ratio of motor times gear ratio of shoulder
     elbow_motor.settings.gear_ratio = 8 * 65 / 16; // gear ratio of motor times gear ratio of shoulder
-    // elbow_motor.settings.gear_ratio = 8 * 5 / 2; // gear ratio of motor times gear ratio of elbow
 
     elbow_motor.Initialize();
     shoulder_motor.Initialize();
+    wrist_motor.Initialize();
     // wrist_motor1.Initialize();
     // wrist_motor2.Initialize();
 
     while (true)
     {
-        sjsu::LogInfo("Moving motor...");
-        // wrist_motor1.GetFeedback().Print();
-        // wrist_motor2.GetFeedback().Print();
-        // wrist_motor1.SetSpeed(5_rpm);
-        // wrist_motor2.SetSpeed(5_rpm);
-        // sjsu::Delay(500ms);
-        // wrist_motor1.SetSpeed(5_rpm);
-        // wrist_motor2.SetSpeed(5_rpm);
-        // sjsu::Delay(500ms);
+        sjsu::LogInfo("Moving motors...");
 
         // elbow_motor.GetFeedback().Print();
-        // elbow_motor.SetSpeed(5_rpm);
-        // sjsu::Delay(500ms);
-        // elbow_motor.SetSpeed(-5_rpm);
-        // sjsu::Delay(600ms);
-
-        elbow_motor.GetFeedback().Print();
-        elbow_motor.SetAngle(10_deg, 3_rpm);
+        // elbow_motor.SetAngle(10_deg, 3_rpm);
+        // sjsu::Delay(3000ms);
+        // elbow_motor.SetAngle(-10_deg, 3_rpm);
+        // sjsu::Delay(3000ms);
+        // shoulder_motor.GetFeedback().Print();
+        // shoulder_motor.SetAngle(30_deg, 2_rpm);
+        // sjsu::Delay(3000ms);
+        wrist_motor.GetFeedback().Print();
+        wrist_motor.SetAngle(30_deg, 5_rpm);
         sjsu::Delay(3000ms);
-        elbow_motor.SetAngle(-10_deg, 3_rpm);
+        wrist_motor.GetFeedback().Print();
+        wrist_motor.SetAngle(-30_deg, 5_rpm);
         sjsu::Delay(3000ms);
-        shoulder_motor.GetFeedback().Print();
-        shoulder_motor.SetAngle(30_deg, 2_rpm);
-        sjsu::Delay(3000ms);
-
-        // elbow_motor.GetFeedback().Print();
-        // elbow_motor.SetSpeed(5_rpm);
-        // sjsu::Delay(500ms);
-        // elbow_motor.SetSpeed(-5_rpm);
-        // sjsu::Delay(600ms);
-
-        // sjsu::LogInfo("Moving elbow...");
-        // elbow_motor.GetFeedback().Print();
-        // elbow_motor.SetSpeed(5_rpm);
     }
 
     return 0;
