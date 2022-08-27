@@ -36,6 +36,7 @@ int main()
 
     // RMD addresses 0x141 - 0x148 are available
     sjsu::RmdX elbow_motor(can_network, 0x143);
+    sjsu::RmdX shoulder_motor(can_network, 0x142);
     // sjsu::RmdX wrist_motor1(can_network, 0x144);
     // sjsu::RmdX wrist_motor2(can_network, 0x145);
 
@@ -47,7 +48,7 @@ int main()
     // elbow_motor.settings.gear_ratio = 8 * 5 / 2; // gear ratio of motor times gear ratio of elbow
 
     elbow_motor.Initialize();
-    // elbow_motor.Initialize();
+    shoulder_motor.Initialize();
     // wrist_motor1.Initialize();
     // wrist_motor2.Initialize();
 
@@ -73,6 +74,9 @@ int main()
         elbow_motor.SetAngle(10_deg, 3_rpm);
         sjsu::Delay(3000ms);
         elbow_motor.SetAngle(-10_deg, 3_rpm);
+        sjsu::Delay(3000ms);
+        shoulder_motor.GetFeedback().Print();
+        shoulder_motor.SetAngle(30_deg, 2_rpm);
         sjsu::Delay(3000ms);
 
         // elbow_motor.GetFeedback().Print();
