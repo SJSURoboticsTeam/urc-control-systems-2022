@@ -10,17 +10,17 @@ namespace sjsu::drive
         static constexpr int kMaxSpeed = 100;
         drive_commands ValidateCommands(drive_commands commands)
         {
-            if(!heartbeat_.IsSyncedWithMissionControl(commands.heartbeat_count))
-            {
-                commands.speed = 0;
-                sjsu::LogInfo("Overriding speed");
-                return commands;
-            }
-            if(!commands.is_operational)
-            {
-                commands.speed = 0;
-                sjsu::LogInfo("System is not operational... overriding speed");
-            }
+            // if(!heartbeat_.IsSyncedWithMissionControl(commands.heartbeat_count))
+            // {
+            //     commands.speed = 0;
+            //     sjsu::LogInfo("Overriding speed");
+            //     return commands;
+            // }
+            // if(!commands.is_operational)
+            // {
+            //     commands.speed = 0;
+            //     sjsu::LogInfo("System is not operational... overriding speed");
+            // }
             if(commands.speed > kMaxSpeed || commands.speed < -kMaxSpeed)
             {
                 commands.speed = std::clamp(commands.speed, -kMaxSpeed, kMaxSpeed);
