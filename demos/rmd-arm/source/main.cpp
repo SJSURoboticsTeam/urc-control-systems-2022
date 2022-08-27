@@ -38,6 +38,7 @@ int main()
     sjsu::RmdX elbow_motor(can_network, 0x143);
     sjsu::RmdX shoulder_motor(can_network, 0x142);
     sjsu::RmdX wrist_motor(can_network, 0x144);
+    sjsu::RmdX wrist_motor2(can_network, 0x145);
     // sjsu::RmdX wrist_motor2(can_network, 0x145);
 
     // sjsu::RmdX elbow_motor(can_network, 0x143);
@@ -49,8 +50,7 @@ int main()
     elbow_motor.Initialize();
     shoulder_motor.Initialize();
     wrist_motor.Initialize();
-    // wrist_motor1.Initialize();
-    // wrist_motor2.Initialize();
+    wrist_motor2.Initialize();
 
     while (true)
     {
@@ -65,10 +65,12 @@ int main()
         // shoulder_motor.SetAngle(30_deg, 2_rpm);
         // sjsu::Delay(3000ms);
         wrist_motor.GetFeedback().Print();
-        wrist_motor.SetAngle(30_deg, 5_rpm);
+        wrist_motor.SetSpeed(15_rpm);
+        wrist_motor2.SetSpeed(8_rpm);
         sjsu::Delay(3000ms);
         wrist_motor.GetFeedback().Print();
-        wrist_motor.SetAngle(-30_deg, 5_rpm);
+        wrist_motor.SetSpeed(-15_rpm);
+        wrist_motor2.SetSpeed(-8_rpm);
         sjsu::Delay(3000ms);
     }
 
