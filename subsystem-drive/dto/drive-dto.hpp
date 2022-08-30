@@ -39,10 +39,10 @@ namespace sjsu::drive
 
         void Print()
         {
-            printf("Args\tLeg\tSpeed\tAngle\n");
-            printf("\tLeft\t%.1f\t%.1f\n", static_cast<double>(left.hub.speed), static_cast<double>(left.steer.angle));
-            printf("\tRight\t%.1f\t%.1f\n", static_cast<double>(right.hub.speed), static_cast<double>(right.steer.angle));
-            printf("\tBack\t%.1f\t%.1f\n", static_cast<double>(back.hub.speed), static_cast<double>(back.steer.angle));
+            // printf("Args\tLeg\tSpeed\tAngle\n");
+            // printf("\tLeft\t%.1f\t%.1f\n", static_cast<double>(left.hub.speed), static_cast<double>(left.steer.angle));
+            // printf("\tRight\t%.1f\t%.1f\n", static_cast<double>(right.hub.speed), static_cast<double>(right.steer.angle));
+            // printf("\tBack\t%.1f\t%.1f\n", static_cast<double>(back.hub.speed), static_cast<double>(back.steer.angle));
         }
     };
 

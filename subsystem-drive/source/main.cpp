@@ -3,8 +3,9 @@
 
 #include "utility/log.hpp"
 #include "peripherals/lpc40xx/can.hpp"
+#include "peripherals/lpc40xx/uart.hpp"
 #include "devices/actuators/servo/rmd_x.hpp"
-#include "../common/esp.hpp"
+//#include "../common/esp.hpp"
 
 // #include "../implementations/mission-control-handler.hpp"
 #include "../implementations/steer-modes.hpp"
@@ -48,20 +49,20 @@ drive_commands HandleWebInteractions(sjsu::lpc40xx::Uart &uart2, std::array<uint
 }
 
 
-drive_commands SerialEnterCommands()
-{
-    drive_commands commands;
-    sjsu::LogInfo("Enter in commands");
-    scanf("%d,%d,%c", &commands.speed, &commands.angle, &commands.mode);
-    return commands;
-}
+// drive_commands SerialEnterCommands()
+// {
+//     drive_commands commands;
+//     sjsu::LogInfo("Enter in commands");
+//     scanf("%d,%d,%c", &commands.speed, &commands.angle, &commands.mode);
+//     return commands;
+// }
 
 int main()
 {
     auto &uart2 = sjsu::lpc40xx::GetUart<0>();
     uart2.settings.baud_rate = 38400;
     std::array<uint8_t, 1024 * 2> receive_buffer;
-    sjsu::common::Esp esp;
+    //sjsu::common::Esp esp;
     sjsu::lpc40xx::Can &can = sjsu::lpc40xx::GetCan<1>();
     sjsu::StaticMemoryResource<1024> memory_resource;
     sjsu::CanNetwork can_network(can, &memory_resource);
@@ -100,7 +101,7 @@ int main()
     tri_wheel.Initialize();
     tri_wheel.HomeLegs();
     sjsu::Delay(1s);
-    sjsu::LogInfo("Starting control loop...");
+    // sjsu::LogInfo("Starting control loop...");
     while (1)
     {
         // //For Mission Control Mode

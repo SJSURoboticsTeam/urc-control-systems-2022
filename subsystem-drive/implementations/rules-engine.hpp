@@ -13,18 +13,18 @@ namespace sjsu::drive
             if(!heartbeat_.IsSyncedWithMissionControl(commands.heartbeat_count))
             {
                 commands.speed = 0;
-                sjsu::LogInfo("Overriding speed");
+                //sjsu::LogInfo("Overriding speed");
                 return commands;
             }
             if(!commands.is_operational)
             {
                 commands.speed = 0;
-                sjsu::LogInfo("System is not operational... overriding speed");
+                //sjsu::LogInfo("System is not operational... overriding speed");
             }
             if(commands.speed > kMaxSpeed || commands.speed < -kMaxSpeed)
             {
                 commands.speed = std::clamp(commands.speed, -kMaxSpeed, kMaxSpeed);
-                sjsu::LogInfo("Specified speed is too fast... clamping speed");
+                //sjsu::LogInfo("Specified speed is too fast... clamping speed");
             }
             heartbeat_.IncrementHeartbeatCount();
             return commands;
