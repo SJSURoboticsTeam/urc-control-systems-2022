@@ -6,7 +6,7 @@ int main()
 {
     sjsu::LogInfo("Magnet Tester Starting...");
 
-    sjsu::Gpio &magnet = sjsu::lpc40xx::GetGpio<1, 19>();
+    sjsu::Gpio &magnet = sjsu::lpc40xx::GetGpio<1, 31>();
 
     magnet.Initialize();
     magnet.SetAsInput();
