@@ -20,18 +20,14 @@
 using namespace sjsu::drive;
 
 const char response_body_format[] =
-    "\r\n\r\n{\n"
-    "  \"drive_mode\": \"%c\",\n"
-    "  \"speed\": %d,\n"
-    "  \"angle\": %d\n"
-    "  \"wheel_orientation\": %d,\n"
-    "}";
+        "{\"drive_mode\":\"%c\",\"speed\":%d,\"angle\":%d,\"wheel_orientation\":%d}";
 
 drive_commands ParseMissionControlData(std::string &response, drive_commands commands)
 {
     int actual_arguments = sscanf(
         response.c_str(), response_body_format,
         &commands.mode, &commands.speed, &commands.angle, &commands.wheel_orientation);
+    commands.is_operational = 1;
     return commands;
 }
 
