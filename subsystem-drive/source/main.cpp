@@ -35,7 +35,7 @@ drive_commands ParseMissionControlData(std::string &response, drive_commands com
     return commands;
 }
 
-drive_commands HandleWebInteractions(sjsu::lpc40xx::Uart &uart2, std::array<uint8_t, 1024 * 2> &receive_buffer, drive_commands commands) {
+drive_commands HandleWebInteractions(auto &uart2, std::array<uint8_t, 1024 * 2> &receive_buffer, drive_commands commands) {
     sjsu::Delay(50ms);
     printf("{\"subsystem\":\"drive\",\"speed\":%d,\"angle\":%d,\"drive_mode\":\"%c\",\"wheel_orientation\":%d}\n", commands.speed, commands.angle, commands.mode, commands.wheel_orientation);
     std::fill(receive_buffer.begin(), receive_buffer.end(), 0);
