@@ -4,6 +4,7 @@ IDEAS:
 Switch leg args. in tri addresses
 pass new tri. variable (must be able to run all the time)
 create a temp leg arg pass same tri. ad.
+switch pointers from/to RMD
 
 */
 #pragma once
@@ -31,13 +32,6 @@ namespace sjsu::drive
                     command = step_up(command);
                     printf("stepping up\n");
                 }
-            // }
-            // else if(pos < previous_pos_){
-            //     for(int i = 0; i < previous_pos_ - pos; i++){
-            //         command = step_down(command);  
-            //         printf("stepping down\n");
-            //     }
-            // }
             previous_pos_ = pos;
             return command;
         }
