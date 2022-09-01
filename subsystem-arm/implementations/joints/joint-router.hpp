@@ -4,6 +4,7 @@
 #include "utility/math/units.hpp"
 #include "utility/log.hpp"
 #include "devices/actuators/servo/rmd_x.hpp"
+#include "../common/rmd-encoder.hpp"
 
 namespace sjsu::arm
 {
@@ -32,12 +33,23 @@ namespace sjsu::arm
             return arguments;
         }
 
-        void HomeArm(arm_accelerometer_feedback mpu_feedback, motors_feedback motors_feedback)
+        void HomeArm()
         {
-            
+            initial_rotunda_position_  = common::RmdEncoder::CalcEncoderPositions(rotunda_);
+            initial_shoulder_position_  = common::RmdEncoder::CalcEncoderPositions(shoulder_);
+            initial_elbow_position_  = common::RmdEncoder::CalcEncoderPositions(elbow_);
+            initial_left_wrist_position_  = common::RmdEncoder::CalcEncoderPositions(left_wrist_);
+            initial_right_wrist_position_  = common::RmdEncoder::CalcEncoderPositions(right_wrist_);
         }
 
     private:
+
+        float initial_rotunda_position_ = 0;
+        float initial_shoulder_position_ = 0;
+        float initial_elbow_position_ = 0;
+        float initial_left_wrist_position_ = 0;
+        float initial_right_wrist_position_ = 0;
+
         sjsu::arm::arm_arguments arguments_;
         sjsu::RmdX &rotunda_;
         sjsu::RmdX &shoulder_;

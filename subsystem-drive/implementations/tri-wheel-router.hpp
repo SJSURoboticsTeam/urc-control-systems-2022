@@ -4,6 +4,7 @@
 #include "../subsystem-drive/dto/motor-feedback-dto.hpp"
 #include "utility/math/units.hpp"
 #include "utility/log.hpp"
+#include "../common/rmd-encoder.hpp"
 
 namespace sjsu::drive
 {
@@ -57,14 +58,12 @@ namespace sjsu::drive
         /// At the moment, homing is where the legs turn on so we just calculate the initial encoder positions. ***Must be called in main
         void HomeLegs()
         {
-            CalculateInitialEncoderPositions();
-        }
-        /// Gets raw data from steer motors, calculates the angles, and sets the initial_encoder_positions.
-        void CalculateInitialEncoderPositions()
-        {
-            initial_encoder_position_back_ = MapEncoderDataToDegrees(back_.steer_motor_.RequestFeedbackFromMotor().GetFeedback().encoder_position >> 8);
-            initial_encoder_position_left_ = MapEncoderDataToDegrees(left_.steer_motor_.RequestFeedbackFromMotor().GetFeedback().encoder_position >> 8);
-            initial_encoder_position_right_ = MapEncoderDataToDegrees(right_.steer_motor_.RequestFeedbackFromMotor().GetFeedback().encoder_position >> 8);
+            initial_encoder_position_left_  = common::RmdEncoder::CalcEncoderPositions(left_.steer_motor_);
+            initial_encoder_position_right_  = common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_);
+            initial_encoder_position_back_ = common::RmdEncoder::CalcEncoderPositions(back_.steer_motor_);
+            sjsu::LogInfo("%d", initial_encoder_position_left_);
+            sjsu::LogInfo("%d", initial_encoder_position_back_);
+            sjsu::LogInfo("%d", initial_encoder_position_right_);
         }
 
         motor_feedback GetMotorFeedback(){
@@ -76,20 +75,11 @@ namespace sjsu::drive
         }
 
     private:
-
-    //auxillary functions
-
-        /// takes data from encoder and maps it to degrees
-        float MapEncoderDataToDegrees(float encoder_data)
-        {
-            return (60.0 * encoder_data / 256.0);
-        }
-
     //member variables
 
-        float initial_encoder_position_left_ = 0;
-        float initial_encoder_position_back_ = 0;
-        float initial_encoder_position_right_ = 0;
+        int8_t initial_encoder_position_left_ = 0;
+        int8_t initial_encoder_position_back_ = 0;
+        int8_t initial_encoder_position_right_ = 0;
 
         leg left_;
         leg back_;

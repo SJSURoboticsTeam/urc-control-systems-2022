@@ -24,7 +24,7 @@ drive_commands SerialEnterCommands()
 
 int main()
 {
-    sjsu::common::Esp esp;
+    //sjsu::common::Esp esp;
     sjsu::lpc40xx::Can &can = sjsu::lpc40xx::GetCan<1>();
     sjsu::StaticMemoryResource<1024> memory_resource;
     sjsu::CanNetwork can_network(can, &memory_resource);
@@ -60,8 +60,9 @@ int main()
     CommandLerper lerp;
 
     tri_wheel.Initialize();
+    sjsu::Delay(500ms);
     tri_wheel.HomeLegs();
-    sjsu::Delay(1s);
+    sjsu::Delay(500ms);
     sjsu::LogInfo("Starting control loop...");
     while (1)
     {
