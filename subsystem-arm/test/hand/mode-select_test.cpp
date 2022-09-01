@@ -13,10 +13,13 @@ namespace sjsu::arm
         // Mode should not change while fingers are still in motion -- TK
         SECTION("1.1 Change to the correct mode it's given from mission control")
         {
-            hand_arguments original_command_I{'I'};
-            hand_arguments original_command_C{'C'};
-            hand_arguments original_command_O{'O'};
-            hand_arguments original_command_S{'S'};
+            hand_arguments original_command_I; 
+            hand_arguments original_command_C;
+            original_command_C.mode = 'C';
+            hand_arguments original_command_O;
+            original_command_O.mode = 'O';
+            hand_arguments original_command_S;
+            original_command_S.mode = 'S';
 
             hand_arguments args_I = ModeSelect::SelectMode(original_command_I);
             CHECK_EQ(args_I.mode, original_command_I.mode);
