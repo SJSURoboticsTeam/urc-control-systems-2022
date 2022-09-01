@@ -5,6 +5,7 @@
 #include "utility/math/units.hpp"
 #include "utility/log.hpp"
 #include "../common/rmd-encoder.hpp"
+#include "peripherals/lpc40xx/gpio.hpp"
 
 namespace sjsu::drive
 {
@@ -13,10 +14,11 @@ namespace sjsu::drive
     public:
         struct leg
         {
-            leg(sjsu::RmdX &steer, sjsu::RmdX &drive) : steer_motor_(steer), drive_motor_(drive)
+            leg(sjsu::RmdX &steer, sjsu::RmdX &drive, sjsu::Gpio &magnet) : steer_motor_(steer), drive_motor_(drive), magnet_(magnet)
             {}
             sjsu::RmdX &steer_motor_;
             sjsu::RmdX &drive_motor_;
+            sjsu::Gpio &magnet_;
         };
 
         TriWheelRouter(leg right, leg left, leg back) : left_(left), back_(back), right_(right)
@@ -30,6 +32,12 @@ namespace sjsu::drive
             left_.drive_motor_.Initialize();
             back_.drive_motor_.Initialize();
             right_.drive_motor_.Initialize();
+            left_.magnet_.Initialize();
+            right_.magnet_.Initialize();
+            back_.magnet_.Initialize();
+            left_.magnet_.SetAsInput();
+            right_.magnet_.SetAsInput();
+            back_.magnet_.SetAsInput();
         }
 
         tri_wheel_router_arguments SetLegArguments(tri_wheel_router_arguments tri_wheel_arguments)
@@ -58,6 +66,34 @@ namespace sjsu::drive
         /// At the moment, homing is where the legs turn on so we just calculate the initial encoder positions. ***Must be called in main
         void HomeLegs()
         {
+            int not_homed = 1;
+            float homing_speed = 10;
+
+            while(left_.magnet_.Read() == not_homed && right_.magnet_.Read() == not_homed && back_.magnet_.Read() == not_homed)
+            {
+                sjsu::LogInfo("HomingPins L%d\t R%d\t B%d", left_.magnet_.Read(), right_.magnet_.Read(), back_.magnet_.Read());
+
+                left_.drive_motor_.SetSpeed(units::angular_velocity::revolutions_per_minute_t(0));
+                right_.drive_motor_.SetSpeed(units::angular_velocity::revolutions_per_minute_t(0));
+                back_.drive_motor_.SetSpeed(units::angular_velocity::revolutions_per_minute_t(0));
+
+                if (left_.magnet_.Read() == not_homed)
+                {
+                    left_.drive_motor_.SetSpeed(units::angular_velocity::revolutions_per_minute_t(homing_speed));
+                }
+
+                if(right_.magnet_.Read() == not_homed)
+                {
+                    right_.drive_motor_.SetSpeed(units::angular_velocity::revolutions_per_minute_t(homing_speed));
+                }
+
+                if(back_.magnet_.Read() == not_homed)
+                {
+                    back_.drive_motor_.SetSpeed(units::angular_velocity::revolutions_per_minute_t(homing_speed));
+                }
+                sjsu::Delay(200ms);
+            }
+
             initial_encoder_position_left_  = common::RmdEncoder::CalcEncoderPositions(left_.steer_motor_);
             initial_encoder_position_back_  = common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_);
             initial_encoder_position_right_ = common::RmdEncoder::CalcEncoderPositions(back_.steer_motor_);
