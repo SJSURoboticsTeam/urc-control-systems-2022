@@ -19,21 +19,20 @@
 
 using namespace sjsu::drive;
 
-const char response_body_format[] =
-        "{\"drive_mode\":\"%c\",\"speed\":%d,\"angle\":%d,\"wheel_orientation\":%d}";
+const char response_body_format[] = "{\"heartbeat_count\":%d,\"is_operational\":%d,\"wheel_orientation\":%d,\"drive_mode\":\"%c\",\"speed\":%d,\"angle\":%d}";
 
 drive_commands ParseMissionControlData(std::string &response, drive_commands commands)
 {
     int actual_arguments = sscanf(
         response.c_str(), response_body_format,
-        &commands.mode, &commands.speed, &commands.angle, &commands.wheel_orientation);
+        &commands.heartbeat_count, &commands.is_operational, &commands.wheel_orientation, &commands.mode, &commands.speed, &commands.angle);
     commands.is_operational = 1;
     return commands;
 }
 
 drive_commands HandleWebInteractions(auto &uart2, std::array<uint8_t, 1024 * 2> &receive_buffer, drive_commands commands) {
     sjsu::Delay(50ms);
-    printf("{\"subsystem\":\"drive\",\"speed\":%d,\"angle\":%d,\"drive_mode\":\"%c\",\"wheel_orientation\":%d}\n", commands.speed, commands.angle, commands.mode, commands.wheel_orientation);
+    printf("{\"heartbeat_count\":%d,\"is_operational\":%d,\"wheel_orientation\":%d,\"drive_mode\":\"%c\",\"speed\":%d,\"angle\":%d}\n", 0, 1, commands.wheel_orientation, commands.mode, commands.speed, commands.angle);
     std::fill(receive_buffer.begin(), receive_buffer.end(), 0);
     if (uart2.HasData())
     {

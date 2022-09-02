@@ -74,9 +74,9 @@ namespace sjsu::drive
     private:
     //member variables
 
-        float initial_encoder_position_left_ = 0;
-        float initial_encoder_position_back_ = 0;
-        float initial_encoder_position_right_ = 0;
+        uint8_t initial_encoder_position_left_ = 0;
+        uint8_t initial_encoder_position_back_ = 0;
+        uint8_t initial_encoder_position_right_ = 0;
 
         leg left_;
         leg back_;
