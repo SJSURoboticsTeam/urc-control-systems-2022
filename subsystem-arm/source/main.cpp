@@ -11,13 +11,12 @@
 #include "../common/serial.hpp"
 #include "peripherals/lpc40xx/uart.hpp"
 
-
 using namespace sjsu::arm;
 
 int main()
 {
   sjsu::LogInfo("Starting the rover arm system...");
-  sjsu::lpc40xx::Can & can = sjsu::lpc40xx::GetCan<2>();
+  sjsu::lpc40xx::Can &can = sjsu::lpc40xx::GetCan<2>();
   sjsu::StaticMemoryResource<1024> memory_resource;
   sjsu::CanNetwork can_network(can, &memory_resource);
 
@@ -28,10 +27,10 @@ int main()
   sjsu::RmdX left_wrist_motor(can_network, 0x144);
   sjsu::RmdX right_wrist_motor(can_network, 0x145);
 
-  rotunda_motor.settings.gear_ratio     = 8;
-  shoulder_motor.settings.gear_ratio    = 8*65/16;  //gear ratio of motor times gear ratio of shoulder
-  elbow_motor.settings.gear_ratio       = 8*5/2;    //gear ratio of motor times gear ratio of elbow
-  left_wrist_motor.settings.gear_ratio  = 8;
+  rotunda_motor.settings.gear_ratio = 8;
+  shoulder_motor.settings.gear_ratio = 8 * 65 / 16; // gear ratio of motor times gear ratio of shoulder
+  elbow_motor.settings.gear_ratio = 8 * 5 / 2;      // gear ratio of motor times gear ratio of elbow
+  left_wrist_motor.settings.gear_ratio = 8;
   right_wrist_motor.settings.gear_ratio = 8;
 
   sjsu::arm::JointRouter arm(rotunda_motor, shoulder_motor, elbow_motor, left_wrist_motor, right_wrist_motor);
@@ -47,9 +46,14 @@ int main()
   while (true)
   {
     std::string commands = serial.GetSerialCommands();
-    printf("%s", commands.c_str());
-    //printf(kJointBodyFormat, 0,1,2,3,4,5,6,7,'8',1,2,3,4,5,'6');
+    // remove_if(commands.begin(), commands.end(), isspace);
+    if (commands != "")
+    {
+      sjsu::LogInfo("%s", commands.c_str());
+      // printf("%s", commands.c_str());
+    }
 
-
+    // printf("%s", commands.c_str());
+    //  printf(kJointBodyFormat, 0,1,2,3,4,5,6,7,'8',1,2,3,4,5,'6');
   }
 }
