@@ -60,7 +60,7 @@ int main()
 
     tri_wheel.Initialize();
     tri_wheel.HomeLegs();
-    sjsu::Delay(1s);
+    //sjsu::Delay(1s);
 
     while (1)
     {
@@ -70,20 +70,20 @@ int main()
 
         // For Serial
         std::string response = serial.GetSerialCommands(); // potential issue: doesn't recieve full json response
-        printf("Post get: %s\n", response);
 
-        commands = mission_control.ParseMissionControlData(commands, response);
-        // commands = rules_engine.ValidateCommands(commands);
-        // commands = mode_switch.SwitchSteerMode(commands, arguments, motor_speeds);
-        // commands = lerp.Lerp(commands);
+        commands = mission_control.ParseMissionControlData(response);
+        commands = rules_engine.ValidateCommands(commands);
+        commands = mode_switch.SwitchSteerMode(commands, arguments, motor_speeds);
+        commands = lerp.Lerp(commands);
         printf(kResponseBodyFormat,
                commands.heartbeat_count, commands.is_operational, commands.wheel_orientation, commands.mode, commands.speed, commands.angle);
-        // arguments = ModeSelect::SelectMode(commands);
-        // arguments = tri_wheel.SetLegArguments(arguments);
+        arguments = ModeSelect::SelectMode(commands);
+        arguments = tri_wheel.SetLegArguments(arguments);
 
         // arguments.Print();
         // motor_speeds.print();
-        // motor_speeds = tri_wheel.GetMotorFeedback();
+        motor_speeds = tri_wheel.GetMotorFeedback();
+
     }
 
     return 0;

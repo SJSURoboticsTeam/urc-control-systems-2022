@@ -17,7 +17,7 @@ namespace sjsu::drive
             return request_parameter;
         }
 
-        drive_commands ParseMissionControlData(drive_commands commands, std::string &response)
+        drive_commands ParseMissionControlData(std::string &response)
         {
             int actual_arguments = sscanf(
                 response.c_str(), kResponseBodyFormat,
@@ -25,6 +25,9 @@ namespace sjsu::drive
                 &commands_.mode, &commands_.speed, &commands_.angle);
             return commands_;
         }
+
+    private:
+        drive_commands commands_;
     };
 
 }

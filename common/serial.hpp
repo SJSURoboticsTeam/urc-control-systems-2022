@@ -14,17 +14,14 @@ namespace sjsu::common
 
         std::string GetSerialCommands()
         {
-            std::array<uint8_t, 1024 * 2> receive_buffer;
             std::fill(receive_buffer.begin(), receive_buffer.end(), 0);
             sjsu::Delay(50ms);
             if (uart_.HasData())
             {
                 const size_t kReadBytes = uart_.Read(receive_buffer, 50ms);
                 std::string message(reinterpret_cast<char *>(receive_buffer.data()), kReadBytes);
-                printf("Pre get: %s\n", message);
                 return message;
             }
-            printf("Get commands got nothing!\n");
             return "";
         }
 
@@ -34,7 +31,7 @@ namespace sjsu::common
             uart_.settings.baud_rate = 38400;
             uart_.Initialize();
         }
-
+        std::array<uint8_t, 1024 * 2> receive_buffer;
         sjsu::Uart &uart_;
     };
 } // namespace sjsu::common

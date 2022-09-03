@@ -2,7 +2,7 @@
 
 namespace sjsu::drive
 {
-    const char kResponseBodyFormat[] = "{\"heartbeat_count\":%d,\"is_operational\":%d,\"wheel_orientation\":%d,\"drive_mode\":\"%c\",\"speed\":%d,\"angle\":%d}";
+    const char kResponseBodyFormat[] = "{\"heartbeat_count\":%d,\"is_operational\":%d,\"wheel_orientation\":%d,\"drive_mode\":\"%c\",\"speed\":%d,\"angle\":%d}\n";
 
     const char kGETRequestFormat[] = "drive?drive_mode=%c&speed=%d&angle=%d&wheel_orientation=%d";
 
