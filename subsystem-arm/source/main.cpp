@@ -8,10 +8,11 @@
 #include "../implementations/joints/mpu-router.hpp"
 #include "../implementations/joints/joint-router.hpp"
 #include "../implementations/mission-control-handler.hpp"
+#include "../common/serial.hpp"
+#include "peripherals/lpc40xx/uart.hpp"
 
 
-
-
+using namespace sjsu::arm;
 
 int main()
 {
@@ -37,6 +38,7 @@ int main()
   sjsu::arm::MissionControlHandler mc_handler;
 
   sjsu::arm::arm_arguments arm_arguments;
+  sjsu::common::Serial serial(sjsu::lpc40xx::GetUart<0>());
 
   arm.Initialize();
   sjsu::LogInfo("Testing arm now");
@@ -44,20 +46,10 @@ int main()
   arm.HomeArm();
   while (true)
   {
-    // arm_arguments = mc_handler(arm_arguments);
-    for(i = 0; i < 25; i++){
-    arm.SetArmArguments({0, i, 0, 0, 0});
-    sjsu::Delay(500ms);
-    for(i; i > 0; i--){
-    arm.SetArmArguments({0, i, 0, 0, 0});
-    sjsu::Delay(500ms);
-    }
-    // sjsu::arm::arm_arguments arguments{5, 0, 20, 0, 0};
-    // arm.SetArmArguments(arguments);
-    // sjsu::Delay(3s);
-    // sjsu::arm::arm_arguments arguments2{25, -10, 0, 0, 0};
-    // arm.SetArmArguments(arguments);
-    // sjsu::Delay(3s);
-  }
+    std::string commands = serial.GetSerialCommands();
+    printf("%s", commands.c_str());
+    //printf(kJointBodyFormat, 0,1,2,3,4,5,6,7,'8',1,2,3,4,5,'6');
+
+
   }
 }
