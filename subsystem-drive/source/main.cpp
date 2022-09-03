@@ -64,21 +64,26 @@ int main()
 
     while (1)
     {
-        // //For Mission Control Mode
-        // std::string endpoint = mission_control.CreateGETRequestParameterWithRoverStatus();
+        // For ESP
+        // std::string endpoint = mission_control.CreateGETRequestParameterWithRoverStatus(commands);
         // std::string response = esp.GetCommands(endpoint);
-        std::string response = serial.GetCommands();
-        printf("{\"heartbeat_count\":%d,\"is_operational\":%d,\"wheel_orientation\":%d,\"drive_mode\":\"%c\",\"speed\":%d,\"angle\":%d}\n", 0, 1, commands.wheel_orientation, commands.mode, commands.speed, commands.angle);
-        commands = mission_control.ParseMissionControlData(response);
-        commands = rules_engine.ValidateCommands(commands);
-        commands = mode_switch.SwitchSteerMode(commands, arguments, motor_speeds);
-        commands = lerp.Lerp(commands);
-        arguments = ModeSelect::SelectMode(commands);
-        arguments = tri_wheel.SetLegArguments(arguments);
 
-        arguments.Print();
-        motor_speeds.print();
-        motor_speeds = tri_wheel.GetMotorFeedback();
+        // For Serial
+        std::string response = serial.GetSerialCommands(); // potential issue: doesn't recieve full json response
+        printf("Post get: %s\n", response);
+
+        commands = mission_control.ParseMissionControlData(commands, response);
+        // commands = rules_engine.ValidateCommands(commands);
+        // commands = mode_switch.SwitchSteerMode(commands, arguments, motor_speeds);
+        // commands = lerp.Lerp(commands);
+        printf(kResponseBodyFormat,
+               commands.heartbeat_count, commands.is_operational, commands.wheel_orientation, commands.mode, commands.speed, commands.angle);
+        // arguments = ModeSelect::SelectMode(commands);
+        // arguments = tri_wheel.SetLegArguments(arguments);
+
+        // arguments.Print();
+        // motor_speeds.print();
+        // motor_speeds = tri_wheel.GetMotorFeedback();
     }
 
     return 0;

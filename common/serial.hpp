@@ -12,7 +12,7 @@ namespace sjsu::common
             Initialize();
         };
 
-        std::string GetCommands()
+        std::string GetSerialCommands()
         {
             std::array<uint8_t, 1024 * 2> receive_buffer;
             std::fill(receive_buffer.begin(), receive_buffer.end(), 0);
@@ -21,7 +21,7 @@ namespace sjsu::common
             {
                 const size_t kReadBytes = uart_.Read(receive_buffer, 50ms);
                 std::string message(reinterpret_cast<char *>(receive_buffer.data()), kReadBytes);
-                printf("%s\n", message);
+                printf("Pre get: %s\n", message);
                 return message;
             }
             printf("Get commands got nothing!\n");
