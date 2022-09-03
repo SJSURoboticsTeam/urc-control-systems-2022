@@ -4,9 +4,7 @@
 
 namespace sjsu::arm
 {
-
-    const char response_body_format[] = "";
-    //this parses both hand and joints data
+    // this parses both hand and joints data
     class MissionControlHandler
     {
     public:
@@ -14,11 +12,11 @@ namespace sjsu::arm
         arm_arguments ParseMissionControlData(std::string &response)
         {
             int actual_arguments = sscanf(
-                response.c_str(), response_body_format,
-                &arguments.joint_args.rotunda_angle, &arguments.joint_args.shoulder_angle, &arguments.joint_args.elbow_angle,
-                &arguments.joint_args.wrist_pitch_angle, &arguments.joint_args.wrist_yaw_angle, &arguments.joint_args.mode);
-                return arguments;
+                response.c_str(), sjsu::arm::kJointBodyFormat,
+                &arguments.joint_args.heartbeat_count, &arguments.joint_args.is_operational, &arguments.joint_args.speed, &arguments.joint_args.rotunda_angle, &arguments.joint_args.shoulder_angle, &arguments.joint_args.elbow_angle, &arguments.joint_args.wrist_pitch_angle, &arguments.joint_args.wrist_yaw_angle, &arguments.joint_args.mode);
+            return arguments;
         }
+
         std::string CreateGETRequestParameterWithRoverStatus(arm_accelerometer_feedback mpus, motors_feedback motors, hand_arguments hand, arm_arguments arm)
         {
             snprintf(

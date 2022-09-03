@@ -38,6 +38,7 @@ int main()
 
   sjsu::arm::arm_arguments arm_arguments;
   sjsu::common::Serial serial(sjsu::lpc40xx::GetUart<0>());
+  MissionControlHandler mission_control;
 
   arm.Initialize();
   sjsu::LogInfo("Testing arm now");
@@ -46,14 +47,19 @@ int main()
   while (true)
   {
     std::string commands = serial.GetSerialCommands();
-    // remove_if(commands.begin(), commands.end(), isspace);
+    remove_if(commands.begin(), commands.end(), isspace);
     if (commands != "")
     {
       sjsu::LogInfo("%s", commands.c_str());
       // printf("%s", commands.c_str());
     }
 
-    // printf("%s", commands.c_str());
-    //  printf(kJointBodyFormat, 0,1,2,3,4,5,6,7,'8',1,2,3,4,5,'6');
+    // std::string test1 = "{\"heartbeat_count\":0,\"is_operational\":1,\"arm_speed\":0,\"rotunda_angle\":0,\"shoulder_angle\":0,\"elbow_angle\":0,\"wrist_pitch_angle\":0,\"wrist_yaw_angle\":0,\"joint_mode\":\"D\"}";
+
+    // ignore test2, sting buffer too long
+    // std::string test2 = "{\"heartbeat_count\":0,\"is_operational\":1,\"arm_speed\":0,\"rotunda_angle\":0,\"shoulder_angle\":0,\"elbow_angle\":0,\"wrist_pitch_angle\":0,\"wrist_yaw_angle\":0,\"joint_mode\":\"D\",\"pinky_angle\":0,\"ring_angle\":0,\"middle_angle\":0,\"index_angle\":0,\"thumb_angle\":0,\"hand_mode\":\"D\"}";
+
+    // arm_arguments = mission_control.ParseMissionControlData(commands.c_str());
+    // arm_arguments.joint_args.Print();
   }
 }
