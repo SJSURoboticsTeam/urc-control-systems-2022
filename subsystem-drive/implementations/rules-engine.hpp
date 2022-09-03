@@ -16,11 +16,11 @@ namespace sjsu::drive
             //     //sjsu::LogInfo("Overriding speed");
             //     return commands;
             // }
-            if(!commands.is_operational)
-            {
-                commands.speed = 0;
-                //sjsu::LogInfo("System is not operational... overriding speed");
-            }
+            // if(!commands.is_operational)
+            // {
+            //     commands.speed = 0;
+            //     //sjsu::LogInfo("System is not operational... overriding speed");
+            // }
             if(commands.speed > kMaxSpeed || commands.speed < -kMaxSpeed)
             {
                 commands.speed = std::clamp(commands.speed, -kMaxSpeed, kMaxSpeed);

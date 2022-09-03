@@ -20,10 +20,6 @@
 
 using namespace sjsu::drive;
 
-auto &uart2 = sjsu::lpc40xx::GetUart<0>();
-std::array<uint8_t, 1024 * 2> receive_buffer;
-MissionControlHandler mission_control;
-
 int main()
 {
     // sjsu::common::Esp esp;
@@ -53,6 +49,7 @@ int main()
 
     TriWheelRouter tri_wheel{right, left, back};
 
+    MissionControlHandler mission_control;
     drive_commands commands;
     motor_feedback motor_speeds;
     tri_wheel_router_arguments arguments;
@@ -70,7 +67,9 @@ int main()
         // //For Mission Control Mode
         // std::string endpoint = mission_control.CreateGETRequestParameterWithRoverStatus();
         // std::string response = esp.GetCommands(endpoint);
-        std::string response = serial.GetCommands(commands);
+        std::string response = serial.GetCommands();
+        // commands = HandleWebInteractions(commands);
+        printf("{\"heartbeat_count\":%d,\"is_operational\":%d,\"wheel_orientation\":%d,\"drive_mode\":\"%c\",\"speed\":%d,\"angle\":%d}\n", 0, 1, commands.wheel_orientation, commands.mode, commands.speed, commands.angle);
         commands = mission_control.ParseMissionControlData(response);
         commands = rules_engine.ValidateCommands(commands);
         commands = mode_switch.SwitchSteerMode(commands, arguments, motor_speeds);
@@ -84,19 +83,4 @@ int main()
     }
 
     return 0;
-}
-
-drive_commands HandleWebInteractions(drive_commands commands)
-{
-    std::fill(receive_buffer.begin(), receive_buffer.end(), 0);
-    sjsu::Delay(50ms);
-    printf("{\"heartbeat_count\":%d,\"is_operational\":%d,\"wheel_orientation\":%d,\"drive_mode\":\"%c\",\"speed\":%d,\"angle\":%d}\n", 0, 1, commands.wheel_orientation, commands.mode, commands.speed, commands.angle);
-    std::fill(receive_buffer.begin(), receive_buffer.end(), 0);
-    if (uart2.HasData())
-    {
-        const size_t kReadBytes = uart2.Read(receive_buffer, 50ms);
-        std::string message(reinterpret_cast<char *>(receive_buffer.data()), kReadBytes);
-        commands = mission_control.ParseMissionControlData(message);
-    }
-    return commands;
 }

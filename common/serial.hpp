@@ -12,7 +12,7 @@ namespace sjsu::common
             Initialize();
         };
 
-        std::string GetCommands(sjsu::drive::drive_commands commands)
+        std::string GetCommands()
         {
             std::array<uint8_t, 1024 * 2> receive_buffer;
             std::fill(receive_buffer.begin(), receive_buffer.end(), 0);
@@ -23,7 +23,7 @@ namespace sjsu::common
                 std::string message(reinterpret_cast<char *>(receive_buffer.data()), kReadBytes);
                 return message;
             }
-            return "{\"heartbeat_count\":1,\"is_operational\":1,\"wheel_orientation\":1,\"drive_mode\":\"D\",\"speed\":1,\"angle\":1}";
+            // return "{\"heartbeat_count\":1,\"is_operational\":1,\"wheel_orientation\":1,\"drive_mode\":\"D\",\"speed\":1,\"angle\":1}";
         }
 
     private:
