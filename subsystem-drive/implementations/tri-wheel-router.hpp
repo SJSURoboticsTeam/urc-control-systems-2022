@@ -15,14 +15,16 @@ namespace sjsu::drive
         struct leg
         {
             leg(sjsu::RmdX &steer, sjsu::RmdX &drive, sjsu::Gpio &magnet) : steer_motor_(steer), drive_motor_(drive), magnet_(magnet)
-            {}
+            {
+            }
             sjsu::RmdX &steer_motor_;
             sjsu::RmdX &drive_motor_;
             sjsu::Gpio &magnet_;
         };
 
         TriWheelRouter(leg right, leg left, leg back) : left_(left), back_(back), right_(right)
-        {}
+        {
+        }
 
         void Initialize()
         {
@@ -42,16 +44,16 @@ namespace sjsu::drive
 
         tri_wheel_router_arguments SetLegArguments(tri_wheel_router_arguments tri_wheel_arguments)
         {
-            left_.steer_motor_.SetAngle(units::angle::degree_t(tri_wheel_arguments.left.steer.angle - initial_encoder_position_left_),
-                                     units::angular_velocity::revolutions_per_minute_t(tri_wheel_arguments.left.steer.speed));
+            left_.steer_motor_.SetAngle(units::angle::degree_t(tri_wheel_arguments.left.steer.angle + left_wheel_offset),
+                                        units::angular_velocity::revolutions_per_minute_t(tri_wheel_arguments.left.steer.speed));
             left_.drive_motor_.SetSpeed(units::angular_velocity::revolutions_per_minute_t(tri_wheel_arguments.left.hub.speed));
 
-            right_.steer_motor_.SetAngle(units::angle::degree_t(tri_wheel_arguments.right.steer.angle + initial_encoder_position_right_),
-                                     units::angular_velocity::revolutions_per_minute_t(tri_wheel_arguments.right.steer.speed));
+            right_.steer_motor_.SetAngle(units::angle::degree_t(tri_wheel_arguments.right.steer.angle + right_wheel_offset),
+                                         units::angular_velocity::revolutions_per_minute_t(tri_wheel_arguments.right.steer.speed));
             right_.drive_motor_.SetSpeed(units::angular_velocity::revolutions_per_minute_t(tri_wheel_arguments.right.hub.speed));
 
-            back_.steer_motor_.SetAngle(units::angle::degree_t(tri_wheel_arguments.back.steer.angle + initial_encoder_position_back_),
-                                     units::angular_velocity::revolutions_per_minute_t(tri_wheel_arguments.back.steer.speed));
+            back_.steer_motor_.SetAngle(units::angle::degree_t(tri_wheel_arguments.back.steer.angle + back_wheel_offset),
+                                        units::angular_velocity::revolutions_per_minute_t(tri_wheel_arguments.back.steer.speed));
             back_.drive_motor_.SetSpeed(units::angular_velocity::revolutions_per_minute_t(tri_wheel_arguments.back.hub.speed));
 
             tri_wheel_arguments_ = tri_wheel_arguments;
@@ -67,39 +69,39 @@ namespace sjsu::drive
         void HomeLegs()
         {
             int not_homed = 1;
-            float homing_speed = 10;
 
-            while(left_.magnet_.Read() == not_homed && right_.magnet_.Read() == not_homed && back_.magnet_.Read() == not_homed)
+            while (common::RmdEncoder::CalcEncoderPositions(left_.steer_motor_) != 0 && common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_) != 0 && common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_) != 0)
+            {
+                left_.steer_motor_.SetAngle(0_deg, 2_rpm);
+                right_.steer_motor_.SetAngle(0_deg, 2_rpm);
+                back_.steer_motor_.SetAngle(0_deg, 2_rpm);
+            }
+            for (; left_.magnet_.Read() == not_homed && right_.magnet_.Read() == not_homed && back_.magnet_.Read() == not_homed;)
             {
                 sjsu::LogInfo("HomingPins L%d\t R%d\t B%d", left_.magnet_.Read(), right_.magnet_.Read(), back_.magnet_.Read());
-
-                left_.drive_motor_.SetSpeed(units::angular_velocity::revolutions_per_minute_t(0));
-                right_.drive_motor_.SetSpeed(units::angular_velocity::revolutions_per_minute_t(0));
-                back_.drive_motor_.SetSpeed(units::angular_velocity::revolutions_per_minute_t(0));
-
                 if (left_.magnet_.Read() == not_homed)
                 {
-                    left_.drive_motor_.SetSpeed(units::angular_velocity::revolutions_per_minute_t(homing_speed));
+                    left_wheel_offset--;
+                    left_.drive_motor_.SetAngle(units::angle::degree_t(left_wheel_offset), 2_rpm);
                 }
 
-                if(right_.magnet_.Read() == not_homed)
+                if (right_.magnet_.Read() == not_homed)
                 {
-                    right_.drive_motor_.SetSpeed(units::angular_velocity::revolutions_per_minute_t(homing_speed));
+                    right_wheel_offset--;
+                    right_.drive_motor_.SetAngle(units::angle::degree_t(right_wheel_offset), 2_rpm);
                 }
 
-                if(back_.magnet_.Read() == not_homed)
+                if (back_.magnet_.Read() == not_homed)
                 {
-                    back_.drive_motor_.SetSpeed(units::angular_velocity::revolutions_per_minute_t(homing_speed));
+                    back_wheel_offset--;
+                    back_.drive_motor_.SetSpeed(units::angle::degree_t(back_wheel_offset, 2_rpm));
                 }
                 sjsu::Delay(200ms);
             }
-
-            initial_encoder_position_left_  = common::RmdEncoder::CalcEncoderPositions(left_.steer_motor_);
-            initial_encoder_position_back_  = common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_);
-            initial_encoder_position_right_ = common::RmdEncoder::CalcEncoderPositions(back_.steer_motor_);
         }
 
-        motor_feedback GetMotorFeedback(){
+        motor_feedback GetMotorFeedback()
+        {
             motor_feedback motor_speeds;
             motor_speeds.left_steer_speed = left_.steer_motor_.RequestFeedbackFromMotor().GetFeedback().speed;
             motor_speeds.right_steer_speed = right_.steer_motor_.RequestFeedbackFromMotor().GetFeedback().speed;
@@ -108,11 +110,11 @@ namespace sjsu::drive
         }
 
     private:
-    //member variables
+        // member variables
 
-        float initial_encoder_position_left_ = 0;
-        float initial_encoder_position_back_ = 0;
-        float initial_encoder_position_right_ = 0;
+        int left_wheel_offset = 0;
+        int right_wheel_offset = 0;
+        int back_wheel_offset = 0;
 
         leg left_;
         leg back_;
