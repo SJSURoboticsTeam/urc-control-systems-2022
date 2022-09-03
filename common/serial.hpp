@@ -7,7 +7,7 @@ namespace sjsu::common
     class Serial
     {
     public:
-        Serial(sjsu::Uart &uart = sjsu::lpc40xx::GetUart<0>()) : uart_(uart)
+        Serial(sjsu::Uart &uart) : uart_(uart)
         {
             Initialize();
         };
@@ -21,9 +21,11 @@ namespace sjsu::common
             {
                 const size_t kReadBytes = uart_.Read(receive_buffer, 50ms);
                 std::string message(reinterpret_cast<char *>(receive_buffer.data()), kReadBytes);
+                printf("%s\n", message);
                 return message;
             }
-            // return "{\"heartbeat_count\":1,\"is_operational\":1,\"wheel_orientation\":1,\"drive_mode\":\"D\",\"speed\":1,\"angle\":1}";
+            printf("Get commands got nothing!\n");
+            return "";
         }
 
     private:

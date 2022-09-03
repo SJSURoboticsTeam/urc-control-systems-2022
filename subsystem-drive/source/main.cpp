@@ -23,7 +23,7 @@ using namespace sjsu::drive;
 int main()
 {
     // sjsu::common::Esp esp;
-    sjsu::common::Serial serial;
+    sjsu::common::Serial serial(sjsu::lpc40xx::GetUart<0>());
     sjsu::lpc40xx::Can &can = sjsu::lpc40xx::GetCan<1>();
     sjsu::StaticMemoryResource<1024> memory_resource;
     sjsu::CanNetwork can_network(can, &memory_resource);
@@ -68,7 +68,6 @@ int main()
         // std::string endpoint = mission_control.CreateGETRequestParameterWithRoverStatus();
         // std::string response = esp.GetCommands(endpoint);
         std::string response = serial.GetCommands();
-        // commands = HandleWebInteractions(commands);
         printf("{\"heartbeat_count\":%d,\"is_operational\":%d,\"wheel_orientation\":%d,\"drive_mode\":\"%c\",\"speed\":%d,\"angle\":%d}\n", 0, 1, commands.wheel_orientation, commands.mode, commands.speed, commands.angle);
         commands = mission_control.ParseMissionControlData(response);
         commands = rules_engine.ValidateCommands(commands);
