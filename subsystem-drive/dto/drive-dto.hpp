@@ -2,7 +2,10 @@
 
 namespace sjsu::drive
 {
-    // note: postfix commands and arguments can be seperated into different files
+    const char kResponseBodyFormat[] = "{\"heartbeat_count\":%d,\"is_operational\":%d,\"wheel_orientation\":%d,\"drive_mode\":\"%c\",\"speed\":%d,\"angle\":%d}";
+
+    const char kGETRequestFormat[] = "drive?drive_mode=%c&speed=%d&angle=%d&wheel_orientation=%d";
+
     struct drive_commands
     {
         char mode = 'D';

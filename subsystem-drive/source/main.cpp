@@ -6,8 +6,9 @@
 #include "peripherals/lpc40xx/uart.hpp"
 #include "devices/actuators/servo/rmd_x.hpp"
 //#include "../common/esp.hpp"
+#include "../common/serial.hpp"
 
-// #include "../implementations/mission-control-handler.hpp"
+#include "../implementations/mission-control-handler.hpp"
 #include "../implementations/steer-modes.hpp"
 #include "../implementations/tri-wheel-router.hpp"
 #include "../implementations/mode-switcher.hpp"
@@ -19,45 +20,14 @@
 
 using namespace sjsu::drive;
 
-const char response_body_format[] = "{\"heartbeat_count\":%d,\"is_operational\":%d,\"wheel_orientation\":%d,\"drive_mode\":\"%c\",\"speed\":%d,\"angle\":%d}";
-
-drive_commands ParseMissionControlData(std::string &response, drive_commands commands)
-{
-    int actual_arguments = sscanf(
-        response.c_str(), response_body_format,
-        &commands.heartbeat_count, &commands.is_operational, &commands.wheel_orientation, &commands.mode, &commands.speed, &commands.angle);
-    commands.is_operational = 1;
-    return commands;
-}
-
-drive_commands HandleWebInteractions(auto &uart2, std::array<uint8_t, 1024 * 2> &receive_buffer, drive_commands commands) {
-    sjsu::Delay(50ms);
-    printf("{\"heartbeat_count\":%d,\"is_operational\":%d,\"wheel_orientation\":%d,\"drive_mode\":\"%c\",\"speed\":%d,\"angle\":%d}\n", 0, 1, commands.wheel_orientation, commands.mode, commands.speed, commands.angle);
-    std::fill(receive_buffer.begin(), receive_buffer.end(), 0);
-    if (uart2.HasData())
-    {
-        const size_t kReadBytes = uart2.Read(receive_buffer, 50ms);
-        std::string message(reinterpret_cast<char *>(receive_buffer.data()), kReadBytes);
-         commands = ParseMissionControlData(message, commands);
-    }
-    return commands;
-}
-
-
-// drive_commands SerialEnterCommands()
-// {
-//     drive_commands commands;
-//     sjsu::LogInfo("Enter in commands");
-//     scanf("%d,%d,%c", &commands.speed, &commands.angle, &commands.mode);
-//     return commands;
-// }
+auto &uart2 = sjsu::lpc40xx::GetUart<0>();
+std::array<uint8_t, 1024 * 2> receive_buffer;
+MissionControlHandler mission_control;
 
 int main()
 {
-    auto &uart2 = sjsu::lpc40xx::GetUart<0>();
-    uart2.settings.baud_rate = 38400;
-    std::array<uint8_t, 1024 * 2> receive_buffer;
-    //sjsu::common::Esp esp;
+    // sjsu::common::Esp esp;
+    sjsu::common::Serial serial;
     sjsu::lpc40xx::Can &can = sjsu::lpc40xx::GetCan<1>();
     sjsu::StaticMemoryResource<1024> memory_resource;
     sjsu::CanNetwork can_network(can, &memory_resource);
@@ -83,7 +53,6 @@ int main()
 
     TriWheelRouter tri_wheel{right, left, back};
 
-    // MissionControlHandler mission_control;
     drive_commands commands;
     motor_feedback motor_speeds;
     tri_wheel_router_arguments arguments;
@@ -92,23 +61,17 @@ int main()
     ModeSwitch mode_switch;
     CommandLerper lerp;
 
-    uart2.Initialize();
     tri_wheel.Initialize();
     tri_wheel.HomeLegs();
     sjsu::Delay(1s);
-    // sjsu::LogInfo("Starting control loop...");
+
     while (1)
     {
         // //For Mission Control Mode
         // std::string endpoint = mission_control.CreateGETRequestParameterWithRoverStatus();
         // std::string response = esp.GetCommands(endpoint);
-        // commands = mission_control.ParseMissionControlData(response);
-
-        // //For Manual Mode
-        // commands = SerialEnterCommands();
-        // commands.Print();
-        // sjsu::Delay(50ms);
-        commands = HandleWebInteractions(uart2, receive_buffer, commands);
+        std::string response = serial.GetCommands(commands);
+        commands = mission_control.ParseMissionControlData(response);
         commands = rules_engine.ValidateCommands(commands);
         commands = mode_switch.SwitchSteerMode(commands, arguments, motor_speeds);
         commands = lerp.Lerp(commands);
@@ -121,4 +84,19 @@ int main()
     }
 
     return 0;
+}
+
+drive_commands HandleWebInteractions(drive_commands commands)
+{
+    std::fill(receive_buffer.begin(), receive_buffer.end(), 0);
+    sjsu::Delay(50ms);
+    printf("{\"heartbeat_count\":%d,\"is_operational\":%d,\"wheel_orientation\":%d,\"drive_mode\":\"%c\",\"speed\":%d,\"angle\":%d}\n", 0, 1, commands.wheel_orientation, commands.mode, commands.speed, commands.angle);
+    std::fill(receive_buffer.begin(), receive_buffer.end(), 0);
+    if (uart2.HasData())
+    {
+        const size_t kReadBytes = uart2.Read(receive_buffer, 50ms);
+        std::string message(reinterpret_cast<char *>(receive_buffer.data()), kReadBytes);
+        commands = mission_control.ParseMissionControlData(message);
+    }
+    return commands;
 }
