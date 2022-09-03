@@ -25,7 +25,6 @@ namespace sjsu::drive
                 &commands_.mode, &commands_.speed, &commands_.angle);
             return commands_;
         }
-
     private:
         drive_commands commands_;
     };
