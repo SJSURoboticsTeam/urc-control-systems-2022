@@ -44,15 +44,15 @@ namespace sjsu::drive
 
         tri_wheel_router_arguments SetLegArguments(tri_wheel_router_arguments tri_wheel_arguments)
         {
-            left_.steer_motor_.SetAngle(units::angle::degree_t(tri_wheel_arguments.left.steer.angle + left_wheel_offset),
+            left_.steer_motor_.SetAngle(units::angle::degree_t(-tri_wheel_arguments.left.steer.angle + left_wheel_offset),
                                         units::angular_velocity::revolutions_per_minute_t(tri_wheel_arguments.left.steer.speed));
             left_.drive_motor_.SetSpeed(units::angular_velocity::revolutions_per_minute_t(tri_wheel_arguments.left.hub.speed));
 
-            right_.steer_motor_.SetAngle(units::angle::degree_t(tri_wheel_arguments.right.steer.angle + right_wheel_offset),
+            right_.steer_motor_.SetAngle(units::angle::degree_t(-tri_wheel_arguments.right.steer.angle + right_wheel_offset),
                                          units::angular_velocity::revolutions_per_minute_t(tri_wheel_arguments.right.steer.speed));
             right_.drive_motor_.SetSpeed(units::angular_velocity::revolutions_per_minute_t(tri_wheel_arguments.right.hub.speed));
 
-            back_.steer_motor_.SetAngle(units::angle::degree_t(tri_wheel_arguments.back.steer.angle + back_wheel_offset),
+            back_.steer_motor_.SetAngle(units::angle::degree_t(-tri_wheel_arguments.back.steer.angle + back_wheel_offset),
                                         units::angular_velocity::revolutions_per_minute_t(tri_wheel_arguments.back.steer.speed));
             back_.drive_motor_.SetSpeed(units::angular_velocity::revolutions_per_minute_t(tri_wheel_arguments.back.hub.speed));
 
