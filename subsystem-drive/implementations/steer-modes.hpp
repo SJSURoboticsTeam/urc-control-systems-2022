@@ -57,7 +57,7 @@ namespace sjsu::drive
             {
                 steer_arguments.left.hub.speed = -GetInnerWheelHubSpeed(commands.speed, outter_wheel_angle);
                 steer_arguments.right.hub.speed = -GetOutterWheelHubSpeed(commands.speed, outter_wheel_angle);
-                steer_arguments.back.hub.speed = GetBackWheelHubSpeed(commands.speed, outter_wheel_angle);
+                steer_arguments.back.hub.speed = -GetBackWheelHubSpeed(commands.speed, outter_wheel_angle);
             }
             else
             {

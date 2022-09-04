@@ -59,8 +59,11 @@ namespace sjsu::drive
         void HomeLegs()
         {
             initial_encoder_position_left_  = common::RmdEncoder::CalcEncoderPositions(left_.steer_motor_);
-            initial_encoder_position_back_  = common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_);
-            initial_encoder_position_right_ = common::RmdEncoder::CalcEncoderPositions(back_.steer_motor_);
+            initial_encoder_position_right_  = common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_);
+            initial_encoder_position_back_ = common::RmdEncoder::CalcEncoderPositions(back_.steer_motor_);
+            sjsu::LogInfo("%d", initial_encoder_position_left_);
+            sjsu::LogInfo("%d", initial_encoder_position_back_);
+            sjsu::LogInfo("%d", initial_encoder_position_right_);
         }
 
         motor_feedback GetMotorFeedback(){
@@ -74,9 +77,9 @@ namespace sjsu::drive
     private:
     //member variables
 
-        uint8_t initial_encoder_position_left_ = 0;
-        uint8_t initial_encoder_position_back_ = 0;
-        uint8_t initial_encoder_position_right_ = 0;
+        int8_t initial_encoder_position_left_ = 0;
+        int8_t initial_encoder_position_back_ = 0;
+        int8_t initial_encoder_position_right_ = 0;
 
         leg left_;
         leg back_;
