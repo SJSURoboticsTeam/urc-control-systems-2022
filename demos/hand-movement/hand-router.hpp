@@ -21,13 +21,13 @@ namespace sjsu::arm
             return std::chrono::microseconds(angle * (4096 / 360));
         }
 
-        void MoveToAngle(hand_arguments)
+        void MoveToAngle(hand_arguments Hand_Arguments)
         {
-            pca_module_.setPulseWidth(0, AngleToPulseWidth(hand_arguments_.pinky_angle));
-            pca_module_.setPulseWidth(1, AngleToPulseWidth(hand_arguments_.ring_angle));
-            pca_module_.setPulseWidth(2, AngleToPulseWidth(hand_arguments_.middle_angle));
-            pca_module_.setPulseWidth(3, AngleToPulseWidth(hand_arguments_.index_angle));
-            pca_module_.setPulseWidth(4, AngleToPulseWidth(hand_arguments_.thumb_angle));
+            pca_module_.setPulseWidth(0, AngleToPulseWidth(Hand_Arguments.pinky_angle));
+            pca_module_.setPulseWidth(1, AngleToPulseWidth(Hand_Arguments.ring_angle));
+            pca_module_.setPulseWidth(2, AngleToPulseWidth(Hand_Arguments.middle_angle));
+            pca_module_.setPulseWidth(3, AngleToPulseWidth(Hand_Arguments.index_angle));
+            pca_module_.setPulseWidth(4, AngleToPulseWidth(Hand_Arguments.thumb_angle));
         }
 
     private:
