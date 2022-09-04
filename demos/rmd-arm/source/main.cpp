@@ -57,21 +57,35 @@ int main()
         sjsu::LogInfo("Moving motors...");
 
         // elbow_motor.GetFeedback().Print();
-        // elbow_motor.SetAngle(10_deg, 3_rpm);
-        // sjsu::Delay(3000ms);
         // elbow_motor.SetAngle(-10_deg, 3_rpm);
         // sjsu::Delay(3000ms);
         // shoulder_motor.GetFeedback().Print();
-        // shoulder_motor.SetAngle(30_deg, 2_rpm);
-        // sjsu::Delay(3000ms);
-        wrist_motor.GetFeedback().Print();
-        wrist_motor.SetSpeed(15_rpm);
-        wrist_motor2.SetSpeed(8_rpm);
-        sjsu::Delay(3000ms);
-        wrist_motor.GetFeedback().Print();
+        sjsu::LogInfo("Moving shoulder to 30...");
+        shoulder_motor.SetAngle(30_deg, 6_rpm);
+        elbow_motor.SetAngle(-30_deg, 2_rpm);
         wrist_motor.SetSpeed(-15_rpm);
         wrist_motor2.SetSpeed(-8_rpm);
-        sjsu::Delay(3000ms);
+        sjsu::Delay(5000ms);
+        sjsu::LogInfo("Moving shoulder to 90...");
+        shoulder_motor.SetAngle(240_deg, 6_rpm);
+        // elbow_motor.SetAngle(-60_deg, 2_rpm);
+        wrist_motor.SetSpeed(15_rpm);
+        wrist_motor2.SetSpeed(8_rpm);
+        sjsu::Delay(5000ms);
+        sjsu::LogInfo("Moving shoulder to 180...");
+        shoulder_motor.SetAngle(360_deg, 6_rpm);
+        // elbow_motor.SetAngle(-90_deg, 2_rpm);
+        wrist_motor.SetSpeed(25_rpm);
+        wrist_motor2.SetSpeed(12_rpm);
+        sjsu::Delay(5000ms);
+        // wrist_motor.GetFeedback().Print();
+        // wrist_motor.SetSpeed(15_rpm);
+        // wrist_motor2.SetSpeed(8_rpm);
+        // sjsu::Delay(3000ms);
+        // wrist_motor.GetFeedback().Print();
+        // wrist_motor.SetSpeed(-15_rpm);
+        // wrist_motor2.SetSpeed(-8_rpm);
+        // sjsu::Delay(3000ms);
     }
 
     return 0;
