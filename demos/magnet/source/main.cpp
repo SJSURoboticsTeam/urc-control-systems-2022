@@ -7,21 +7,23 @@ int main()
 {
     sjsu::LogInfo("Homing System Starting...");
 
-    auto& left = sjsu::lpc40xx::GetGpio<2, 8>();
-    auto& right = sjsu::lpc40xx::GetGpio<0, 16>();
-    auto& back = sjsu::lpc40xx::GetGpio<1, 31>();
+    auto& left = sjsu::lpc40xx::GetGpio<2, 1>();
+    auto& right = sjsu::lpc40xx::GetGpio<2, 2>();
+    auto& back = sjsu::lpc40xx::GetGpio<2, 0>();
 
-    sjsu::drive::HomingSystem::HomingMagnets magnets(left, right, back);
-    sjsu::drive::HomingSystem magnet_router(magnets);
-    magnet_router.Initialize();
+    left.SetAsInput();
+    right.SetAsInput();
+    back.SetAsInput();
 
-
-
+    left.Initialize();
+    right.Initialize();
+    back.Initialize();
 
     while (true)
     {
-        magnet_router.PrintPins();
-        magnet_router.ReadPins().left_gpio_.Read();
+        sjsu::LogInfo("Left Pin:%d", left.Read());
+        sjsu::LogInfo("Right Pin:%d", right.Read());
+        sjsu::LogInfo("Back Pin:%d", back.Read());
     }
 
     return 0;
