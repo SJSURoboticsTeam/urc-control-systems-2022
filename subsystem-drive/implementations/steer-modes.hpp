@@ -10,9 +10,9 @@ namespace sjsu::drive
     public:
         static constexpr float kBackRightSpinAngle = 120;
         static constexpr float kLeftSpinAngle = 150;
-        static constexpr float kLeftLegDriveOffset = 50;
-        static constexpr float kRightLegDriveOffset = 120;
-        static constexpr float kBackDriveOffset = 90;
+        static constexpr float kLeftLegDriveOffset = 42;
+        static constexpr float kRightLegDriveOffset = 200;
+        static constexpr float kBackDriveOffset = 116;
 
         static tri_wheel_router_arguments DriveSteering(drive_commands commands)
         {

@@ -98,7 +98,7 @@ namespace sjsu::drive
                     back_wheel_offset++;
                     back_.steer_motor_.SetAngle(units::angle::degree_t(back_wheel_offset), 2_rpm);
                 }
-                sjsu::LogInfo("b: %d\nr: %d\nl: %d", back_wheel_offset, right_wheel_offset, left_wheel_offset);
+                sjsu::LogInfo("b = %d\tr = %d\tl = %d", back_wheel_offset, right_wheel_offset, left_wheel_offset);
                 angle_verification = GetMotorFeedback();
                 while(angle_verification.left_steer_speed != 0_rpm || angle_verification.right_steer_speed != 0_rpm || angle_verification.back_steer_speed != 0_rpm)
                 {
