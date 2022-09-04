@@ -63,6 +63,7 @@ int main()
     auto &uart2 = sjsu::lpc40xx::GetUart<0>();
     uart2.settings.baud_rate = 38400;
     std::array<uint8_t, 1024 * 2> receive_buffer;
+
     //sjsu::common::Esp esp;
     sjsu::lpc40xx::Can &can = sjsu::lpc40xx::GetCan<1>();
     sjsu::StaticMemoryResource<1024> memory_resource;
@@ -108,6 +109,7 @@ int main()
     tri_wheel.HomeLegs();
     sjsu::Delay(1s);
     // sjsu::LogInfo("Starting control loop...");
+
     while (1)
     {
         // //For Mission Control Mode
@@ -119,7 +121,7 @@ int main()
         // commands = SerialEnterCommands();
         // commands.Print();
         // sjsu::Delay(50ms);
-        commands = HandleWebInteractions(uart2, receive_buffer, commands);
+        // commands = HandleWebInteractions(uart2, receive_buffer, commands);
         commands = rules_engine.ValidateCommands(commands);
         commands = mode_switch.SwitchSteerMode(commands, arguments, motor_speeds);
         commands = lerp.Lerp(commands);

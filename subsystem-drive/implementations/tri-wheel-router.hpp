@@ -119,10 +119,9 @@ namespace sjsu::drive
 
     private:
         // member variables
-
-        int left_wheel_offset = 0;
-        int right_wheel_offset = 0;
-        int back_wheel_offset = 0;
+        int8_t left_wheel_offset = 0;
+        int8_t right_wheel_offset = 0;
+        int8_t  back_wheel_offset = 0;
 
         leg left_;
         leg back_;
