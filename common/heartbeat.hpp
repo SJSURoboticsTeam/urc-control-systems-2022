@@ -22,7 +22,7 @@ namespace sjsu::common
       if (heartbeat_count_ != heartbeat_count)
       {
         // TODO: Should throw error ?
-        sjsu::LogWarning("Heartbeat out of sync - resetting!");
+        //sjsu::LogWarning("Heartbeat out of sync - resetting!");
         ResetHeartbeatCount();
         return false;
       }

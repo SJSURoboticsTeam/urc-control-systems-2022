@@ -12,9 +12,9 @@ namespace sjsu::drive
 
         void print()
         {
-            sjsu::LogInfo("left steer speed: %d", static_cast<int>(left_steer_speed));
-            sjsu::LogInfo("right steer speed: %d", static_cast<int>(right_steer_speed));
-            sjsu::LogInfo("back steer speed: %d", static_cast<int>(back_steer_speed));
+            // sjsu::LogInfo("left steer speed: %d", static_cast<int>(left_steer_speed));
+            // sjsu::LogInfo("right steer speed: %d", static_cast<int>(right_steer_speed));
+            // sjsu::LogInfo("back steer speed: %d", static_cast<int>(back_steer_speed));
         }
     };
 
