@@ -83,9 +83,9 @@ int main()
     back_steer_motor.settings.gear_ratio = 6;
     back_hub_motor.settings.gear_ratio = 15;
 
-    auto& left_magnet = sjsu::lpc40xx::GetGpio<2, 8>();
-    auto& right_magnet = sjsu::lpc40xx::GetGpio<0, 16>();
-    auto& back_magnet = sjsu::lpc40xx::GetGpio<1, 31>();
+    auto& left_magnet = sjsu::lpc40xx::GetGpio<2, 1>();
+    auto& right_magnet = sjsu::lpc40xx::GetGpio<2, 2>();
+    auto& back_magnet = sjsu::lpc40xx::GetGpio<2, 0>();
 
     TriWheelRouter::leg right(right_steer_motor, right_hub_motor, right_magnet);
     TriWheelRouter::leg left(left_steer_motor, left_hub_motor, left_magnet);
