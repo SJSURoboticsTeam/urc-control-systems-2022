@@ -104,6 +104,7 @@ int main()
 
     uart2.Initialize();
     tri_wheel.Initialize();
+    sjsu::Delay(1s);
     tri_wheel.HomeLegs();
     sjsu::Delay(1s);
     // sjsu::LogInfo("Starting control loop...");
