@@ -5,39 +5,28 @@
 
 namespace sjsu::drive
 {
-    const char response_body_format[] =
-        "\r\n\r\n{\n"
-        "  \"heartbeat_count\": %d,\n"
-        "  \"is_operational\": %d,\n"
-        "  \"wheel_shift\": %d,\n"
-        "  \"drive_mode\": \"%c\",\n"
-        "  \"speed\": %d,\n"
-        "  \"angle\": %d\n"
-        "}";
     class MissionControlHandler
     {
     public:
-        drive_commands ParseMissionControlData(std::string &response)
+        std::string CreateGETRequestParameterWithRoverStatus(drive_commands commands)
         {
-            int actual_arguments = sscanf(
-                response.c_str(), response_body_format,
-                &commands.heartbeat_count, &commands.is_operational, &commands.wheel_orientation,
-                &commands.mode,&commands.speed, &commands.angle);
-
-            return commands;
-        }
-        std::string CreateGETRequestParameterWithRoverStatus()
-        {
+            char request_parameter[300];
             snprintf(
-                request_parameter, 300,
-                "drive?drive_mode=%c&speed=%d&angle=%d&wheel_orientation=%d",
+                request_parameter, 300, kGETRequestFormat,
                 commands.mode, commands.speed, commands.angle, commands.wheel_orientation);
             return request_parameter;
         }
 
+        drive_commands ParseMissionControlData(std::string &response)
+        {
+            int actual_arguments = sscanf(
+                response.c_str(), kResponseBodyFormat,
+                &commands_.heartbeat_count, &commands_.is_operational, &commands_.wheel_orientation,
+                &commands_.mode, &commands_.speed, &commands_.angle);
+            return commands_;
+        }
     private:
-        drive_commands commands;
-        char request_parameter[300];
+        drive_commands commands_;
     };
 
 }
