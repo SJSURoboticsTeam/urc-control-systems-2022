@@ -5,6 +5,7 @@
 #include "peripherals/lpc40xx/can.hpp"
 #include "peripherals/lpc40xx/uart.hpp"
 #include "devices/actuators/servo/rmd_x.hpp"
+#include "peripherals/lpc40xx/gpio.hpp"
 //#include "../common/esp.hpp"
 #include "../common/serial.hpp"
 
@@ -43,9 +44,13 @@ int main()
     back_steer_motor.settings.gear_ratio = 6;
     back_hub_motor.settings.gear_ratio = 15;
 
-    TriWheelRouter::leg right(right_steer_motor, right_hub_motor);
-    TriWheelRouter::leg left(left_steer_motor, left_hub_motor);
-    TriWheelRouter::leg back(back_steer_motor, back_hub_motor);
+    auto& left_magnet = sjsu::lpc40xx::GetGpio<2, 1>();
+    auto& right_magnet = sjsu::lpc40xx::GetGpio<2, 2>();
+    auto& back_magnet = sjsu::lpc40xx::GetGpio<2, 0>();
+
+    TriWheelRouter::leg right(right_steer_motor, right_hub_motor, right_magnet);
+    TriWheelRouter::leg left(left_steer_motor, left_hub_motor, left_magnet);
+    TriWheelRouter::leg back(back_steer_motor, back_hub_motor, back_magnet);
 
     TriWheelRouter tri_wheel{right, left, back};
 

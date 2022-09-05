@@ -14,9 +14,9 @@ namespace sjsu::common
     private:
         static float MapEncoderDataToDegrees(float encoder_data)
         {
-            sjsu::LogInfo("%d", encoder_data);
+            // sjsu::LogInfo("%d", encoder_data);
             float temp = (60.0 * encoder_data / 256.0);
-            sjsu::LogInfo("%d", temp);
+            // sjsu::LogInfo("%d", temp);
             return temp;
         }
 
