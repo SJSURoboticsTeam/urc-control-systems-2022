@@ -80,7 +80,7 @@ namespace sjsu::drive
             }
             while(left_.magnet_.Read() == not_homed || right_.magnet_.Read() == not_homed || back_.magnet_.Read() == not_homed)
             {
-                //sjsu::LogInfo("HomingPins L = %d\t R = %d\t B = %d", left_.magnet_.Read(), right_.magnet_.Read(), back_.magnet_.Read());
+                sjsu::LogInfo("HomingPins L = %d\t R = %d\t B = %d", left_.magnet_.Read(), right_.magnet_.Read(), back_.magnet_.Read());
                 if (left_.magnet_.Read() == not_homed)
                 {
                     left_wheel_offset++;
@@ -98,7 +98,7 @@ namespace sjsu::drive
                     back_wheel_offset++;
                     back_.steer_motor_.SetAngle(units::angle::degree_t(back_wheel_offset), 2_rpm);
                 }
-                //sjsu::LogInfo("b = %d\tr = %d\tl = %d", back_wheel_offset, right_wheel_offset, left_wheel_offset);
+                sjsu::LogInfo("b = %d\tr = %d\tl = %d", back_wheel_offset, right_wheel_offset, left_wheel_offset);
                 angle_verification = GetMotorFeedback();
                 while(angle_verification.left_steer_speed != 0_rpm || angle_verification.right_steer_speed != 0_rpm || angle_verification.back_steer_speed != 0_rpm)
                 {
@@ -119,10 +119,9 @@ namespace sjsu::drive
 
     private:
         // member variables
-
         int8_t left_wheel_offset = 0;
         int8_t right_wheel_offset = 0;
-        int8_t back_wheel_offset = 0;
+        int8_t  back_wheel_offset = 0;
 
         leg left_;
         leg back_;

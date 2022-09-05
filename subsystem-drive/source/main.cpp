@@ -67,7 +67,8 @@ int main()
     sjsu::Delay(1s);
     tri_wheel.HomeLegs();
     sjsu::Delay(1s);
-    // sjsu::LogInfo("Update1")
+    // sjsu::LogInfo("Starting control loop...");
+
     while (1)
     {
         // For ESP
