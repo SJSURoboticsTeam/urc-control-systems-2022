@@ -84,26 +84,25 @@ namespace sjsu::drive
                 if (left_.magnet_.Read() == not_homed)
                 {
                     left_wheel_offset++;
-                    left_.steer_motor_.SetAngle(units::angle::degree_t(left_wheel_offset), 2_rpm);
+                    left_.steer_motor_.SetAngle(units::angle::degree_t(left_wheel_offset));
                 }
 
                 if (right_.magnet_.Read() == not_homed)
                 {
                     right_wheel_offset++;
-                    right_.steer_motor_.SetAngle(units::angle::degree_t(right_wheel_offset), 2_rpm);
+                    right_.steer_motor_.SetAngle(units::angle::degree_t(right_wheel_offset));
                 }
 
                 if (back_.magnet_.Read() == not_homed)
                 {
                     back_wheel_offset++;
-                    back_.steer_motor_.SetAngle(units::angle::degree_t(back_wheel_offset), 2_rpm);
+                    back_.steer_motor_.SetAngle(units::angle::degree_t(back_wheel_offset));
                 }
                 sjsu::LogInfo("b = %d\tr = %d\tl = %d", back_wheel_offset, right_wheel_offset, left_wheel_offset);
                 angle_verification = GetMotorFeedback();
                 while(angle_verification.left_steer_speed != 0_rpm || angle_verification.right_steer_speed != 0_rpm || angle_verification.back_steer_speed != 0_rpm)
                 {
                     angle_verification = GetMotorFeedback();
-                    sjsu::Delay(1ms);
                 }
             }
         }
