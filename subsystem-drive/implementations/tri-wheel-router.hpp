@@ -74,9 +74,9 @@ namespace sjsu::drive
 
             while (common::RmdEncoder::CalcEncoderPositions(left_.steer_motor_) != 0 && common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_) != 0 && common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_) != 0)
             {
-                left_.steer_motor_.SetAngle(0_deg, 2_rpm);
-                right_.steer_motor_.SetAngle(0_deg, 2_rpm);
-                back_.steer_motor_.SetAngle(0_deg, 2_rpm);
+                left_.steer_motor_.SetAngle(0_deg);
+                right_.steer_motor_.SetAngle(0_deg);
+                back_.steer_motor_.SetAngle(0_deg);
             }
             while(left_.magnet_.Read() == not_homed || right_.magnet_.Read() == not_homed || back_.magnet_.Read() == not_homed)
             {
@@ -119,9 +119,9 @@ namespace sjsu::drive
 
     private:
         // member variables
-        int8_t left_wheel_offset = 0;
-        int8_t right_wheel_offset = 0;
-        int8_t  back_wheel_offset = 0;
+        int16_t left_wheel_offset = 0;
+        int16_t right_wheel_offset = 0;
+        int16_t  back_wheel_offset = 0;
 
         leg left_;
         leg back_;

@@ -21,13 +21,13 @@ namespace sjsu::drive
 
             if (commands.angle > 0)
             {
-                outter_wheel_angle = commands.angle;
+                outter_wheel_angle = -commands.angle;
                 steer_arguments.right.steer.angle = outter_wheel_angle;
                 steer_arguments.left.steer.angle = CalculateAckermann(outter_wheel_angle);
             }
             else if (commands.angle < 0)
             {
-                outter_wheel_angle = commands.angle;
+                outter_wheel_angle = -commands.angle;
                 steer_arguments.left.steer.angle = outter_wheel_angle;
                 steer_arguments.right.steer.angle = CalculateAckermann(outter_wheel_angle);
             }
@@ -39,11 +39,12 @@ namespace sjsu::drive
             }
             else
             {
+                outter_wheel_angle = -outter_wheel_angle;
                 back_wheel_angle =
                     float(-.0474 + -1.93 * abs(int(outter_wheel_angle)) +
                           -.0813 * pow(abs(int(outter_wheel_angle)), 2) +
                           .000555 * pow(abs(int(outter_wheel_angle)), 3));
-                (outter_wheel_angle > 0) ? back_wheel_angle : -back_wheel_angle;
+                back_wheel_angle = (outter_wheel_angle > 0) ? -back_wheel_angle : back_wheel_angle;
                 steer_arguments.back.steer.angle = back_wheel_angle;
             }
 
@@ -58,7 +59,7 @@ namespace sjsu::drive
             {
                 steer_arguments.left.hub.speed = -GetInnerWheelHubSpeed(commands.speed, outter_wheel_angle);
                 steer_arguments.right.hub.speed = -GetOutterWheelHubSpeed(commands.speed, outter_wheel_angle);
-                steer_arguments.back.hub.speed = -GetBackWheelHubSpeed(commands.speed, outter_wheel_angle);
+                steer_arguments.back.hub.speed = GetBackWheelHubSpeed(commands.speed, outter_wheel_angle);
             }
             else
             {

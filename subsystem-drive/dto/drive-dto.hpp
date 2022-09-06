@@ -48,5 +48,4 @@ namespace sjsu::drive
             // printf("\tBack\t%.1f\t%.1f\n", static_cast<double>(back.hub.speed), static_cast<double>(back.steer.angle));
         }
     };
-
 } // sjsu::drive

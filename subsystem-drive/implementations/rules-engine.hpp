@@ -2,6 +2,7 @@
 #include "../dto/drive-dto.hpp"
 #include "../common/heartbeat.hpp"
 
+
 namespace sjsu::drive
 {
     class RulesEngine
@@ -10,6 +11,19 @@ namespace sjsu::drive
         static constexpr int kMaxSpeed = 100;
         drive_commands ValidateCommands(drive_commands commands)
         {
+
+             if(commands.mode == 'D')
+            {
+                if(commands.angle > 20 || commands.angle < -20)
+                {
+                    commands.angle = 0;
+                }
+                {
+                    commands.angle = std::clamp(commands.angle, -20, 20);
+                    //sjsu::LogInfo("Angle:", commands.angle);
+                    //sjsu::LogInfo("Specified angle is too large... clamping angle");
+                }
+            }
             // if(!heartbeat_.IsSyncedWithMissionControl(commands.heartbeat_count))
             // {
             //     commands.speed = 0;
@@ -32,6 +46,7 @@ namespace sjsu::drive
                 commands.speed = std::clamp(commands.speed, -kMaxSpeed, kMaxSpeed);
                 //sjsu::LogInfo("Specified speed is too fast... clamping speed");
             }
+
             heartbeat_.IncrementHeartbeatCount();
             return commands;
         }
