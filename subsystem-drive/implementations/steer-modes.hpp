@@ -22,14 +22,14 @@ namespace sjsu::drive
             if (commands.angle > 0)
             {
                 outter_wheel_angle = -commands.angle;
-                steer_arguments.right.steer.angle = outter_wheel_angle;
-                steer_arguments.left.steer.angle = CalculateAckermann(outter_wheel_angle);
+                steer_arguments.left.steer.angle = outter_wheel_angle;
+                steer_arguments.right.steer.angle = CalculateAckermann(outter_wheel_angle);
             }
             else if (commands.angle < 0)
             {
                 outter_wheel_angle = -commands.angle;
-                steer_arguments.left.steer.angle = outter_wheel_angle;
-                steer_arguments.right.steer.angle = CalculateAckermann(outter_wheel_angle);
+                steer_arguments.right.steer.angle = outter_wheel_angle;
+                steer_arguments.left.steer.angle = CalculateAckermann(outter_wheel_angle);
             }
             if (commands.angle == 0)
             {
