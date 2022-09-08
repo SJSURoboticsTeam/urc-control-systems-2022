@@ -1,4 +1,7 @@
 #pragma once
+
+#include <cstdint>
+
 #include "utility/math/units.hpp"
 
 namespace sjsu::arm
@@ -29,8 +32,6 @@ namespace sjsu::arm
         int thumb_angle = 0;
         int finger_angle = 0;
         char mode = 'A';
-        int is_operational = 0;
-        int heartbeat_count = 0;
     };
 
     struct arm_arguments

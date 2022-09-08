@@ -17,13 +17,14 @@ namespace sjsu::common
 
         std::string GetCommands()
         {
-            std::fill(receive_buffer_.begin(), receive_buffer_.end(), 0);
-            sjsu::Delay(50ms);
+            std::array<uint8_t, 1024 * 2> raw_response;
+            std::fill(raw_response.begin(), raw_response.end(), 0);
+            // sjsu::Delay(50ms); // ONLY USE W/ JOYSTICK WEB SERIAL
             if (uart_.HasData())
             {
-                const size_t kReadBytes = uart_.Read(receive_buffer_, 50ms);
-                std::string message(reinterpret_cast<char *>(receive_buffer_.data()), kReadBytes);
-                return message;
+                const size_t response_size = uart_.Read(raw_response, 50ms);
+                std::string str_response(reinterpret_cast<char *>(raw_response.data()), response_size);
+                return str_response;
             }
             return "";
         }
@@ -34,7 +35,6 @@ namespace sjsu::common
             uart_.settings.baud_rate = 38400;
             uart_.Initialize();
         }
-        std::array<uint8_t, 1024 * 2> receive_buffer_;
         sjsu::Uart &uart_;
     };
 } // namespace sjsu::common

@@ -19,9 +19,9 @@ namespace sjsu::common
             std::fill(raw_response.begin(), raw_response.end(), 0);
             if (uart_.HasData())
             {
-                const size_t read_back = uart_.Read(raw_response, 50ms);
-                std::string str_response(reinterpret_cast<char *>(raw_response.data()), read_back);
-                printf("Size: %d\n", read_back);
+                const size_t response_size = uart_.Read(raw_response, 50ms);
+                std::string str_response(reinterpret_cast<char *>(raw_response.data()), response_size);
+                printf("Size: %d\n", response_size);
                 return str_response;
             }
             return "";

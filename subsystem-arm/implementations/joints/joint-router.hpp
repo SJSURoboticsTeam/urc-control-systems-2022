@@ -11,8 +11,7 @@ namespace sjsu::arm
     class JointRouter
     {
     public:
-        JointRouter(sjsu::RmdX &rotunda, sjsu::RmdX &shoulder, sjsu::RmdX &elbow, sjsu::RmdX &left_wrist, sjsu::RmdX &right_wrist) : 
-        rotunda_(rotunda), shoulder_(shoulder), elbow_(elbow), left_wrist_(left_wrist), right_wrist_(right_wrist) {}
+        JointRouter(sjsu::RmdX &rotunda, sjsu::RmdX &shoulder, sjsu::RmdX &elbow, sjsu::RmdX &left_wrist, sjsu::RmdX &right_wrist) : rotunda_(rotunda), shoulder_(shoulder), elbow_(elbow), left_wrist_(left_wrist), right_wrist_(right_wrist) {}
 
         void Initialize()
         {
@@ -35,15 +34,15 @@ namespace sjsu::arm
 
         void HomeArm()
         {
-            initial_rotunda_position_  = common::RmdEncoder::CalcEncoderPositions(rotunda_);
-            initial_shoulder_position_  = common::RmdEncoder::CalcEncoderPositions(shoulder_);
-            initial_elbow_position_  = common::RmdEncoder::CalcEncoderPositions(elbow_);
-            initial_left_wrist_position_  = common::RmdEncoder::CalcEncoderPositions(left_wrist_);
-            initial_right_wrist_position_  = common::RmdEncoder::CalcEncoderPositions(right_wrist_);
+            sjsu::LogInfo("Homing arm...");
+            initial_rotunda_position_ = common::RmdEncoder::CalcEncoderPositions(rotunda_);
+            initial_shoulder_position_ = common::RmdEncoder::CalcEncoderPositions(shoulder_);
+            initial_elbow_position_ = common::RmdEncoder::CalcEncoderPositions(elbow_);
+            initial_left_wrist_position_ = common::RmdEncoder::CalcEncoderPositions(left_wrist_);
+            initial_right_wrist_position_ = common::RmdEncoder::CalcEncoderPositions(right_wrist_);
         }
 
     private:
-
         float initial_rotunda_position_ = 0;
         float initial_shoulder_position_ = 0;
         float initial_elbow_position_ = 0;

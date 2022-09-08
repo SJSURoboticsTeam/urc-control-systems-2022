@@ -11,9 +11,9 @@ namespace sjsu::drive
     public:
         std::string CreateGETRequestParameterWithRoverStatus(drive_commands commands)
         {
-            char request_parameter[300];
+            char request_parameter[200];
             snprintf(
-                request_parameter, 300, kGETRequestFormat,
+                request_parameter, 200, kGETRequestFormat,
                 commands.mode, commands.speed, commands.angle, commands.wheel_orientation);
             return request_parameter;
         }
