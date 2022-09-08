@@ -127,7 +127,7 @@ namespace sjsu::drive
             drive_commands commands{};
             tri_wheel_router_arguments arguments;
             arguments = SteerModes::SpinSteering(commands);
-            CHECK_EQ(arguments.back.steer.angle, SteerModes::kRightLegDriveOffset);
+            CHECK_EQ(arguments.back.steer.angle, SteerModes::kBackDriveOffset);
             CHECK_EQ(arguments.left.steer.angle, -SteerModes::kLeftLegDriveOffset);
             CHECK_EQ(arguments.right.steer.angle, -SteerModes::kRightLegDriveOffset);
             CHECK_EQ(arguments.back.hub.speed, 0);
@@ -154,7 +154,7 @@ namespace sjsu::drive
             CHECK_EQ(arguments.left.steer.speed, 5);
             commands.angle = -90;
             arguments = SteerModes::SpinSteering(commands);
-            CHECK_EQ(arguments.back.steer.angle, SteerModes::kRightLegDriveOffset);
+            CHECK_EQ(arguments.back.steer.angle, SteerModes::kBackDriveOffset);
             CHECK_EQ(arguments.left.steer.angle, -SteerModes::kLeftLegDriveOffset);
             CHECK_EQ(arguments.right.steer.angle, -SteerModes::kRightLegDriveOffset);
             CHECK_EQ(arguments.back.hub.speed, 0);
@@ -171,7 +171,7 @@ namespace sjsu::drive
             commands.speed = speed;
             tri_wheel_router_arguments arguments;
             arguments = SteerModes::SpinSteering(commands);
-            CHECK_EQ(arguments.back.steer.angle, SteerModes::kRightLegDriveOffset);
+            CHECK_EQ(arguments.back.steer.angle, SteerModes::kBackDriveOffset);
             CHECK_EQ(arguments.left.steer.angle, SteerModes::kLeftLegDriveOffset + 200);
             CHECK_EQ(arguments.right.steer.angle, 0);
             CHECK(arguments.back.hub.speed == speed);
@@ -188,7 +188,7 @@ namespace sjsu::drive
             commands.speed = speed;
             tri_wheel_router_arguments arguments;
             arguments = SteerModes::SpinSteering(commands);
-            CHECK_EQ(arguments.back.steer.angle, SteerModes::kRightLegDriveOffset);
+            CHECK_EQ(arguments.back.steer.angle, SteerModes::kBackDriveOffset);
             CHECK_EQ(arguments.left.steer.angle, -SteerModes::kLeftLegDriveOffset);
             CHECK_EQ(arguments.right.steer.angle, -SteerModes::kRightLegDriveOffset);
             CHECK(arguments.back.hub.speed == speed);

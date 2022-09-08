@@ -14,12 +14,10 @@ namespace sjsu::drive
 
              if(commands.mode == 'D')
             {
-                if(commands.angle > clamp_angle || commands.angle < -clamp_angle)
-                {
                     commands.angle = std::clamp(commands.angle, -clamp_angle, clamp_angle);
                     //sjsu::LogInfo("Angle:", commands.angle);
                     //sjsu::LogInfo("Specified angle is too large... clamping angle");
-                }
+
             }
             // if(!heartbeat_.IsSyncedWithMissionControl(commands.heartbeat_count))
             // {
@@ -50,6 +48,6 @@ namespace sjsu::drive
 
     private:
         sjsu::common::Heartbeat heartbeat_;
-        const int clamp_angle = 12;
+        static constexpr clamp_angle = 12;
     };
 }
