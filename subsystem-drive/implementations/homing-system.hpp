@@ -1,8 +1,9 @@
 #pragma once
-#include "../dto/drive-dto.hpp"
+#include "peripherals/lpc40xx/gpio.hpp"
 #include "utility/math/units.hpp"
 #include "utility/log.hpp"
-#include "peripherals/lpc40xx/gpio.hpp"
+
+#include "../dto/drive-dto.hpp"
 
 namespace sjsu::drive
 {
@@ -12,19 +13,17 @@ namespace sjsu::drive
         struct HomingMagnets
         {
             HomingMagnets(sjsu::Gpio &left_gpio, sjsu::Gpio &right_gpio, sjsu::Gpio &back_gpio)
-           : left_gpio_(left_gpio), right_gpio_(right_gpio), back_gpio_(back_gpio)
-           {
-
-           }
-            //todo change pins and ports
-            sjsu::Gpio &left_gpio_ ;
+                : left_gpio_(left_gpio), right_gpio_(right_gpio), back_gpio_(back_gpio)
+            {
+            }
+            // todo change pins and ports
+            sjsu::Gpio &left_gpio_;
             sjsu::Gpio &right_gpio_;
-            sjsu::Gpio &back_gpio_ ;
+            sjsu::Gpio &back_gpio_;
         };
 
         HomingSystem(HomingMagnets magnets) : magnets_(magnets)
         {
-
         }
         void Initialize()
         {
@@ -35,7 +34,7 @@ namespace sjsu::drive
             SetInput();
         }
 
-        //temp returns status
+        // temp returns status
         HomingMagnets ReadPins()
         {
             return magnets_;
@@ -49,19 +48,13 @@ namespace sjsu::drive
         }
 
         HomingMagnets magnets_;
-    
-    private :
 
+    private:
         void SetInput()
         {
             magnets_.left_gpio_.SetAsInput();
             magnets_.right_gpio_.SetAsInput();
             magnets_.back_gpio_.SetAsInput();
         }
-
-
-
-
-
     };
 }
