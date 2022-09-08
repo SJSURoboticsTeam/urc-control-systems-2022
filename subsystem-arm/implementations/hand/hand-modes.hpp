@@ -45,8 +45,8 @@ namespace sjsu::arm
         }
 
     private:
-        static constexpr int min_angle_ = 30;
-        static constexpr int neutral_angle_ = 90;
-        static constexpr int max_angle_ = 180;
+        static constexpr int min_angle_ = 88;
+        // static constexpr int neutral_angle_ = 90;
+        static constexpr int max_angle_ = 175;
     };
 }
