@@ -1,4 +1,5 @@
 #pragma once
+
 #include "../dto/drive-dto.hpp"
 #include "../implementations/steer-modes.hpp"
 
@@ -17,7 +18,7 @@ namespace sjsu::drive
             case 'S':
                 return SteerModes::SpinSteering(commands);
                 break;
-            case 'T': 
+            case 'T':
                 return SteerModes::TranslateSteering(commands);
                 break;
             default:

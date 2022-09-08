@@ -4,21 +4,21 @@ namespace sjsu::drive
 {
     const char kResponseBodyFormat[] = "{\"heartbeat_count\":%d,\"is_operational\":%d,\"wheel_orientation\":%d,\"drive_mode\":\"%c\",\"speed\":%d,\"angle\":%d}\n";
 
-    const char kGETRequestFormat[] = "drive?drive_mode=%c&speed=%d&angle=%d&wheel_orientation=%d";
+    const char kGETRequestFormat[] = "drive?heartbeat_count=%d&is_operational=%d&wheel_orientation=%d&drive_mode=%c&speed=%d&angle=%d";
 
     struct drive_commands
     {
         char mode = 'D';
-        int speed = 0; // -100 <--> 100
-        int angle = 0; // -180 <--> 180
+        int speed = 0;
+        int angle = 0;
         int wheel_orientation = 0;
         int is_operational = 0;
         int heartbeat_count = 0;
 
         void Print()
         {
-            printf("Cmds\tMode\tSpeed\tAngle\tOri\n");
-            printf("\t%c\t%d\t%d\t%d\n", mode, speed, angle, wheel_orientation);
+            printf(kResponseBodyFormat,
+                   heartbeat_count, is_operational, wheel_orientation, mode, speed, angle);
         }
     };
 

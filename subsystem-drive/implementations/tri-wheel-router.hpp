@@ -1,11 +1,12 @@
 #pragma once
-#include "../library/devices/actuators/servo/rmd_x.hpp"
+#include "utility/log.hpp"
+#include "utility/math/units.hpp"
+#include "peripherals/lpc40xx/gpio.hpp"
+
+#include "../common/rmd-encoder.hpp"
 #include "../subsystem-drive/dto/drive-dto.hpp"
 #include "../subsystem-drive/dto/motor-feedback-dto.hpp"
-#include "utility/math/units.hpp"
-#include "utility/log.hpp"
-#include "../common/rmd-encoder.hpp"
-#include "peripherals/lpc40xx/gpio.hpp"
+#include "../library/devices/actuators/servo/rmd_x.hpp"
 
 namespace sjsu::drive
 {
@@ -78,7 +79,7 @@ namespace sjsu::drive
                 right_.steer_motor_.SetAngle(0_deg);
                 back_.steer_motor_.SetAngle(0_deg);
             }
-            while(left_.magnet_.Read() == not_homed || right_.magnet_.Read() == not_homed || back_.magnet_.Read() == not_homed)
+            while (left_.magnet_.Read() == not_homed || right_.magnet_.Read() == not_homed || back_.magnet_.Read() == not_homed)
             {
                 sjsu::LogInfo("HomingPins L = %d\t R = %d\t B = %d", left_.magnet_.Read(), right_.magnet_.Read(), back_.magnet_.Read());
                 if (left_.magnet_.Read() == not_homed)
@@ -100,7 +101,7 @@ namespace sjsu::drive
                 }
                 sjsu::LogInfo("b = %d\tr = %d\tl = %d", back_wheel_offset, right_wheel_offset, left_wheel_offset);
                 angle_verification = GetMotorFeedback();
-                while(angle_verification.left_steer_speed != 0_rpm || angle_verification.right_steer_speed != 0_rpm || angle_verification.back_steer_speed != 0_rpm)
+                while (angle_verification.left_steer_speed != 0_rpm || angle_verification.right_steer_speed != 0_rpm || angle_verification.back_steer_speed != 0_rpm)
                 {
                     angle_verification = GetMotorFeedback();
                 }
@@ -120,7 +121,7 @@ namespace sjsu::drive
         // member variables
         int16_t left_wheel_offset = 0;
         int16_t right_wheel_offset = 0;
-        int16_t  back_wheel_offset = 0;
+        int16_t back_wheel_offset = 0;
 
         leg left_;
         leg back_;

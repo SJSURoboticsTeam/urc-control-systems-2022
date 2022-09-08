@@ -1,13 +1,11 @@
 #include <cstdio>
-#include <iterator>
 
 #include "utility/log.hpp"
+#include "utility/time/time.hpp"
 #include "peripherals/lpc40xx/can.hpp"
 #include "peripherals/lpc40xx/uart.hpp"
 #include "devices/actuators/servo/rmd_x.hpp"
 #include "peripherals/lpc40xx/gpio.hpp"
-//#include "../common/esp.hpp"
-#include "../common/serial.hpp"
 
 #include "../implementations/mission-control-handler.hpp"
 #include "../implementations/steer-modes.hpp"
@@ -17,7 +15,8 @@
 #include "../implementations/command-lerper.hpp"
 #include "../implementations/rules-engine.hpp"
 #include "../dto/motor-feedback-dto.hpp"
-#include "utility/time/time.hpp"
+#include "../common/serial.hpp"
+//#include "../common/esp.hpp"
 
 using namespace sjsu::drive;
 
@@ -29,7 +28,7 @@ int main()
     sjsu::StaticMemoryResource<1024> memory_resource;
     sjsu::CanNetwork can_network(can, &memory_resource);
 
-    // RMD addresses 0x141 - 0x148 are available
+    // RMD addressesGetSerialCommands 0x141 - 0x148 are available
     sjsu::RmdX left_steer_motor(can_network, 0x141);
     sjsu::RmdX left_hub_motor(can_network, 0x142);
     sjsu::RmdX right_steer_motor(can_network, 0x143);
@@ -44,9 +43,9 @@ int main()
     back_steer_motor.settings.gear_ratio = 6;
     back_hub_motor.settings.gear_ratio = 15;
 
-    auto& left_magnet = sjsu::lpc40xx::GetGpio<2, 1>();
-    auto& right_magnet = sjsu::lpc40xx::GetGpio<2, 2>();
-    auto& back_magnet = sjsu::lpc40xx::GetGpio<2, 0>();
+    auto &left_magnet = sjsu::lpc40xx::GetGpio<2, 1>();
+    auto &right_magnet = sjsu::lpc40xx::GetGpio<2, 2>();
+    auto &back_magnet = sjsu::lpc40xx::GetGpio<2, 0>();
 
     TriWheelRouter::leg right(right_steer_motor, right_hub_motor, right_magnet);
     TriWheelRouter::leg left(left_steer_motor, left_hub_motor, left_magnet);
@@ -76,8 +75,7 @@ int main()
         // std::string response = esp.GetCommands(endpoint);
 
         // For Serial
-        std::string response = serial.GetSerialCommands(); // potential issue: doesn't recieve full json response
-
+        std::string response = serial.GetCommands();
         commands = mission_control.ParseMissionControlData(response);
         commands = rules_engine.ValidateCommands(commands);
         commands = mode_switch.SwitchSteerMode(commands, arguments, motor_speeds);
@@ -90,7 +88,6 @@ int main()
         // arguments.Print();
         // motor_speeds.print();
         motor_speeds = tri_wheel.GetMotorFeedback();
-
     }
 
     return 0;
