@@ -1,4 +1,7 @@
 #pragma once
+
+#include <cstdint>
+
 #include "utility/math/units.hpp"
 
 namespace sjsu::arm
