@@ -50,6 +50,7 @@ int main()
 
   joint_router.Initialize();
   joint_router.HomeArm();
+  hand_router.Initialize();
 
   sjsu::Delay(1s);
   sjsu::LogInfo("Starting the rover arm system...");
@@ -67,5 +68,6 @@ int main()
       arguments.Print();
     }
     joint_router.SetArmArguments(arguments);
+    hand_router.MoveToAngle(arguments.hand_args); // Finger range: 88 - 175
   }
 }
