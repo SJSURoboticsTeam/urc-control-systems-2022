@@ -3,6 +3,9 @@
 
 namespace sjsu::arm
 {
+
+    const char kJointBodyFormat[] = "{\"heartbeat_count\":%d,\"is_operational\":%d,\"arm_speed\":%d,\"rotunda_angle\":%d,\"shoulder_angle\":%d,\"elbow_angle\":%d,\"wrist_pitch_angle\":%d,\"wrist_yaw_angle\":%d,\"joint_mode\":\"%c\",\"pinky_angle\":%d,\"ring_angle\":%d,\"middle_angle\":%d,\"index_angle\":%d,\"thumb_angle\":%d,\"hand_mode\":\"%c\"}\n";
+
     struct joint_arguments
     {
         int speed = 0;
@@ -29,10 +32,7 @@ namespace sjsu::arm
         int middle_angle = 0;
         int index_angle = 0;
         int thumb_angle = 0;
-        int finger_angle = 0;
         char mode = 'A';
-        int is_operational = 0;
-        int heartbeat_count = 0;
     };
 
     struct arm_arguments

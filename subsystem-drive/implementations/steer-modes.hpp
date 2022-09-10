@@ -1,17 +1,17 @@
 #pragma once
-#include "../dto/drive-dto.hpp"
 #include <cmath>
 #include <algorithm>
+
+#include "../dto/drive-dto.hpp"
 
 namespace sjsu::drive
 {
     class SteerModes
     {
     public:
-        static constexpr float kBackRightSpinAngle = 120;
-        static constexpr float kLeftSpinAngle = 150;
-        static constexpr float kLeftLegDriveOffset = 50;
-        static constexpr float kRightLegDriveOffset = -80;
+        static constexpr float kLeftLegDriveOffset = 42;
+        static constexpr float kRightLegDriveOffset = 200;
+        static constexpr float kBackDriveOffset = 116;
 
         static tri_wheel_router_arguments DriveSteering(drive_commands commands)
         {
@@ -20,15 +20,15 @@ namespace sjsu::drive
 
             if (commands.angle > 0)
             {
-                outter_wheel_angle = commands.angle;
-                steer_arguments.right.steer.angle = outter_wheel_angle;
-                steer_arguments.left.steer.angle = CalculateAckermann(outter_wheel_angle);
+                outter_wheel_angle = -commands.angle;
+                steer_arguments.left.steer.angle = outter_wheel_angle;
+                steer_arguments.right.steer.angle = CalculateAckermann(outter_wheel_angle);
             }
             else if (commands.angle < 0)
             {
-                outter_wheel_angle = commands.angle;
-                steer_arguments.left.steer.angle = outter_wheel_angle;
-                steer_arguments.right.steer.angle = CalculateAckermann(outter_wheel_angle);
+                outter_wheel_angle = -commands.angle;
+                steer_arguments.right.steer.angle = outter_wheel_angle;
+                steer_arguments.left.steer.angle = CalculateAckermann(outter_wheel_angle);
             }
             if (commands.angle == 0)
             {
@@ -38,11 +38,12 @@ namespace sjsu::drive
             }
             else
             {
+                outter_wheel_angle = -outter_wheel_angle;
                 back_wheel_angle =
                     float(-.0474 + -1.93 * abs(int(outter_wheel_angle)) +
                           -.0813 * pow(abs(int(outter_wheel_angle)), 2) +
                           .000555 * pow(abs(int(outter_wheel_angle)), 3));
-                (outter_wheel_angle > 0) ? back_wheel_angle : -back_wheel_angle;
+                back_wheel_angle = (outter_wheel_angle > 0) ? -back_wheel_angle : back_wheel_angle;
                 steer_arguments.back.steer.angle = back_wheel_angle;
             }
 
@@ -69,19 +70,19 @@ namespace sjsu::drive
             // adding the offsets to put it into the base drive mode
             steer_arguments.left.steer.angle += kLeftLegDriveOffset;
             steer_arguments.right.steer.angle += kRightLegDriveOffset;
-
+            steer_arguments.back.steer.angle += kBackDriveOffset;
             return steer_arguments;
         }
 
         static tri_wheel_router_arguments SpinSteering(drive_commands commands)
         {
             tri_wheel_router_arguments temp;
-            temp.back.steer.angle = kBackRightSpinAngle;
-            temp.left.steer.angle = -kLeftSpinAngle;
-            temp.right.steer.angle = -kBackRightSpinAngle;
+            temp.back.steer.angle = 0;
+            temp.left.steer.angle = 242;
+            temp.right.steer.angle = 0;
             temp.back.hub.speed = commands.speed;
             temp.left.hub.speed = -commands.speed;
-            temp.right.hub.speed = -commands.speed;
+            temp.right.hub.speed = commands.speed;
 
             return temp;
         }

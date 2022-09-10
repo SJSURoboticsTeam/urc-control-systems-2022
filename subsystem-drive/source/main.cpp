@@ -1,7 +1,11 @@
+#include <cstdio>
+
 #include "utility/log.hpp"
+#include "utility/time/time.hpp"
 #include "peripherals/lpc40xx/can.hpp"
+#include "peripherals/lpc40xx/uart.hpp"
 #include "devices/actuators/servo/rmd_x.hpp"
-#include "../common/esp.hpp"
+#include "peripherals/lpc40xx/gpio.hpp"
 
 #include "../implementations/mission-control-handler.hpp"
 #include "../implementations/steer-modes.hpp"
@@ -11,25 +15,20 @@
 #include "../implementations/command-lerper.hpp"
 #include "../implementations/rules-engine.hpp"
 #include "../dto/motor-feedback-dto.hpp"
+#include "../common/serial.hpp"
+//#include "../common/esp.hpp"
 
 using namespace sjsu::drive;
 
-drive_commands SerialEnterCommands()
-{
-    drive_commands commands;
-    sjsu::LogInfo("Enter in commands");
-    scanf("%d,%d,%c", &commands.speed, &commands.angle, &commands.mode);
-    return commands;
-}
-
 int main()
 {
-    //sjsu::common::Esp esp;
+    // sjsu::common::Esp esp;
+    sjsu::common::Serial serial(sjsu::lpc40xx::GetUart<0>());
     sjsu::lpc40xx::Can &can = sjsu::lpc40xx::GetCan<1>();
     sjsu::StaticMemoryResource<1024> memory_resource;
     sjsu::CanNetwork can_network(can, &memory_resource);
 
-    // RMD addresses 0x141 - 0x148 are available
+    // RMD addressesGetSerialCommands 0x141 - 0x148 are available
     sjsu::RmdX left_steer_motor(can_network, 0x141);
     sjsu::RmdX left_hub_motor(can_network, 0x142);
     sjsu::RmdX right_steer_motor(can_network, 0x143);
@@ -44,9 +43,13 @@ int main()
     back_steer_motor.settings.gear_ratio = 6;
     back_hub_motor.settings.gear_ratio = 15;
 
-    TriWheelRouter::leg right(right_steer_motor, right_hub_motor);
-    TriWheelRouter::leg left(left_steer_motor, left_hub_motor);
-    TriWheelRouter::leg back(back_steer_motor, back_hub_motor);
+    auto &left_magnet = sjsu::lpc40xx::GetGpio<2, 1>();
+    auto &right_magnet = sjsu::lpc40xx::GetGpio<2, 2>();
+    auto &back_magnet = sjsu::lpc40xx::GetGpio<2, 0>();
+
+    TriWheelRouter::leg right(right_steer_motor, right_hub_motor, right_magnet);
+    TriWheelRouter::leg left(left_steer_motor, left_hub_motor, left_magnet);
+    TriWheelRouter::leg back(back_steer_motor, back_hub_motor, back_magnet);
 
     TriWheelRouter tri_wheel{right, left, back};
 
@@ -60,29 +63,30 @@ int main()
     CommandLerper lerp;
 
     tri_wheel.Initialize();
-    sjsu::Delay(500ms);
+    sjsu::Delay(1s);
     tri_wheel.HomeLegs();
-    sjsu::Delay(500ms);
-    sjsu::LogInfo("Starting control loop...");
+    sjsu::Delay(1s);
+    // sjsu::LogInfo("Starting control loop...");
+
     while (1)
     {
-        // //For Mission Control Mode
-        // std::string endpoint = mission_control.CreateGETRequestParameterWithRoverStatus();
+        // For ESP
+        // std::string endpoint = mission_control.CreateGETRequestParameterWithRoverStatus(commands);
         // std::string response = esp.GetCommands(endpoint);
-        // commands = mission_control.ParseMissionControlData(response);
 
-        // //For Manual Mode
-        // commands = SerialEnterCommands();
-        // commands.Print();
-        // sjsu::Delay(50ms);
+        // For Serial
+        std::string response = serial.GetCommands();
+        commands = mission_control.ParseMissionControlData(response);
         commands = rules_engine.ValidateCommands(commands);
         commands = mode_switch.SwitchSteerMode(commands, arguments, motor_speeds);
         commands = lerp.Lerp(commands);
+        printf(kResponseBodyFormat,
+               commands.heartbeat_count, commands.is_operational, commands.wheel_orientation, commands.mode, commands.speed, commands.angle);
         arguments = ModeSelect::SelectMode(commands);
         arguments = tri_wheel.SetLegArguments(arguments);
 
-        arguments.Print();
-        motor_speeds.print();
+        // arguments.Print();
+        // motor_speeds.print();
         motor_speeds = tri_wheel.GetMotorFeedback();
     }
 

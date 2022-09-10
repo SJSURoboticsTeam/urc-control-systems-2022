@@ -1,4 +1,5 @@
 #pragma once
+
 #include "../dto/drive-dto.hpp"
 
 namespace sjsu::drive
@@ -16,8 +17,8 @@ namespace sjsu::drive
         }
 
     private:
-        const double kSpeedLerp = .1;
-        const double kAngleLerp = .20;
+        const double kSpeedLerp = .4;
+        const double kAngleLerp = .6;
         drive_commands last_lerped_command_{}; // don't touch mode or wheel orientation logic
     };
 }

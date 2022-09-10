@@ -1,6 +1,9 @@
+#pragma once
+
+#include "utility/log.hpp"
 #include "devices/sensors/battery/max17043.hpp"
 #include "peripherals/hardware_counter.hpp"
-#include "utility/log.hpp"
+
 namespace sjsu::common
 {
 
@@ -29,7 +32,8 @@ namespace sjsu::common
     }
 
     bool IsBatteryLow()
-    {}
+    {
+    }
 
   private:
     const float kFullBatteryVoltage = 4.2;

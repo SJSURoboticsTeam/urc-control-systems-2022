@@ -1,18 +1,29 @@
 #include <cstdint>
 #include "utility/log.hpp"
 #include "peripherals/lpc40xx/gpio.hpp"
+#include "../../../subsystem-drive/implementations/homing-system.hpp"
 
 int main()
 {
-    sjsu::LogInfo("Magnet Tester Starting...");
+    sjsu::LogInfo("Homing System Starting...");
 
-    sjsu::Gpio &magnet = sjsu::lpc40xx::GetGpio<1, 19>();
+    auto& left = sjsu::lpc40xx::GetGpio<2, 1>();
+    auto& right = sjsu::lpc40xx::GetGpio<2, 2>();
+    auto& back = sjsu::lpc40xx::GetGpio<2, 0>();
 
-    magnet.Initialize();
-    magnet.SetAsInput();
+    left.SetAsInput();
+    right.SetAsInput();
+    back.SetAsInput();
 
-    while (true){
-        sjsu::LogInfo("Magnet is currently %d", magnet.Read());
+    left.Initialize();
+    right.Initialize();
+    back.Initialize();
+
+    while (true)
+    {
+        sjsu::LogInfo("Left Pin:%d", left.Read());
+        sjsu::LogInfo("Right Pin:%d", right.Read());
+        sjsu::LogInfo("Back Pin:%d", back.Read());
     }
 
     return 0;
