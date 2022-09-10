@@ -4,43 +4,34 @@
 
 namespace sjsu::arm
 {
-
-    const char response_body_format[] = "";
-    //this parses both hand and joints data
     class MissionControlHandler
     {
     public:
-        // TODO
-        arm_arguments ParseMissionControlData(std::string &response)
+        std::string CreateGETRequestParameterWithRoverStatus(arm_arguments arm)
         {
-            int actual_arguments = sscanf(
-                response.c_str(), response_body_format,
-                &arguments.joint_args.rotunda_angle, &arguments.joint_args.shoulder_angle, &arguments.joint_args.elbow_angle,
-                &arguments.joint_args.wrist_pitch_angle, &arguments.joint_args.wrist_yaw_angle, &arguments.joint_args.mode);
-                return arguments;
-        }
-        std::string CreateGETRequestParameterWithRoverStatus(arm_accelerometer_feedback mpus, motors_feedback motors, hand_arguments hand, arm_arguments arm)
-        {
+            char request_parameter[350];
             snprintf(
-                request_parameter, 600,
-                "?heartbeat_count=%d&is_operational=%d&arm_mode=%c&hand_mode=%c&rotunda_speed=%d"
-                "&shoulder_speed=%d&elbow_speed=%d&wrist_speed=%d&battery=0&rotunda_angle=%d&shoulder_angle=%d&elbow_angle=%d&wrist_"
-                "roll=%d&wrist_pitch=%d&pinky_angle=%d&ring_angle=%d&middle_angle=%d&pointer_angle=%d&thumb_angle=%d"
-                "&rountda_accel_x=%d&rountda_accel_y=%d&rountda_accel_z=%d&shoulder_accel_x=%d&shoulder_accel_y=%d&shoulder_accel_z=%d"
-                "&elbow_accel_x=%d&elbow_accel_y=%d&elbow_accel_z=%d&wrist_accel_x=%d&wrist_accel_y=%d&wrist_accel_z=%d",
-                arm.joint_args.heartbeat_count, arm.joint_args.is_operational, arm.hand_args.mode, hand.mode,
-                static_cast<int>(motors.rotunda_speed), static_cast<int>(motors.shoulder_speed), static_cast<int>(motors.elbow_speed), static_cast<int>(motors.wrist_speed),
-                arm.joint_args.rotunda_angle, arm.joint_args.shoulder_angle, arm.joint_args.elbow_angle, arm.joint_args.wrist_yaw_angle, arm.joint_args.wrist_pitch_angle,
-                hand.pinky_angle, hand.ring_angle, hand.middle_angle, hand.index_angle, hand.thumb_angle,
-                mpus.rotunda.x, mpus.rotunda.y, mpus.rotunda.z,
-                mpus.shoulder.x, mpus.shoulder.y, mpus.shoulder.z,
-                mpus.elbow.x, mpus.elbow.y, mpus.elbow.z,
-                mpus.wrist.x, mpus.wrist.y, mpus.wrist.z);
+                request_parameter, 350, kGETRequestFormat,
+                arm.joint_args.heartbeat_count, arm.joint_args.is_operational, arm.joint_args.speed,
+                arm.joint_args.mode, arm.joint_args.rotunda_angle, arm.joint_args.shoulder_angle,
+                arm.joint_args.elbow_angle, arm.joint_args.wrist_pitch_angle, arm.joint_args.wrist_yaw_angle,
+                arm.hand_args.mode, arm.hand_args.pinky_angle, arm.hand_args.ring_angle,
+                arm.hand_args.middle_angle, arm.hand_args.index_angle, arm.hand_args.thumb_angle);
             return request_parameter;
         }
 
+        arm_arguments ParseMissionControlData(std::string &response)
+        {
+            int actual_arguments = sscanf(response.c_str(), kResponseBodyFormat,
+                                          &arguments_.joint_args.heartbeat_count, &arguments_.joint_args.is_operational, &arguments_.joint_args.speed,
+                                          &arguments_.joint_args.mode, &arguments_.joint_args.rotunda_angle, &arguments_.joint_args.shoulder_angle,
+                                          &arguments_.joint_args.elbow_angle, &arguments_.joint_args.wrist_pitch_angle, &arguments_.joint_args.wrist_yaw_angle,
+                                          &arguments_.hand_args.mode, &arguments_.hand_args.pinky_angle, &arguments_.hand_args.ring_angle,
+                                          &arguments_.hand_args.middle_angle, &arguments_.hand_args.index_angle, &arguments_.hand_args.thumb_angle);
+            return arguments_;
+        }
+
     private:
-        arm_arguments arguments;
-        char request_parameter[504];
+        arm_arguments arguments_;
     };
 }

@@ -13,17 +13,6 @@ namespace sjsu::arm
 
         hand_arguments ValidateCommands(hand_arguments commands)
         {
-            if (!heartbeat_.IsSyncedWithMissionControl(commands.heartbeat_count))
-            {
-                sjsu::LogWarning("Hand was unsynced, holding previous state!");
-                return previous_commands;
-            }
-            if (!commands.is_operational)
-            {
-                sjsu::LogWarning("Hand is not operational... holding previous state!");
-                return previous_commands;
-            }
-            
             if (commands.thumb_angle > kMaxFingerAngle || commands.thumb_angle < kMinFingerAngle)
             {
                 sjsu::LogWarning("Thumb angle is out of bounds... clamping to limit");

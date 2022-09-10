@@ -3,8 +3,6 @@
 #include "utility/log.hpp"
 #include "peripherals/lpc40xx/uart.hpp"
 
-#include "../subsystem-drive/dto/drive-dto.hpp"
-
 namespace sjsu::common
 {
     class Serial
@@ -19,11 +17,11 @@ namespace sjsu::common
         {
             std::array<uint8_t, 1024 * 2> raw_response;
             std::fill(raw_response.begin(), raw_response.end(), 0);
-            // sjsu::Delay(50ms); // ONLY USE W/ JOYSTICK WEB SERIAL
             if (uart_.HasData())
             {
                 const size_t response_size = uart_.Read(raw_response, 50ms);
                 std::string str_response(reinterpret_cast<char *>(raw_response.data()), response_size);
+                printf("Size: %d\n", response_size);
                 return str_response;
             }
             return "";

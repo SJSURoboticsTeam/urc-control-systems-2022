@@ -4,19 +4,25 @@
 #include "peripherals/lpc17xx/pwm.hpp"
 #include "devices/actuators/servo/rmd_x.hpp"
 #include "../library/devices/sensors/movement/accelerometer/mpu6050.hpp"
-#include "dto/arm-dto.hpp"
+
 #include "../implementations/joints/mpu-router.hpp"
 #include "../implementations/joints/joint-router.hpp"
+#include "../implementations/hand/hand-router.hpp"
 #include "../implementations/mission-control-handler.hpp"
+#include "../implementations/joints/rules-engine.hpp"
+#include "../implementations/hand/rules-engine.hpp"
+#include "../common/serial.hpp"
+//#include "../common/esp.hpp"
+#include "dto/arm-dto.hpp"
 
-
-
-
+using namespace sjsu::arm;
 
 int main()
 {
-  sjsu::LogInfo("Starting the rover arm system...");
-  sjsu::lpc40xx::Can & can = sjsu::lpc40xx::GetCan<2>();
+  // sjsu::common::Esp esp;
+  sjsu::common::Serial serial(sjsu::lpc40xx::GetUart<0>());
+  // sjsu::Pca9685 pca9685(sjsu::lpc40xx::GetI2c<2>(), 0x40);
+  sjsu::lpc40xx::Can &can = sjsu::lpc40xx::GetCan<1>();
   sjsu::StaticMemoryResource<1024> memory_resource;
   sjsu::CanNetwork can_network(can, &memory_resource);
 
@@ -27,37 +33,41 @@ int main()
   sjsu::RmdX left_wrist_motor(can_network, 0x144);
   sjsu::RmdX right_wrist_motor(can_network, 0x145);
 
-  rotunda_motor.settings.gear_ratio     = 8;
-  shoulder_motor.settings.gear_ratio    = 8*65/16;  //gear ratio of motor times gear ratio of shoulder
-  elbow_motor.settings.gear_ratio       = 8*5/2;    //gear ratio of motor times gear ratio of elbow
-  left_wrist_motor.settings.gear_ratio  = 8;
+  // TODO: Verify gear ratios
+  rotunda_motor.settings.gear_ratio = 8;
+  shoulder_motor.settings.gear_ratio = 8 * 65 / 16;
+  elbow_motor.settings.gear_ratio = 8 * 5 / 2;
+  left_wrist_motor.settings.gear_ratio = 8;
   right_wrist_motor.settings.gear_ratio = 8;
 
-  sjsu::arm::JointRouter arm(rotunda_motor, shoulder_motor, elbow_motor, left_wrist_motor, right_wrist_motor);
-  sjsu::arm::MissionControlHandler mc_handler;
+  JointRouter joint_router(rotunda_motor, shoulder_motor, elbow_motor, left_wrist_motor, right_wrist_motor);
+  // HandRouter hand_router(pca9685);
+  // TODO: MpuRouter mpu_router();
+  MissionControlHandler mission_control;
+  JointsRulesEngine joints_rules_engine;
+  HandRulesEngine hand_rules_engine;
+  arm_arguments arguments;
 
-  sjsu::arm::arm_arguments arm_arguments;
+  joint_router.Initialize();
+  joint_router.HomeArm();
+  // hand_router.Initialize();
 
-  arm.Initialize();
-  sjsu::LogInfo("Testing arm now");
-  int i;
-  arm.HomeArm();
-  while (true)
+  sjsu::Delay(1s);
+  sjsu::LogInfo("Starting the rover arm system...");
+
+  while (1)
   {
-    // arm_arguments = mc_handler(arm_arguments);
-    for(i = 0; i < 25; i++){
-    arm.SetArmArguments({0, i, 0, 0, 0});
-    sjsu::Delay(500ms);
-    for(i; i > 0; i--){
-    arm.SetArmArguments({0, i, 0, 0, 0});
-    sjsu::Delay(500ms);
+    std::string response = serial.GetCommands();
+    if (response != "")
+    {
+      printf("Received:\n%s\n", response.c_str());
+      printf("Parsed:\n");
+      arguments = mission_control.ParseMissionControlData(response);
+      arguments = joints_rules_engine.ValidateCommands(arguments);
+      // arguments = hand_rules_engine.ValidateCommands(arguments); // TODO: Needs rework
+      arguments.Print();
     }
-    // sjsu::arm::arm_arguments arguments{5, 0, 20, 0, 0};
-    // arm.SetArmArguments(arguments);
-    // sjsu::Delay(3s);
-    // sjsu::arm::arm_arguments arguments2{25, -10, 0, 0, 0};
-    // arm.SetArmArguments(arguments);
-    // sjsu::Delay(3s);
-  }
+    joint_router.SetArmArguments(arguments);
+    // hand_router.MoveToAngle(arguments.hand_args); // Finger range: 88 - 175
   }
 }
