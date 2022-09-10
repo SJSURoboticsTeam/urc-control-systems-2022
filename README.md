@@ -6,9 +6,13 @@ Contains the control systems logic for the SJSU Robotics' 3-Wheeled Mars Rover
 ## Naming Conventions
 **Files** - *descriptor*-*descriptor2(optional)*
 examples: hand-modes.hpp, hand-router.hpp, command-lerper.hpp
+  
+  
 **Variables** - *descriptor*_*descriptor2(optional)*
 examples: rotunda_mpu, arm_argument, left_wrist
-**Functions** - CamelCase 
+
+  
+**Functions** - CamelCase
 examples: sjsu::LogInfo, arm.Initialize(), sjsu::arm::JointRouter()
 
 ## How to clone and create branch for submitting a pull request (PR).
