@@ -1,6 +1,8 @@
 #include "peripherals/lpc40xx/i2c.hpp"
-#include "../hand-router.hpp"
-#include "../arm-dto.hpp"
+#include "pca9685.hpp"
+#include "arm-dto.hpp"
+#include "hand-router.hpp"
+#include "mode-select.hpp"
 
 std::chrono::microseconds AngleToPulseWidth(int angle)
 {
@@ -20,9 +22,10 @@ int main()
     sjsu::arm::HandRouter hand_router(pca9685);
     sjsu::arm::hand_arguments Hand_Arguments;
 
+    using namespace sjsu::arm;
     while (1)
     {
-        //open hand
+        // open hand
         Hand_Arguments.thumb_angle = min_angle;
         Hand_Arguments.index_angle = min_angle;
         Hand_Arguments.middle_angle = min_angle;
@@ -33,24 +36,65 @@ int main()
                       Hand_Arguments.index_angle, Hand_Arguments.middle_angle,
                       Hand_Arguments.ring_angle, Hand_Arguments.pinky_angle);
 
-        sjsu::LogInfo("Open Hand");
+        // sjsu::LogInfo("Open Hand");
+        // hand_router.MoveToAngle(Hand_Arguments);
+        // sjsu::Delay(5s);
+
+        // // close hand
+        // Hand_Arguments.thumb_angle = max_angle;
+        // Hand_Arguments.index_angle = max_angle;
+        // Hand_Arguments.middle_angle = max_angle;
+        // Hand_Arguments.ring_angle = max_angle;
+        // Hand_Arguments.pinky_angle = max_angle;
+
+        // sjsu::LogInfo("Finger Close angles: %d, %d, %d, %d, %d", Hand_Arguments.thumb_angle,
+        //               Hand_Arguments.index_angle, Hand_Arguments.middle_angle,
+        //               Hand_Arguments.ring_angle, Hand_Arguments.pinky_angle);
+
+        // sjsu::LogInfo("Closed Hand");
+        // hand_router.MoveToAngle(Hand_Arguments);
+        // sjsu::Delay(5s);
+
+        Hand_Arguments.mode = 'C';
+        sjsu::LogInfo("Closed Hand Mode");
+        Hand_Arguments = ModeSelect::SelectMode(Hand_Arguments);
+        hand_router.MoveToAngle(Hand_Arguments);
+        sjsu::Delay(5s);
+        Hand_Arguments.mode = 'O';
+        sjsu::LogInfo("Open Hand Mode");
+        Hand_Arguments = ModeSelect::SelectMode(Hand_Arguments);
+        hand_router.MoveToAngle(Hand_Arguments);
+        sjsu::Delay(5s);
+        Hand_Arguments.mode = 'C';
+        sjsu::LogInfo("Closed Hand Mode");
+        Hand_Arguments = ModeSelect::SelectMode(Hand_Arguments);
+        hand_router.MoveToAngle(Hand_Arguments);
+        sjsu::Delay(5s);
+        Hand_Arguments.mode = 'I';
+        Hand_Arguments.thumb_angle = 88;
+        Hand_Arguments.index_angle = 95;
+        Hand_Arguments.middle_angle = 105;
+        Hand_Arguments.ring_angle = 120;
+        Hand_Arguments.pinky_angle = 150;
+        sjsu::LogInfo("Individual Hand Mode");
+        Hand_Arguments = ModeSelect::SelectMode(Hand_Arguments);
+        hand_router.MoveToAngle(Hand_Arguments);
+        sjsu::Delay(5s);
+        Hand_Arguments.mode = 'C';
+        sjsu::LogInfo("Closed Hand Mode");
+        Hand_Arguments = ModeSelect::SelectMode(Hand_Arguments);
+        hand_router.MoveToAngle(Hand_Arguments);
+        sjsu::Delay(5s);
+        Hand_Arguments.mode = 'S';
+        Hand_Arguments.index_angle = 100;
+        sjsu::LogInfo("Simultaneous Hand Mode");
+        Hand_Arguments = ModeSelect::SelectMode(Hand_Arguments);
         hand_router.MoveToAngle(Hand_Arguments);
         sjsu::Delay(5s);
 
-        //close hand
-        Hand_Arguments.thumb_angle = max_angle;
-        Hand_Arguments.index_angle = max_angle;
-        Hand_Arguments.middle_angle = max_angle;
-        Hand_Arguments.ring_angle = max_angle;
-        Hand_Arguments.pinky_angle = max_angle;
-
-        sjsu::LogInfo("Finger Close angles: %d, %d, %d, %d, %d", Hand_Arguments.thumb_angle,
-                      Hand_Arguments.index_angle, Hand_Arguments.middle_angle,
-                      Hand_Arguments.ring_angle, Hand_Arguments.pinky_angle);
-
-        sjsu::LogInfo("Closed Hand");
-        hand_router.MoveToAngle(Hand_Arguments);
-        sjsu::Delay(5s);
+        // Hand_Arguments.mode = 'C';
+        // sjsu::LogInfo("Open Hand Mode");
+        // Hand_Arguments = hand_router.SelectMode(Hand_Arguments);
     }
     return 0;
 }
