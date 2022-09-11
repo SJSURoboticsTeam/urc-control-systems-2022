@@ -72,18 +72,18 @@ namespace sjsu::drive
             int not_homed = 1;
 
             motor_feedback angle_verification;
-            sjsu::LogInfo("%d", static_cast<int>(common::RmdEncoder::CalcEncoderPositions(left_.steer_motor_)));
-            sjsu::LogInfo("%d", static_cast<int>(common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_)));
-            sjsu::LogInfo("%d", static_cast<int>(common::RmdEncoder::CalcEncoderPositions(back_.steer_motor_)));
             while (common::RmdEncoder::CalcEncoderPositions(left_.steer_motor_) != 0 && common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_) != 0 && common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_) != 0)
             {
-                if(left_.magnet_.Read() == not_homed) {
+                if (left_.magnet_.Read() == not_homed)
+                {
                     left_.steer_motor_.SetAngle(0_deg, 2_rpm);
                 }
-                if(right_.magnet_.Read() == not_homed) {
+                if (right_.magnet_.Read() == not_homed)
+                {
                     right_.steer_motor_.SetAngle(0_deg, 2_rpm);
                 }
-                if(back_.magnet_.Read() == not_homed) {
+                if (back_.magnet_.Read() == not_homed)
+                {
                     back_.steer_motor_.SetAngle(0_deg, 2_rpm);
                 }
             }
