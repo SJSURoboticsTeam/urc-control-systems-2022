@@ -8,8 +8,8 @@ namespace sjsu::arm
     class HandRulesEngine
     {
     public:
-        static constexpr int kMaxFingerAngle = 180;
-        static constexpr int kMinFingerAngle = 0;
+        static constexpr int kMaxFingerAngle = 175;
+        static constexpr int kMinFingerAngle = 88;
 
         hand_arguments ValidateCommands(hand_arguments commands)
         {

@@ -73,7 +73,7 @@ namespace sjsu::drive
 
             motor_feedback angle_verification;
 
-            while (common::RmdEncoder::CalcEncoderPositions(left_.steer_motor_) != 0 && common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_) != 0 && common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_) != 0)
+            while (common::RmdEncoder::CalcEncoderPositions(left_.steer_motor_) != 0 && common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_) != 0 && common::RmdEncoder::CalcEncoderPositions(back_.steer_motor_) != 0)
             {
                 left_.steer_motor_.SetAngle(0_deg);
                 right_.steer_motor_.SetAngle(0_deg);

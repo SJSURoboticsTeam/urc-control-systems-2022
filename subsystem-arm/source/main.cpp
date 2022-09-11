@@ -8,9 +8,12 @@
 #include "../implementations/joints/mpu-router.hpp"
 #include "../implementations/joints/joint-router.hpp"
 #include "../implementations/hand/hand-router.hpp"
+#include "../implementations/hand/mode-select.hpp"
 #include "../implementations/mission-control-handler.hpp"
 #include "../implementations/joints/rules-engine.hpp"
+#include "../implementations/joints/mode-select.hpp"
 #include "../implementations/hand/rules-engine.hpp"
+#include "../implementations/pca9685.hpp"
 #include "../common/serial.hpp"
 //#include "../common/esp.hpp"
 #include "dto/arm-dto.hpp"
@@ -21,7 +24,7 @@ int main()
 {
   // sjsu::common::Esp esp;
   sjsu::common::Serial serial(sjsu::lpc40xx::GetUart<0>());
-  // sjsu::Pca9685 pca9685(sjsu::lpc40xx::GetI2c<2>(), 0x40);
+  sjsu::Pca9685 pca9685(sjsu::lpc40xx::GetI2c<2>(), 0x40);
   sjsu::lpc40xx::Can &can = sjsu::lpc40xx::GetCan<1>();
   sjsu::StaticMemoryResource<1024> memory_resource;
   sjsu::CanNetwork can_network(can, &memory_resource);
@@ -41,7 +44,7 @@ int main()
   right_wrist_motor.settings.gear_ratio = 8;
 
   JointRouter joint_router(rotunda_motor, shoulder_motor, elbow_motor, left_wrist_motor, right_wrist_motor);
-  // HandRouter hand_router(pca9685);
+  HandRouter hand_router(pca9685);
   // TODO: MpuRouter mpu_router();
   MissionControlHandler mission_control;
   JointsRulesEngine joints_rules_engine;
@@ -50,7 +53,7 @@ int main()
 
   joint_router.Initialize();
   joint_router.HomeArm();
-  // hand_router.Initialize();
+  hand_router.Initialize();
 
   sjsu::Delay(1s);
   sjsu::LogInfo("Starting the rover arm system...");
@@ -63,11 +66,11 @@ int main()
       printf("Received:\n%s\n", response.c_str());
       printf("Parsed:\n");
       arguments = mission_control.ParseMissionControlData(response);
-      arguments = joints_rules_engine.ValidateCommands(arguments);
-      // arguments = hand_rules_engine.ValidateCommands(arguments); // TODO: Needs rework
       arguments.Print();
+      arguments = joints_rules_engine.ValidateCommands(arguments);
+      arguments.hand_args = HandModeSelect::SelectMode(arguments.hand_args);
     }
     joint_router.SetArmArguments(arguments);
-    // hand_router.MoveToAngle(arguments.hand_args); // Finger range: 88 - 175
+    hand_router.MoveToAngle(arguments.hand_args);
   }
 }
