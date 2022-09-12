@@ -75,9 +75,18 @@ namespace sjsu::drive
 
             while (common::RmdEncoder::CalcEncoderPositions(left_.steer_motor_) != 0 && common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_) != 0 && common::RmdEncoder::CalcEncoderPositions(back_.steer_motor_) != 0)
             {
-                left_.steer_motor_.SetAngle(0_deg);
-                right_.steer_motor_.SetAngle(0_deg);
-                back_.steer_motor_.SetAngle(0_deg);
+                if (left_.magnet_.Read() == not_homed)
+                {
+                    left_.steer_motor_.SetAngle(0_deg, 2_rpm);
+                }
+                if (right_.magnet_.Read() == not_homed)
+                {
+                    right_.steer_motor_.SetAngle(0_deg, 2_rpm);
+                }
+                if (back_.magnet_.Read() == not_homed)
+                {
+                    back_.steer_motor_.SetAngle(0_deg, 2_rpm);
+                }
             }
             while (left_.magnet_.Read() == not_homed || right_.magnet_.Read() == not_homed || back_.magnet_.Read() == not_homed)
             {
@@ -85,19 +94,19 @@ namespace sjsu::drive
                 if (left_.magnet_.Read() == not_homed)
                 {
                     left_wheel_offset++;
-                    left_.steer_motor_.SetAngle(units::angle::degree_t(left_wheel_offset));
+                    left_.steer_motor_.SetAngle(units::angle::degree_t(left_wheel_offset, 2_rpm));
                 }
 
                 if (right_.magnet_.Read() == not_homed)
                 {
                     right_wheel_offset++;
-                    right_.steer_motor_.SetAngle(units::angle::degree_t(right_wheel_offset));
+                    right_.steer_motor_.SetAngle(units::angle::degree_t(right_wheel_offset, 2_rpm));
                 }
 
                 if (back_.magnet_.Read() == not_homed)
                 {
                     back_wheel_offset++;
-                    back_.steer_motor_.SetAngle(units::angle::degree_t(back_wheel_offset));
+                    back_.steer_motor_.SetAngle(units::angle::degree_t(back_wheel_offset, 2_rpm));
                 }
                 sjsu::LogInfo("b = %d\tr = %d\tl = %d", back_wheel_offset, right_wheel_offset, left_wheel_offset);
                 angle_verification = GetMotorFeedback();
