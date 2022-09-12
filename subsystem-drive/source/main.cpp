@@ -63,10 +63,10 @@ int main()
     CommandLerper lerp;
 
     tri_wheel.Initialize();
+   sjsu::Delay(1s);
+   tri_wheel.HomeLegs();
+    sjsu::LogInfo("Starting control loop...");
     sjsu::Delay(1s);
-    tri_wheel.HomeLegs();
-    sjsu::Delay(1s);
-    // sjsu::LogInfo("Starting control loop...");
 
     while (1)
     {
@@ -80,8 +80,7 @@ int main()
         commands = rules_engine.ValidateCommands(commands);
         commands = mode_switch.SwitchSteerMode(commands, arguments, motor_speeds);
         commands = lerp.Lerp(commands);
-        printf(kResponseBodyFormat,
-               commands.heartbeat_count, commands.is_operational, commands.wheel_orientation, commands.mode, commands.speed, commands.angle);
+        commands.Print();
         arguments = ModeSelect::SelectMode(commands);
         arguments = tri_wheel.SetLegArguments(arguments);
 
