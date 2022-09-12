@@ -21,7 +21,7 @@ namespace sjsu::common
             {
                 const size_t response_size = uart_.Read(raw_response, 50ms);
                 std::string str_response(reinterpret_cast<char *>(raw_response.data()), response_size);
-                printf("Size: %d\n", response_size);
+                // printf("Packet size received: %d\n", response_size);
                 return str_response;
             }
             return "";
