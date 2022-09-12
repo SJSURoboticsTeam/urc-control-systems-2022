@@ -8,9 +8,9 @@ namespace sjsu::arm
 {
     // joint_angles order [rotunda, shoulder, elbow, wrist_pitch, wrist_yaw]
     // hand_angles order [pinky, ring, middle, index, thumb]
-    const char kResponseBodyFormat[] = "{\"hb\":%d,\"is_op\":%d,\"speed\":%d,\"joint_mode\":\"%c\",\"joint_angles\":[%d,%d,%d,%d,%d],\"hand_mode\":\"%c\",\"hand_angles\":[%d,%d,%d,%d,%d]}\n";
+    const char kResponseBodyFormat[] = "{\"heartbeat_count\":%d,\"is_operational\":%d,\"speed\":%d,\"joint_mode\":\"%c\",\"joint_angles\":[%d,%d,%d,%d,%d],\"hand_mode\":\"%c\",\"hand_angles\":[%d,%d,%d,%d,%d]}\n";
 
-    const char kGETRequestFormat[] = "arm?hb=%d&is_op=%d&speed=%d&joint_mode=\"%c\"&rotunda_angle=%d&shoulder_angle=%d&elbow_angle=%d&wrist_pitch_angle=%d&wrist_yaw_angle=%d&hand_mode=\"%c\"&pinky_angle=%d&ring_angle=%d&middle_angle=%d&index_angle=%d&thumb_angle=%d";
+    const char kGETRequestFormat[] = "arm?heartbeat_count=%d&is_operational=%d&speed=%d&joint_mode=\"%c\"&rotunda_angle=%d&shoulder_angle=%d&elbow_angle=%d&wrist_pitch_angle=%d&wrist_yaw_angle=%d&hand_mode=\"%c\"&pinky_angle=%d&ring_angle=%d&middle_angle=%d&index_angle=%d&thumb_angle=%d";
 
     struct joint_arguments
     {
