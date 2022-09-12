@@ -28,6 +28,7 @@ void DriveCommandsParser(std::string input)
 {
     if (input != "")
     {
+        input = input.substr(input.find("{"));
         sscanf(input.c_str(), sjsu::drive::kResponseBodyFormat,
                &drive_args.heartbeat_count, &drive_args.is_operational, &drive_args.wheel_orientation,
                &drive_args.mode, &drive_args.speed, &drive_args.angle);
@@ -44,12 +45,13 @@ int main()
         std::string response = serial.GetCommands();
         if (response != "")
         {
-            printf("Received:\n%s\n", response.c_str());
-            printf("Parsed:\n");
-            ArmCommandsParser(response);
-            arm_args.Print();
-            // DriveCommandsParser(response);
-            // drive_args.Print();
+            // printf("Received: %s\n", response.c_str());
+            // sjsu::Delay(3s);
+            printf("Parsed: ");
+            // ArmCommandsParser(response);
+            // arm_args.Print();
+            DriveCommandsParser(response);
+            drive_args.Print();
         }
     }
 
