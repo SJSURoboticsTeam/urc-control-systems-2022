@@ -63,8 +63,8 @@ int main()
     CommandLerper lerp;
 
     tri_wheel.Initialize();
-    // sjsu::Delay(1s);
-    // tri_wheel.HomeLegs();
+   sjsu::Delay(1s);
+   tri_wheel.HomeLegs();
     sjsu::LogInfo("Starting control loop...");
     sjsu::Delay(1s);
 
