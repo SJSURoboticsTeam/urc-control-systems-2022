@@ -1,10 +1,10 @@
 #pragma once
-#include "dto/hand-dto.hpp"
+#include "../dto/arm-dto.hpp"
 #include "hand-modes.hpp"
 
 namespace sjsu::arm
 {
-    class ModeSelect
+    class HandModeSelect
     {
     public:
         static hand_arguments SelectMode(hand_arguments commands)
@@ -12,16 +12,16 @@ namespace sjsu::arm
             switch (commands.mode)
             {
             case 'C':
-                return HandModes::CloseHand(commands);
+                return HandModes::CloseMode(commands);
                 break;
             case 'O':
-                return HandModes::OpenHand(commands);
+                return HandModes::OpenMode(commands);
                 break;
             case 'I':
-                return HandModes::IndividualHand(commands);
+                return HandModes::IndividualMode(commands);
                 break;
             case 'S':
-                return HandModes::SimultaneousHand(commands);
+                return HandModes::SimultaneousMode(commands);
                 break;
             default:
                 break;

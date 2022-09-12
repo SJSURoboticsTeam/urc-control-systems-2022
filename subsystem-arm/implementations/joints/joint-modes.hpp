@@ -7,18 +7,18 @@ namespace sjsu::arm
     class JointModes
     {
     public:
-        static arm_arguments SimulataneousMode(arm_arguments commands)
+        static joint_arguments SimulataneousMode(joint_arguments commands)
         {
             return commands;
         }
 
-        static arm_arguments CondensedMode(arm_arguments commands)
+        static joint_arguments CondensedMode(joint_arguments commands)
         {
-            commands.joint_args.rotunda_angle = kCondensedRotundaAngle;
-            commands.joint_args.shoulder_angle = kCondensedShoulderAngle;
-            commands.joint_args.elbow_angle = kCondensedElbowAngle;
-            commands.joint_args.wrist_pitch_angle = kCondensedWristPitchAngle;
-            commands.joint_args.wrist_yaw_angle = kCondensedWristYawAngle;
+            commands.rotunda_angle = kCondensedRotundaAngle;
+            commands.shoulder_angle = kCondensedShoulderAngle;
+            commands.elbow_angle = kCondensedElbowAngle;
+            commands.wrist_pitch_angle = kCondensedWristPitchAngle;
+            commands.wrist_yaw_angle = kCondensedWristYawAngle;
             return commands;
         }
 

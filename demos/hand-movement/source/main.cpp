@@ -36,40 +36,18 @@ int main()
                       Hand_Arguments.index_angle, Hand_Arguments.middle_angle,
                       Hand_Arguments.ring_angle, Hand_Arguments.pinky_angle);
 
-        // sjsu::LogInfo("Open Hand");
-        // hand_router.MoveToAngle(Hand_Arguments);
-        // sjsu::Delay(5s);
-
-        // // close hand
-        // Hand_Arguments.thumb_angle = max_angle;
-        // Hand_Arguments.index_angle = max_angle;
-        // Hand_Arguments.middle_angle = max_angle;
-        // Hand_Arguments.ring_angle = max_angle;
-        // Hand_Arguments.pinky_angle = max_angle;
-
-        // sjsu::LogInfo("Finger Close angles: %d, %d, %d, %d, %d", Hand_Arguments.thumb_angle,
-        //               Hand_Arguments.index_angle, Hand_Arguments.middle_angle,
-        //               Hand_Arguments.ring_angle, Hand_Arguments.pinky_angle);
-
-        // sjsu::LogInfo("Closed Hand");
-        // hand_router.MoveToAngle(Hand_Arguments);
-        // sjsu::Delay(5s);
-
         Hand_Arguments.mode = 'C';
         sjsu::LogInfo("Closed Hand Mode");
         Hand_Arguments = ModeSelect::SelectMode(Hand_Arguments);
         hand_router.MoveToAngle(Hand_Arguments);
         sjsu::Delay(5s);
+
         Hand_Arguments.mode = 'O';
         sjsu::LogInfo("Open Hand Mode");
         Hand_Arguments = ModeSelect::SelectMode(Hand_Arguments);
         hand_router.MoveToAngle(Hand_Arguments);
         sjsu::Delay(5s);
-        Hand_Arguments.mode = 'C';
-        sjsu::LogInfo("Closed Hand Mode");
-        Hand_Arguments = ModeSelect::SelectMode(Hand_Arguments);
-        hand_router.MoveToAngle(Hand_Arguments);
-        sjsu::Delay(5s);
+
         Hand_Arguments.mode = 'I';
         Hand_Arguments.thumb_angle = 88;
         Hand_Arguments.index_angle = 95;
@@ -80,21 +58,13 @@ int main()
         Hand_Arguments = ModeSelect::SelectMode(Hand_Arguments);
         hand_router.MoveToAngle(Hand_Arguments);
         sjsu::Delay(5s);
-        Hand_Arguments.mode = 'C';
-        sjsu::LogInfo("Closed Hand Mode");
-        Hand_Arguments = ModeSelect::SelectMode(Hand_Arguments);
-        hand_router.MoveToAngle(Hand_Arguments);
-        sjsu::Delay(5s);
+
         Hand_Arguments.mode = 'S';
         Hand_Arguments.index_angle = 100;
         sjsu::LogInfo("Simultaneous Hand Mode");
         Hand_Arguments = ModeSelect::SelectMode(Hand_Arguments);
         hand_router.MoveToAngle(Hand_Arguments);
         sjsu::Delay(5s);
-
-        // Hand_Arguments.mode = 'C';
-        // sjsu::LogInfo("Open Hand Mode");
-        // Hand_Arguments = hand_router.SelectMode(Hand_Arguments);
     }
     return 0;
 }

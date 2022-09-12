@@ -8,9 +8,12 @@
 #include "../implementations/joints/mpu-router.hpp"
 #include "../implementations/joints/joint-router.hpp"
 #include "../implementations/hand/hand-router.hpp"
+#include "../implementations/hand/mode-select.hpp"
 #include "../implementations/mission-control-handler.hpp"
 #include "../implementations/joints/rules-engine.hpp"
+#include "../implementations/joints/mode-select.hpp"
 #include "../implementations/hand/rules-engine.hpp"
+#include "../implementations/pca9685.hpp"
 #include "../common/serial.hpp"
 //#include "../common/esp.hpp"
 #include "dto/arm-dto.hpp"
@@ -41,11 +44,11 @@ int main()
   right_wrist_motor.settings.gear_ratio = 8;
 
   JointRouter joint_router(rotunda_motor, shoulder_motor, elbow_motor, left_wrist_motor, right_wrist_motor);
-  // HandRouter hand_router(pca9685);
-  // TODO: MpuRouter mpu_router();
   MissionControlHandler mission_control;
   JointsRulesEngine joints_rules_engine;
   HandRulesEngine hand_rules_engine;
+  // TODO: Fix hand from crashing program when pca9685 is not connected!
+  // HandRouter hand_router(pca9685);
   arm_arguments arguments;
 
   joint_router.Initialize();
@@ -60,14 +63,14 @@ int main()
     std::string response = serial.GetCommands();
     if (response != "")
     {
-      printf("Received:\n%s\n", response.c_str());
-      printf("Parsed:\n");
+      // printf("Received:\n%s\n", response.c_str());
+      printf("Parsed: ");
       arguments = mission_control.ParseMissionControlData(response);
-      arguments = joints_rules_engine.ValidateCommands(arguments);
-      // arguments = hand_rules_engine.ValidateCommands(arguments); // TODO: Needs rework
       arguments.Print();
+      arguments = joints_rules_engine.ValidateCommands(arguments);
+      arguments.hand_args = HandModeSelect::SelectMode(arguments.hand_args);
     }
     joint_router.SetArmArguments(arguments);
-    // hand_router.MoveToAngle(arguments.hand_args); // Finger range: 88 - 175
+    // hand_router.MoveToAngle(arguments.hand_args);
   }
 }

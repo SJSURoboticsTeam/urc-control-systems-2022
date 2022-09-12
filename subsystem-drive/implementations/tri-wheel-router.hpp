@@ -72,7 +72,8 @@ namespace sjsu::drive
             int not_homed = 1;
 
             motor_feedback angle_verification;
-            while (common::RmdEncoder::CalcEncoderPositions(left_.steer_motor_) != 0 && common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_) != 0 && common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_) != 0)
+
+            while (common::RmdEncoder::CalcEncoderPositions(left_.steer_motor_) != 0 && common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_) != 0 && common::RmdEncoder::CalcEncoderPositions(back_.steer_motor_) != 0)
             {
                 if (left_.magnet_.Read() == not_homed)
                 {

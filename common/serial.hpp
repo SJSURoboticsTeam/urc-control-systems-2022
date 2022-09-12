@@ -19,7 +19,6 @@ namespace sjsu::common
         {
             std::array<uint8_t, 1024 * 2> raw_response;
             std::fill(raw_response.begin(), raw_response.end(), 0);
-            // sjsu::Delay(500ms); // ONLY USE W/ JOYSTICK WEB SERIAL
             if (uart_.HasData())
             {
                 const size_t response_size = uart_.Read(raw_response, 50ms);
