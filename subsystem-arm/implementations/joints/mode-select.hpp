@@ -15,7 +15,7 @@ namespace sjsu::arm
             {
             case 'S':
             {
-                return JointModes::SimulataneousMode(commands);
+                return JointModes::SimultaneousMode(commands);
                 break;
             }
             case 'C':

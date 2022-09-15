@@ -9,21 +9,11 @@ namespace sjsu::arm
     {
         HandRulesEngine engine;
         hand_arguments commands;
-        SECTION("should validate heartbeat logic")
-        {
-            commands.is_operational = 1;
-            hand_arguments response = engine.ValidateCommands(commands);
-            CHECK_EQ(response.heartbeat_count, commands.heartbeat_count);
-            commands.heartbeat_count = 1;
-            response = engine.ValidateCommands(commands);
-            CHECK_EQ(response.heartbeat_count, commands.heartbeat_count);
-        }
 
         SECTION("should validate not change hand state")
         {
-            commands.is_operational = 1;
-            commands.middle_angle = 10;
-            commands.index_angle = 10;
+            commands.middle_angle = 90;
+            commands.index_angle = 90;
 
             hand_arguments response = engine.ValidateCommands(commands);
             CHECK_EQ(response.index_angle, commands.index_angle);
@@ -34,18 +24,8 @@ namespace sjsu::arm
             CHECK_NE(commands.index_angle, response.index_angle);
         }
 
-        SECTION("should validate is_operational logic")
-        {
-            commands.is_operational = 0;
-            commands.index_angle = 100;
-
-            hand_arguments response = engine.ValidateCommands(commands);
-            CHECK_NE(commands.index_angle, response.index_angle);
-        }
-
         SECTION("should validate max and min finger angles clamping")
         {
-            commands.is_operational = -1;
             commands.thumb_angle = -180;
             commands.index_angle = 200;
             commands.middle_angle = -90;

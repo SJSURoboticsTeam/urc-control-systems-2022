@@ -8,7 +8,7 @@ namespace sjsu::arm
 {
     // joint_angles order [rotunda, shoulder, elbow, wrist_pitch, wrist_yaw]
     // hand_angles order [pinky, ring, middle, index, thumb]
-    const char kResponseBodyFormat[] = "{\"heartbeat_count\":%d,\"is_operational\":%d,\"arm_speed\":%d,\"joint_mode\":\"%c\",\"joint_angles\":[%d,%d,%d,%d,%d],\"hand_mode\":\"%c\",\"hand_angles\":[%d,%d,%d,%d,%d]}\n";
+    const char kResponseBodyFormat[] = "{\"heartbeat_count\":%d,\"is_operational\":%d,\"speed\":%d,\"joint_mode\":\"%c\",\"joint_angles\":[%d,%d,%d,%d,%d],\"hand_mode\":\"%c\",\"hand_angles\":[%d,%d,%d,%d,%d]}\n";
 
     struct joint_arguments
     {
@@ -20,7 +20,7 @@ namespace sjsu::arm
         int wrist_yaw_angle = 0;
         int is_operational = 0;
         int heartbeat_count = 0;
-        char mode = 'A';
+        char mode = 'S';
     };
 
     struct hand_arguments
@@ -30,8 +30,7 @@ namespace sjsu::arm
         int middle_angle = 0;
         int index_angle = 0;
         int thumb_angle = 0;
-        int finger_angle = 0;
-        char mode = 'A';
+        char mode = 'I';
     };
 
     struct arm_arguments
