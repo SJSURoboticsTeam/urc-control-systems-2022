@@ -7,7 +7,7 @@ namespace sjsu::arm
     class JointModes
     {
     public:
-        static joint_arguments SimulataneousMode(joint_arguments commands)
+        static joint_arguments SimultaneousMode(joint_arguments commands)
         {
             return commands;
         }

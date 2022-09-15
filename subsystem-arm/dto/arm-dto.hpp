@@ -9,31 +9,29 @@ namespace sjsu::arm
     // joint_angles order [rotunda, shoulder, elbow, wrist_pitch, wrist_yaw]
     // hand_angles order [pinky, ring, middle, index, thumb]
     const char kResponseBodyFormat[] = "{\"heartbeat_count\":%d,\"is_operational\":%d,\"speed\":%d,\"joint_mode\":\"%c\",\"joint_angles\":[%d,%d,%d,%d,%d],\"hand_mode\":\"%c\",\"hand_angles\":[%d,%d,%d,%d,%d]}\n";
-
-    const char kGETRequestFormat[] = "arm?heartbeat_count=%d&is_operational=%d&speed=%d&joint_mode=\"%c\"&rotunda_angle=%d&shoulder_angle=%d&elbow_angle=%d&wrist_pitch_angle=%d&wrist_yaw_angle=%d&hand_mode=\"%c\"&pinky_angle=%d&ring_angle=%d&middle_angle=%d&index_angle=%d&thumb_angle=%d";
+    const char kGETRequestFormat[] = "arm?heartbeat_count=%d&is_operational=%d&speed=%d&joint_mode=%c&rotunda_angle=%d&shoulder_angle=%d&elbow_angle=%d&wrist_pitch_angle=%d&wrist_yaw_angle=%d&hand_mode=%c&pinky_angle=%d&ring_angle=%d&middle_angle=%d&index_angle=%d&thumb_angle=%d";
 
     struct joint_arguments
     {
+        int heartbeat_count = 0;
+        int is_operational = 0;
         int speed = 0;
+        char mode = 'S';
         int rotunda_angle = 0;
         int shoulder_angle = 0;
         int elbow_angle = 0;
         int wrist_pitch_angle = 0;
         int wrist_yaw_angle = 0;
-        int is_operational = 0;
-        int heartbeat_count = 0;
-        char mode = 'A';
     };
 
     struct hand_arguments
     {
+        char mode = 'I';
         int pinky_angle = 0;
         int ring_angle = 0;
         int middle_angle = 0;
         int index_angle = 0;
         int thumb_angle = 0;
-        int finger_angle = 0;
-        char mode = 'A';
     };
 
     struct arm_arguments

@@ -7,26 +7,26 @@ namespace sjsu::arm
 {
     TEST_CASE("Arm Mode Testing")
     {
-        SECTION("should set angles to correct simulataneous mode angles")
+        SECTION("should set angles to correct simultaneous mode angles")
         {
-            arm_arguments original_commands {75, 75, 75, 75, 75, 75, 75, 75};
-            arm_arguments args = JointModes::SimulataneousMode(original_commands);
-            CHECK(args.joint_args.rotunda_angle == original_commands.joint_args.rotunda_angle);
-            CHECK(args.joint_args.shoulder_angle == original_commands.joint_args.shoulder_angle);
-            CHECK(args.joint_args.elbow_angle == original_commands.joint_args.elbow_angle);
-            CHECK(args.joint_args.wrist_pitch_angle == original_commands.joint_args.wrist_pitch_angle);
-            CHECK(args.joint_args.wrist_yaw_angle == original_commands.joint_args.wrist_pitch_angle);
+            joint_arguments original_commands = {10, 20, 30, 40, 50, 60, 70, 80};
+            joint_arguments args = JointModes::SimultaneousMode(original_commands);
+            CHECK(args.rotunda_angle == original_commands.rotunda_angle);
+            CHECK(args.shoulder_angle == original_commands.shoulder_angle);
+            CHECK(args.elbow_angle == original_commands.elbow_angle);
+            CHECK(args.wrist_pitch_angle == original_commands.wrist_pitch_angle);
+            CHECK(args.wrist_yaw_angle == original_commands.wrist_yaw_angle);
         }
 
         SECTION("should ignore arguments and set angles to proper condensed mode angles")
         {
-            arm_arguments original_commands {100, 100, 100, 100, 100, 100, 100, 100};
-            arm_arguments args = JointModes::CondensedMode(original_commands);
-            CHECK(args.joint_args.rotunda_angle != original_commands.joint_args.rotunda_angle);
-            CHECK(args.joint_args.shoulder_angle != original_commands.joint_args.shoulder_angle);
-            CHECK(args.joint_args.elbow_angle != original_commands.joint_args.elbow_angle);
-            CHECK(args.joint_args.wrist_pitch_angle != original_commands.joint_args.wrist_pitch_angle);
-            CHECK(args.joint_args.wrist_yaw_angle != original_commands.joint_args.wrist_pitch_angle);
+            joint_arguments original_commands = {10, 10, 10, 10, 10, 10, 10, 10, 'S'};
+            joint_arguments args = JointModes::CondensedMode(original_commands);
+            CHECK_NE(args.rotunda_angle, original_commands.rotunda_angle);
+            CHECK_NE(args.shoulder_angle, original_commands.shoulder_angle);
+            CHECK_NE(args.elbow_angle, original_commands.elbow_angle);
+            CHECK_NE(args.wrist_pitch_angle, original_commands.wrist_pitch_angle);
+            CHECK_NE(args.wrist_yaw_angle, original_commands.wrist_pitch_angle);
         }
     }
 }

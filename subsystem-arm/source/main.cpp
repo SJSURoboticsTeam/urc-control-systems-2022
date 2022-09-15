@@ -7,6 +7,7 @@
 
 #include "../implementations/joints/mpu-router.hpp"
 #include "../implementations/joints/joint-router.hpp"
+#include "../implementations/joints/command-lerper.hpp"
 #include "../implementations/hand/hand-router.hpp"
 #include "../implementations/hand/mode-select.hpp"
 #include "../implementations/mission-control-handler.hpp"
@@ -47,6 +48,7 @@ int main()
   MissionControlHandler mission_control;
   JointsRulesEngine joints_rules_engine;
   HandRulesEngine hand_rules_engine;
+  CommandLerper joint_lerper;
   // TODO: Fix hand from crashing program when pca9685 is not connected!
   // HandRouter hand_router(pca9685);
   arm_arguments arguments;
@@ -64,11 +66,13 @@ int main()
     if (response != "")
     {
       // printf("Received:\n%s\n", response.c_str());
-      printf("Parsed: ");
       arguments = mission_control.ParseMissionControlData(response);
-      arguments.Print();
       arguments = joints_rules_engine.ValidateCommands(arguments);
-      arguments.hand_args = HandModeSelect::SelectMode(arguments.hand_args);
+      // TODO: Refactor this to use one file / class, not two its confusing and redundant
+      // arguments = joint_lerper.Lerp(arguments);
+      // arguments.joint_args = ModeSelect::SelectMode(arguments.joint_args);
+      // arguments.hand_args = HandModeSelect::SelectMode(arguments.hand_args);
+      arguments.Print();
     }
     joint_router.SetArmArguments(arguments);
     // hand_router.MoveToAngle(arguments.hand_args);

@@ -15,6 +15,7 @@ void ArmCommandsParser(std::string input)
 {
     if (input != "")
     {
+        input = input.substr(input.find("{"));
         sscanf(input.c_str(), sjsu::arm::kResponseBodyFormat,
                &arm_args.joint_args.heartbeat_count, &arm_args.joint_args.is_operational, &arm_args.joint_args.speed,
                &arm_args.joint_args.mode, &arm_args.joint_args.rotunda_angle, &arm_args.joint_args.shoulder_angle,
@@ -46,12 +47,11 @@ int main()
         if (response != "")
         {
             // printf("Received: %s\n", response.c_str());
-            // sjsu::Delay(3s);
             printf("Parsed: ");
-            // ArmCommandsParser(response);
-            // arm_args.Print();
-            DriveCommandsParser(response);
-            drive_args.Print();
+            ArmCommandsParser(response);
+            arm_args.Print();
+            // DriveCommandsParser(response);
+            // drive_args.Print();
         }
     }
 
