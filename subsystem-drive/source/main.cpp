@@ -63,8 +63,8 @@ int main()
     CommandLerper lerp;
 
     tri_wheel.Initialize();
-   sjsu::Delay(1s);
-   tri_wheel.HomeLegs();
+    sjsu::Delay(1s);
+    tri_wheel.HomeLegs();
     sjsu::LogInfo("Starting control loop...");
     sjsu::Delay(1s);
 
@@ -76,10 +76,13 @@ int main()
 
         // For Serial
         std::string response = serial.GetCommands();
-        commands = mission_control.ParseMissionControlData(response);
-        commands = rules_engine.ValidateCommands(commands);
-        commands = mode_switch.SwitchSteerMode(commands, arguments, motor_speeds);
-        commands = lerp.Lerp(commands);
+        if (response != "")
+        {
+            commands = mission_control.ParseMissionControlData(response);
+            commands = rules_engine.ValidateCommands(commands);
+            commands = mode_switch.SwitchSteerMode(commands, arguments, motor_speeds);
+            commands = lerp.Lerp(commands);
+        }
         commands.Print();
         arguments = ModeSelect::SelectMode(commands);
         arguments = tri_wheel.SetLegArguments(arguments);
