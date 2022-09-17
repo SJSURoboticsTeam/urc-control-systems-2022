@@ -36,15 +36,15 @@ namespace sjsu::drive
             arguments = SteerModes::DriveSteering(commands);
             CHECK_EQ(arguments.back.hub.angle, 0);
             CHECK_EQ(arguments.back.hub.speed, 0);
-            CHECK_EQ(arguments.back.steer.angle, 116);
+            CHECK_EQ(arguments.back.steer.angle, SteerModes::kBackLegDriveOffset);
             CHECK_EQ(arguments.back.steer.speed, 5);
             CHECK_EQ(arguments.left.hub.angle, 0);
             CHECK_EQ(arguments.left.hub.speed, 0);
-            CHECK_EQ(arguments.left.steer.angle, 42);
+            CHECK_EQ(arguments.left.steer.angle, SteerModes::kLeftLegDriveOffset);
             CHECK_EQ(arguments.left.steer.speed, 5);
             CHECK_EQ(arguments.right.hub.angle, 0);
             CHECK_EQ(arguments.right.hub.speed, 0);
-            CHECK_EQ(-arguments.right.steer.angle, -200);
+            CHECK_EQ(arguments.right.steer.angle, SteerModes::kRightLegDriveOffset);
             CHECK_EQ(arguments.right.steer.speed, 5);
         }
         SECTION("1.2: Should give correct sign when drive mode is given a negative angle.")
@@ -54,18 +54,18 @@ namespace sjsu::drive
             commands.angle = angle;
             tri_wheel_router_arguments arguments;
             arguments = SteerModes::DriveSteering(commands);
-            CHECK(arguments.back.hub.angle == 0);
-            CHECK(arguments.back.hub.speed == 0);
-            CHECK(arguments.back.steer.angle > 0);
-            CHECK(arguments.back.steer.speed == 5);
-            CHECK(arguments.left.hub.angle == 0);
-            CHECK(arguments.left.hub.speed == 0);
-            CHECK(arguments.left.steer.angle == -angle);
-            CHECK(arguments.left.steer.speed == 5);
-            CHECK(arguments.right.hub.angle == 0);
-            CHECK(arguments.right.hub.speed == 0);
-            CHECK(arguments.right.steer.angle > 0);
-            CHECK(arguments.right.steer.speed == 5);
+            CHECK_EQ(arguments.back.hub.angle, 0);
+            CHECK_EQ(arguments.back.hub.speed, 0);
+            CHECK_GT(arguments.back.steer.angle, 0);
+            CHECK_EQ(arguments.back.steer.speed, 5);
+            CHECK_EQ(arguments.left.hub.angle, 0);
+            CHECK_EQ(arguments.left.hub.speed, 0);
+            CHECK_EQ(arguments.left.steer.angle - 360, doctest::Approx(-angle).epsilon(1.0));
+            CHECK_EQ(arguments.left.steer.speed, 5);
+            CHECK_EQ(arguments.right.hub.angle, 0);
+            CHECK_EQ(arguments.right.hub.speed, 0);
+            CHECK_GT(arguments.right.steer.angle, 0);
+            CHECK_EQ(arguments.right.steer.speed, 5);
         }
         SECTION("1.3: Should give correct sign when drive mode is given a positive angle.")
         {
@@ -74,18 +74,18 @@ namespace sjsu::drive
             commands.angle = angle;
             tri_wheel_router_arguments arguments;
             arguments = SteerModes::DriveSteering(commands);
-            CHECK(arguments.back.hub.angle == 0);
-            CHECK(arguments.back.hub.speed == 0);
-            CHECK(arguments.back.steer.angle < 0);
-            CHECK(arguments.back.steer.speed == 5);
-            CHECK(arguments.left.hub.angle == 0);
-            CHECK(arguments.left.hub.speed == 0);
-            CHECK(arguments.left.steer.angle > 0);
-            CHECK(arguments.left.steer.speed == 5);
-            CHECK(arguments.right.hub.angle == 0);
-            CHECK(arguments.right.hub.speed == 0);
-            CHECK(arguments.right.steer.angle == angle + SteerModes::kRightLegDriveOffset);
-            CHECK(arguments.right.steer.speed == 5);
+            CHECK_EQ(arguments.back.hub.angle, 0);
+            CHECK_EQ(arguments.back.hub.speed, 0);
+            CHECK_GT(arguments.back.steer.angle, 0);
+            CHECK_EQ(arguments.back.steer.speed, 5);
+            CHECK_EQ(arguments.left.hub.angle, 0);
+            CHECK_EQ(arguments.left.hub.speed, 0);
+            CHECK_GT(arguments.left.steer.angle, 0);
+            CHECK_EQ(arguments.left.steer.speed, 5);
+            CHECK_EQ(arguments.right.hub.angle, 0);
+            CHECK_EQ(arguments.right.hub.speed, 0);
+            CHECK_LT(arguments.right.steer.angle, arguments.left.steer.angle);
+            CHECK_EQ(arguments.right.steer.speed, 5);
         }
         SECTION("1.4: Speed on each wheel should be the same when angle is 0 (default).")
         {
@@ -94,16 +94,16 @@ namespace sjsu::drive
             commands.speed = speed;
             tri_wheel_router_arguments arguments;
             arguments = SteerModes::DriveSteering(commands);
-            CHECK(arguments.back.hub.speed == speed);
-            CHECK(arguments.left.hub.speed == -speed);
-            CHECK(arguments.right.hub.speed == -speed);
+            CHECK_EQ(arguments.back.hub.speed, speed);
+            CHECK_EQ(arguments.left.hub.speed, -speed);
+            CHECK_EQ(arguments.right.hub.speed, -speed);
             commands.speed = -speed;
             arguments = SteerModes::DriveSteering(commands);
-            CHECK(arguments.back.hub.speed == -speed);
-            CHECK(arguments.left.hub.speed == speed);
-            CHECK(arguments.right.hub.speed == speed);
+            CHECK_EQ(arguments.back.hub.speed, -speed);
+            CHECK_EQ(arguments.left.hub.speed, speed);
+            CHECK_EQ(arguments.right.hub.speed, speed);
         }
-        SECTION("1.5: inner wheel should be going the slowest, outter wheel the fastest, and back wheel in between.")
+        SECTION("1.5: inner wheel should be going the slowest, outer wheel the fastest, and back wheel in between.")
         {
             drive_commands commands{};
             float speed = 90;
@@ -112,14 +112,14 @@ namespace sjsu::drive
             commands.angle = angle;
             tri_wheel_router_arguments arguments;
             arguments = SteerModes::DriveSteering(commands);
-            CHECK(arguments.back.hub.speed > arguments.right.hub.speed);
-            CHECK(-arguments.left.hub.speed > arguments.back.hub.speed);
-            CHECK(arguments.right.hub.speed == -speed);
+            CHECK_GT(arguments.back.hub.speed, arguments.right.hub.speed);
+            CHECK_LT(arguments.left.hub.speed, arguments.back.hub.speed);
+            CHECK_EQ(arguments.right.hub.speed, -speed);
             commands.angle = -angle;
             arguments = SteerModes::DriveSteering(commands);
-            CHECK(arguments.back.hub.speed > arguments.left.hub.speed);
-            CHECK(-arguments.left.hub.speed == speed);
-            CHECK(-arguments.right.hub.speed > arguments.back.hub.speed);
+            CHECK_GT(arguments.back.hub.speed, arguments.left.hub.speed);
+            CHECK_EQ(arguments.left.hub.speed, -speed);
+            CHECK_GT(abs(arguments.right.hub.speed), abs(arguments.back.hub.speed));
         }
         SECTION("2.1: With default values, spin mode should have preset angles that don't change and speed should be 0.")
         {
@@ -127,9 +127,9 @@ namespace sjsu::drive
             drive_commands commands{};
             tri_wheel_router_arguments arguments;
             arguments = SteerModes::SpinSteering(commands);
-            CHECK_EQ(arguments.back.steer.angle, SteerModes::kBackDriveOffset);
-            CHECK_EQ(arguments.left.steer.angle, -SteerModes::kLeftLegDriveOffset);
-            CHECK_EQ(arguments.right.steer.angle, -SteerModes::kRightLegDriveOffset);
+            CHECK_EQ(arguments.back.steer.angle, SteerModes::kBackLegSpinOffset);
+            CHECK_EQ(arguments.left.steer.angle, SteerModes::kLeftLegSpinOffset);
+            CHECK_EQ(arguments.right.steer.angle, SteerModes::kRightLegSpinOffset);
             CHECK_EQ(arguments.back.hub.speed, 0);
             CHECK_EQ(arguments.left.hub.speed, 0);
             CHECK_EQ(arguments.right.hub.speed, 0);
@@ -143,9 +143,9 @@ namespace sjsu::drive
             commands.angle = 90;
             tri_wheel_router_arguments arguments;
             arguments = SteerModes::SpinSteering(commands);
-            CHECK_EQ(arguments.back.steer.angle, SteerModes::kBackDriveOffset);
-            CHECK_EQ(arguments.left.steer.angle, -SteerModes::kLeftLegDriveOffset);
-            CHECK_EQ(arguments.right.steer.angle, -SteerModes::kRightLegDriveOffset);
+            CHECK_EQ(arguments.back.steer.angle, SteerModes::kBackLegSpinOffset);
+            CHECK_EQ(arguments.left.steer.angle, SteerModes::kLeftLegSpinOffset);
+            CHECK_EQ(arguments.right.steer.angle, SteerModes::kRightLegSpinOffset);
             CHECK_EQ(arguments.back.hub.speed, 0);
             CHECK_EQ(arguments.left.hub.speed, 0);
             CHECK_EQ(arguments.right.hub.speed, 0);
@@ -154,9 +154,9 @@ namespace sjsu::drive
             CHECK_EQ(arguments.left.steer.speed, 5);
             commands.angle = -90;
             arguments = SteerModes::SpinSteering(commands);
-            CHECK_EQ(arguments.back.steer.angle, SteerModes::kBackDriveOffset);
-            CHECK_EQ(arguments.left.steer.angle, -SteerModes::kLeftLegDriveOffset);
-            CHECK_EQ(arguments.right.steer.angle, -SteerModes::kRightLegDriveOffset);
+            CHECK_EQ(arguments.back.steer.angle, SteerModes::kBackLegSpinOffset);
+            CHECK_EQ(arguments.left.steer.angle, SteerModes::kLeftLegSpinOffset);
+            CHECK_EQ(arguments.right.steer.angle, SteerModes::kRightLegSpinOffset);
             CHECK_EQ(arguments.back.hub.speed, 0);
             CHECK_EQ(arguments.left.hub.speed, 0);
             CHECK_EQ(arguments.right.hub.speed, 0);
@@ -171,12 +171,12 @@ namespace sjsu::drive
             commands.speed = speed;
             tri_wheel_router_arguments arguments;
             arguments = SteerModes::SpinSteering(commands);
-            CHECK_EQ(arguments.back.steer.angle, SteerModes::kBackDriveOffset);
-            CHECK_EQ(arguments.left.steer.angle, SteerModes::kLeftLegDriveOffset + 200);
+            CHECK_EQ(arguments.back.steer.angle, SteerModes::kBackLegSpinOffset);
+            CHECK_EQ(arguments.left.steer.angle, SteerModes::kLeftLegSpinOffset);
             CHECK_EQ(arguments.right.steer.angle, 0);
-            CHECK(arguments.back.hub.speed == speed);
-            CHECK(arguments.left.hub.speed == speed);
-            CHECK(arguments.right.hub.speed == speed);
+            CHECK_EQ(arguments.back.hub.speed, speed);
+            CHECK_EQ(arguments.left.hub.speed, -speed);
+            CHECK_EQ(arguments.right.hub.speed, speed);
             CHECK_EQ(arguments.back.steer.speed, 5);
             CHECK_EQ(arguments.right.steer.speed, 5);
             CHECK_EQ(arguments.left.steer.speed, 5);
@@ -188,12 +188,12 @@ namespace sjsu::drive
             commands.speed = speed;
             tri_wheel_router_arguments arguments;
             arguments = SteerModes::SpinSteering(commands);
-            CHECK_EQ(arguments.back.steer.angle, SteerModes::kBackDriveOffset);
-            CHECK_EQ(arguments.left.steer.angle, -SteerModes::kLeftLegDriveOffset);
-            CHECK_EQ(arguments.right.steer.angle, -SteerModes::kRightLegDriveOffset);
-            CHECK(arguments.back.hub.speed == speed);
-            CHECK(-arguments.left.hub.speed == speed);
-            CHECK(-arguments.right.hub.speed == speed);
+            CHECK_EQ(arguments.back.steer.angle, SteerModes::kBackLegSpinOffset);
+            CHECK_EQ(arguments.left.steer.angle, SteerModes::kLeftLegSpinOffset);
+            CHECK_EQ(arguments.right.steer.angle, SteerModes::kRightLegSpinOffset);
+            CHECK_EQ(arguments.back.hub.speed, speed);
+            CHECK_EQ(arguments.left.hub.speed, -speed);
+            CHECK_EQ(arguments.right.hub.speed, speed);
             CHECK_EQ(arguments.back.steer.speed, 5);
             CHECK_EQ(arguments.right.steer.speed, 5);
             CHECK_EQ(arguments.left.steer.speed, 5);
