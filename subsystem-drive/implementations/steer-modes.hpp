@@ -11,7 +11,11 @@ namespace sjsu::drive
     public:
         static constexpr float kLeftLegDriveOffset = 41;
         static constexpr float kRightLegDriveOffset = 200;
-        static constexpr float kBackDriveOffset = 121;
+        static constexpr float kBackLegDriveOffset = 121;
+        static constexpr float kLeftLegSpinOffset = 242;
+        static constexpr float kRightLegSpinOffset = 0;
+        static constexpr float kBackLegSpinOffset = 0;
+        static constexpr float kLeftLegTranslateOffset = 0;
 
         static tri_wheel_router_arguments DriveSteering(drive_commands commands)
         {
@@ -70,16 +74,16 @@ namespace sjsu::drive
             // adding the offsets to put it into the base drive mode
             steer_arguments.left.steer.angle += kLeftLegDriveOffset;
             steer_arguments.right.steer.angle += kRightLegDriveOffset;
-            steer_arguments.back.steer.angle += kBackDriveOffset;
+            steer_arguments.back.steer.angle += kBackLegDriveOffset;
             return steer_arguments;
         }
 
         static tri_wheel_router_arguments SpinSteering(drive_commands commands)
         {
             tri_wheel_router_arguments temp;
-            temp.back.steer.angle = 0;
-            temp.left.steer.angle = 242;
-            temp.right.steer.angle = 0;
+            temp.back.steer.angle = kBackLegSpinOffset;
+            temp.left.steer.angle = kLeftLegSpinOffset;
+            temp.right.steer.angle = kRightLegSpinOffset;
             temp.back.hub.speed = commands.speed;
             temp.left.hub.speed = -commands.speed;
             temp.right.hub.speed = commands.speed;

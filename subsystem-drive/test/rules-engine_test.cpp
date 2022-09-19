@@ -17,16 +17,16 @@ namespace sjsu::drive
             commands = rules_engine.ValidateCommands(commands);
             CHECK_EQ(commands.speed, 80);
         }
-        SECTION("1.2: If heartbeat is not synced then speed should drop to 0, then it should proceed as normal if it resyncs")
-        {
-            RulesEngine rules_engine;
-            drive_commands commands{'D', 80, 10, 0, 1, 10};
-            commands = rules_engine.ValidateCommands(commands);
-            CHECK_EQ(commands.speed, 0);
-            commands = {'D', 80, 10, 0, 1, 0};
-            commands = rules_engine.ValidateCommands(commands);
-            CHECK_EQ(commands.speed, 80);
-        }
+        // SECTION("1.2: If heartbeat is not synced then speed should drop to 0, then it should proceed as normal if it resyncs")
+        // {
+        //     RulesEngine rules_engine;
+        //     drive_commands commands{'D', 80, 10, 0, 1, 10};
+        //     commands = rules_engine.ValidateCommands(commands);
+        //     CHECK_EQ(commands.speed, 0);
+        //     commands = {'D', 80, 10, 0, 1, 0};
+        //     commands = rules_engine.ValidateCommands(commands);
+        //     CHECK_EQ(commands.speed, 80);
+        // }
         SECTION("1.3: If the rover is not operational then speed should drop to 0 then speed back up if it is operational")
         {
             RulesEngine rules_engine;
