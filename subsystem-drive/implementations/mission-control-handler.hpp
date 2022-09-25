@@ -20,7 +20,7 @@ namespace sjsu::drive
 
         drive_commands ParseMissionControlData(std::string &response)
         {
-            response = response.substr(response.find("{"));
+            response = response.substr(response.find('{'));
             int actual_arguments = sscanf(
                 response.c_str(), kResponseBodyFormat,
                 &commands_.heartbeat_count, &commands_.is_operational, &commands_.wheel_orientation,
