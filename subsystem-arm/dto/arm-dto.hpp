@@ -27,11 +27,11 @@ namespace sjsu::arm
     struct hand_arguments
     {
         char mode = 'I';
-        int pinky_angle = 0;
-        int ring_angle = 0;
-        int middle_angle = 0;
-        int index_angle = 0;
-        int thumb_angle = 0;
+        int pinky_angle = 88;
+        int ring_angle = 88;
+        int middle_angle = 88;
+        int index_angle = 88;
+        int thumb_angle = 88;
     };
 
     struct arm_arguments
