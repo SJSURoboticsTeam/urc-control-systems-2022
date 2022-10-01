@@ -97,7 +97,7 @@ namespace sjsu::drive
 
             steer_arguments.left.steer.angle = commands.angle + kLeftLegDriveOffset;
             steer_arguments.right.steer.angle = commands.angle + kRightLegDriveOffset;
-            steer_arguments.back.steer.angle = commands.angle;
+            steer_arguments.back.steer.angle = commands.angle + kBackLegDriveOffset;
 
             steer_arguments.left.hub.speed = -commands.speed;
             steer_arguments.right.hub.speed = -commands.speed;
