@@ -1,10 +1,10 @@
 #pragma once
-#include "../library/devices/actuators/servo/rmd_x.hpp"
-#include "../subsystem-arm/dto/arm-dto.hpp"
-#include "utility/math/units.hpp"
 #include "utility/log.hpp"
+#include "utility/math/units.hpp"
 #include "devices/actuators/servo/rmd_x.hpp"
-#include "../common/rmd-encoder.hpp"
+
+#include "../../dto/arm-dto.hpp"
+#include "../../../common/rmd-encoder.hpp"
 
 namespace sjsu::arm
 {

@@ -46,7 +46,7 @@ int main()
         std::string response = serial.GetCommands();
         if (response != "")
         {
-            // printf("Received: %s\n", response.c_str());
+            printf("Received: %s\n", response.c_str());
             printf("Parsed: ");
             ArmCommandsParser(response);
             arm_args.Print();

@@ -3,17 +3,16 @@
 #include "peripherals/lpc40xx/can.hpp"
 #include "peripherals/lpc17xx/pwm.hpp"
 #include "devices/actuators/servo/rmd_x.hpp"
-#include "../library/devices/sensors/movement/accelerometer/mpu6050.hpp"
+#include "devices/sensors/movement/accelerometer/mpu6050.hpp"
 
-#include "../implementations/joints/mpu-router.hpp"
-#include "../implementations/joints/joint-router.hpp"
-#include "../implementations/joints/command-lerper.hpp"
-#include "../implementations/hand/hand-router.hpp"
-#include "../implementations/hand/mode-select.hpp"
+#include "../implementations/routers/joint-router.hpp"
+#include "../implementations/routers/hand-router.hpp"
+#include "../implementations/routers/mpu-router.hpp"
+
 #include "../implementations/mission-control-handler.hpp"
-#include "../implementations/joints/rules-engine.hpp"
-#include "../implementations/joints/mode-select.hpp"
-#include "../implementations/hand/rules-engine.hpp"
+#include "../implementations/command-lerper.hpp"
+#include "../implementations/rules-engine.hpp"
+#include "../implementations/mode-select.hpp"
 #include "../implementations/pca9685.hpp"
 #include "../common/serial.hpp"
 //#include "../common/esp.hpp"
@@ -46,9 +45,8 @@ int main()
 
   JointRouter joint_router(rotunda_motor, shoulder_motor, elbow_motor, left_wrist_motor, right_wrist_motor);
   MissionControlHandler mission_control;
-  JointsRulesEngine joints_rules_engine;
-  HandRulesEngine hand_rules_engine;
-  CommandLerper joint_lerper;
+  RulesEngine rules_engine;
+  CommandLerper lerp;
   // TODO: Fix hand from crashing program when pca9685 is not connected!
   // HandRouter hand_router(pca9685);
   arm_arguments arguments;
@@ -57,23 +55,23 @@ int main()
   joint_router.HomeArm();
   // hand_router.Initialize();
 
+  sjsu::LogInfo("Starting control loop...");
   sjsu::Delay(1s);
-  sjsu::LogInfo("Starting the rover arm system...");
 
   while (1)
   {
     std::string response = serial.GetCommands();
     if (response != "")
     {
-      // printf("Received:\n%s\n", response.c_str());
+      // TODO: Make this work w Joystick Serial
+      printf("Received:\n%s\n", response.c_str());
       arguments = mission_control.ParseMissionControlData(response);
-      arguments = joints_rules_engine.ValidateCommands(arguments);
-      // TODO: Refactor this to use one file / class, not two its confusing and redundant
-      // arguments = joint_lerper.Lerp(arguments);
-      // arguments.joint_args = ModeSelect::SelectMode(arguments.joint_args);
-      // arguments.hand_args = HandModeSelect::SelectMode(arguments.hand_args);
+      arguments = rules_engine.ValidateCommands(arguments);
+      arguments = lerp.Lerp(arguments);
       arguments.Print();
     }
+    arguments.joint_args = JointModeSelect::SelectMode(arguments.joint_args);
+    arguments.hand_args = HandModeSelect::SelectMode(arguments.hand_args);
     joint_router.SetArmArguments(arguments);
     // hand_router.MoveToAngle(arguments.hand_args);
   }

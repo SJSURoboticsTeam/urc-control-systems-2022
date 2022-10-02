@@ -1,6 +1,6 @@
 #include "testing/testing_frameworks.hpp"
 #include "utility/log.hpp"
-#include "implementations/joints/command-lerper.hpp"
+#include "implementations/command-lerper.hpp"
 #include "../dto/arm-dto.hpp"
 
 namespace sjsu::arm

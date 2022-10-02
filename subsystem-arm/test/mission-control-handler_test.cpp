@@ -17,7 +17,7 @@ namespace sjsu::arm
         SECTION("should return default arm status on startup")
         {
             std::string expected_formatted_rover_status =
-                "arm?heartbeat_count=0&is_operational=0&speed=0&joint_mode=S&rotunda_angle=0&shoulder_angle=0&elbow_angle=0&wrist_pitch_angle=0&wrist_yaw_angle=0&hand_mode=I&pinky_angle=0&ring_angle=0&middle_angle=0&index_angle=0&thumb_angle=0";
+                "arm?heartbeat_count=0&is_operational=0&speed=0&joint_mode=S&rotunda_angle=0&shoulder_angle=0&elbow_angle=0&wrist_pitch_angle=0&wrist_yaw_angle=0&hand_mode=I&pinky_angle=88&ring_angle=88&middle_angle=88&index_angle=88&thumb_angle=88";
 
             std::string actual_formatted_rover_status = mc_handler.CreateGETRequestParameterWithRoverStatus(arm_feedback);
 
@@ -26,7 +26,8 @@ namespace sjsu::arm
 
         SECTION("should return default mission control data on startup despite imperfect command string")
         {
-            arm_arguments expected_args = {{0, 0, 5, 'S', 100, 100, 100, 100, 100}, {'I', 120, 120, 120, 120, 120}};
+            // arm_arguments expected_args = {{0, 0, 5, 'S', 100, 100, 100, 100, 100}, {'I', 120, 120, 120, 120, 120}};
+            arm_arguments expected_args;
             std::string example_mission_control_response =
                 "asdfasdf{\"heartbeat_count\":0,\"is_operational\":0,\"speed\":5,\"joint_mode\":\"S\",\"joint_angles\":[100,100,100,100,100],\"hand_mode\":\"I\",\"hand_angles\":[120,120,120,120,120]}";
 

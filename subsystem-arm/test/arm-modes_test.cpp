@@ -1,6 +1,6 @@
 #include "testing/testing_frameworks.hpp"
 #include "utility/log.hpp"
-#include "../implementations/joints/joint-modes.hpp"
+#include "../implementations/arm-modes.hpp"
 #include "../dto/arm-dto.hpp"
 
 namespace sjsu::arm
