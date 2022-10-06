@@ -35,11 +35,11 @@ namespace sjsu::arm
         void HomeArm()
         {
             sjsu::LogInfo("Homing arm...");
-            initial_rotunda_position_ = common::RmdEncoder::CalcEncoderPositions(rotunda_);
-            initial_shoulder_position_ = common::RmdEncoder::CalcEncoderPositions(shoulder_);
-            initial_elbow_position_ = common::RmdEncoder::CalcEncoderPositions(elbow_);
-            initial_left_wrist_position_ = common::RmdEncoder::CalcEncoderPositions(left_wrist_);
-            initial_right_wrist_position_ = common::RmdEncoder::CalcEncoderPositions(right_wrist_);
+            initial_rotunda_position_ = common::RmdEncoder::CalcEncoderPositions(rotunda_, true);
+            initial_shoulder_position_ = common::RmdEncoder::CalcEncoderPositions(shoulder_, true);
+            initial_elbow_position_ = common::RmdEncoder::CalcEncoderPositions(elbow_, true);
+            initial_left_wrist_position_ = common::RmdEncoder::CalcEncoderPositions(left_wrist_, true);
+            initial_right_wrist_position_ = common::RmdEncoder::CalcEncoderPositions(right_wrist_, true);
         }
 
     private:

@@ -3,6 +3,7 @@
 #include <algorithm>
 
 #include "../dto/drive-dto.hpp"
+#include "../dto/motor-feedback-dto.hpp"
 
 namespace sjsu::drive
 {
@@ -17,7 +18,7 @@ namespace sjsu::drive
         static constexpr float kBackLegSpinOffset = 0;
         static constexpr float kLeftLegTranslateOffset = 0;
 
-        static tri_wheel_router_arguments DriveSteering(drive_commands commands)
+        static tri_wheel_router_arguments DriveSteering(drive_commands commands, motor_feedback steering_motor_data)
         {
             float outter_wheel_angle = 0, back_wheel_angle = 0;
             tri_wheel_router_arguments steer_arguments;
@@ -51,14 +52,14 @@ namespace sjsu::drive
                 steer_arguments.back.steer.angle = back_wheel_angle;
             }
 
-            if (outter_wheel_angle > 0)
+            if (steering_motor_data.left_steer_angle > 0)
             {
                 steer_arguments.right.hub.speed = -GetInnerWheelHubSpeed(commands.speed, outter_wheel_angle);
                 steer_arguments.left.hub.speed = -GetOutterWheelHubSpeed(commands.speed, outter_wheel_angle);
                 steer_arguments.back.hub.speed = GetBackWheelHubSpeed(commands.speed, outter_wheel_angle);
             }
 
-            else if (outter_wheel_angle < 0)
+            else if (steering_motor_data.left_steer_angle < 0)
             {
                 steer_arguments.left.hub.speed = -GetInnerWheelHubSpeed(commands.speed, outter_wheel_angle);
                 steer_arguments.right.hub.speed = -GetOutterWheelHubSpeed(commands.speed, outter_wheel_angle);

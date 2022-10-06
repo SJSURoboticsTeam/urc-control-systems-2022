@@ -8,12 +8,12 @@ namespace sjsu::drive
     class ModeSelect
     {
     public:
-        static tri_wheel_router_arguments SelectMode(drive_commands commands)
+        static tri_wheel_router_arguments SelectMode(drive_commands commands, motor_feedback steer_motor_data)
         {
             switch (commands.mode)
             {
             case 'D':
-                return SteerModes::DriveSteering(commands);
+                return SteerModes::DriveSteering(commands, steer_motor_data);
                 break;
             case 'S':
                 return SteerModes::SpinSteering(commands);

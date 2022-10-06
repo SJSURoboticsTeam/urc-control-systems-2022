@@ -73,7 +73,7 @@ namespace sjsu::drive
 
             motor_feedback angle_verification;
 
-            while (common::RmdEncoder::CalcEncoderPositions(left_.steer_motor_) != 0 && common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_) != 0 && common::RmdEncoder::CalcEncoderPositions(back_.steer_motor_) != 0)
+            while (common::RmdEncoder::CalcEncoderPositions(left_.steer_motor_, true) != 0 && common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_, true) != 0 && common::RmdEncoder::CalcEncoderPositions(back_.steer_motor_, true) != 0)
             {
                 if (left_.magnet_.Read() == not_homed)
                 {
@@ -119,11 +119,16 @@ namespace sjsu::drive
 
         motor_feedback GetMotorFeedback()
         {
-            motor_feedback motor_speeds;
-            motor_speeds.left_steer_speed = left_.steer_motor_.RequestFeedbackFromMotor().GetFeedback().speed;
-            motor_speeds.right_steer_speed = right_.steer_motor_.RequestFeedbackFromMotor().GetFeedback().speed;
-            motor_speeds.back_steer_speed = back_.steer_motor_.RequestFeedbackFromMotor().GetFeedback().speed;
-            return motor_speeds;
+            motor_feedback motor_data;
+            motor_data.left_steer_speed = left_.steer_motor_.RequestFeedbackFromMotor().GetFeedback().speed;
+            motor_data.right_steer_speed = right_.steer_motor_.RequestFeedbackFromMotor().GetFeedback().speed;
+            motor_data.back_steer_speed = back_.steer_motor_.RequestFeedbackFromMotor().GetFeedback().speed;
+            // for angles we add the magnet offset in order to simulate the return of an encoder value with the 0 being at the magnet position
+            motor_data.left_steer_angle = sjsu::common::RmdEncoder::CalcEncoderPositions(left_.steer_motor_, false) + left_wheel_offset;
+            motor_data.right_steer_angle = sjsu::common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_, false) + right_wheel_offset;
+            motor_data.back_steer_angle = sjsu::common::RmdEncoder::CalcEncoderPositions(back_.steer_motor_, false) + back_wheel_offset;
+
+            return motor_data;
         }
 
     private:

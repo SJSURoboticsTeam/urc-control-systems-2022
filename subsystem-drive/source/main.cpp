@@ -55,7 +55,7 @@ int main()
 
     MissionControlHandler mission_control;
     drive_commands commands;
-    motor_feedback motor_speeds;
+    motor_feedback motor_data;
     tri_wheel_router_arguments arguments;
 
     RulesEngine rules_engine;
@@ -80,16 +80,16 @@ int main()
         {
             commands = mission_control.ParseMissionControlData(response);
             commands = rules_engine.ValidateCommands(commands);
-            commands = mode_switch.SwitchSteerMode(commands, arguments, motor_speeds);
+            commands = mode_switch.SwitchSteerMode(commands, arguments, motor_data);
             commands = lerp.Lerp(commands);
         }
         commands.Print();
-        arguments = ModeSelect::SelectMode(commands);
+        arguments = ModeSelect::SelectMode(commands, motor_data);
         arguments = tri_wheel.SetLegArguments(arguments);
 
         // arguments.Print();
-        // motor_speeds.print();
-        motor_speeds = tri_wheel.GetMotorFeedback();
+        // motor_data.print();
+        motor_data = tri_wheel.GetMotorFeedback();
     }
 
     return 0;
