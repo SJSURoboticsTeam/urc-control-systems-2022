@@ -1,7 +1,8 @@
 #pragma once
 #include "utility/math/units.hpp"
-#include "../dto/arm-dto.hpp"
+
 #include "../pca9685.hpp"
+#include "../../dto/arm-dto.hpp"
 
 namespace sjsu::arm
 {

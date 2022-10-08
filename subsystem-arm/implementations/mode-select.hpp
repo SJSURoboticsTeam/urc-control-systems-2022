@@ -1,6 +1,7 @@
 #pragma once
+
+#include "arm-modes.hpp"
 #include "../dto/arm-dto.hpp"
-#include "hand-modes.hpp"
 
 namespace sjsu::arm
 {
@@ -27,7 +28,31 @@ namespace sjsu::arm
                 break;
             }
         }
+    };
 
-    private:
+    class JointModeSelect
+    {
+    public:
+        static joint_arguments SelectMode(joint_arguments commands)
+        {
+            switch (commands.mode)
+            {
+            case 'S':
+            {
+                return JointModes::SimultaneousMode(commands);
+                break;
+            }
+            case 'C':
+            {
+                return JointModes::CondensedMode(commands);
+                break;
+            }
+            default:
+            {
+                return joint_arguments{};
+                break;
+            }
+            }
+        }
     };
 }

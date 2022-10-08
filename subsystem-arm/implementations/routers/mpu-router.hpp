@@ -1,9 +1,11 @@
 #pragma once
-#include "../library/devices/sensors/movement/accelerometer.hpp"
-#include "../subsystem-arm/dto/arm-dto.hpp"
-#include "utility/math/units.hpp"
 #include "utility/log.hpp"
-#include "../subsystem-arm/dto/feedback-dto.hpp"
+#include "utility/math/units.hpp"
+#include "devices/sensors/movement/accelerometer.hpp"
+
+#include "../../dto/arm-dto.hpp"
+#include "../../dto/feedback-dto.hpp"
+
 namespace sjsu::arm
 {
     class MpuRouter
