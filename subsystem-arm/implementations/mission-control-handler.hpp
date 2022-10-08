@@ -26,7 +26,7 @@ namespace sjsu::arm
             int actual_arguments = sscanf(response.c_str(), kResponseBodyFormat,
                                           &arguments_.joint_args.heartbeat_count, &arguments_.joint_args.is_operational, &arguments_.joint_args.mode,
                                           &arguments_.joint_args.rotunda_angle, &arguments_.joint_args.shoulder_angle, &arguments_.joint_args.elbow_angle,
-                                          &arguments_.joint_args.wrist_pitch_angle, &arguments_.joint_args.wrist_yaw_angle);
+                                          &arguments_.joint_args.wrist_pitch_angle, &arguments_.joint_args.wrist_roll_angle);
             if (actual_arguments != kExpectedNumberOfArguments)
             {
                 sjsu::LogError("Received %d expected %d arguments", actual_arguments, kExpectedNumberOfArguments);

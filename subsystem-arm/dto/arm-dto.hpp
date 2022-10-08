@@ -41,7 +41,7 @@ namespace sjsu::arm
 
         void Print()
         {
-            printf(kResponseBodyFormat, joint_args.heartbeat_count, joint_args.is_operational, joint_args.mode, joint_args.rotunda_angle, joint_args.shoulder_angle, joint_args.elbow_angle, joint_args.wrist_pitch_angle, joint_args.wrist_yaw_angle);
+            printf(kResponseBodyFormat, joint_args.heartbeat_count, joint_args.is_operational, joint_args.mode, joint_args.rotunda_angle, joint_args.shoulder_angle, joint_args.elbow_angle, joint_args.wrist_pitch_angle, joint_args.wrist_roll_angle);
         }
     };
 }
