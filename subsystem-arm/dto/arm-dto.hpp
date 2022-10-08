@@ -9,7 +9,7 @@ namespace sjsu::arm
     // joint_angles order [rotunda, shoulder, elbow, wrist_pitch, wrist_yaw]
     // hand_angles order [pinky, ring, middle, index, thumb]
     const char kResponseBodyFormat[] = "{\"heartbeat_count\":%d,\"is_operational\":%d,\"speed\":%d,\"joint_mode\":\"%c\",\"joint_angles\":[%d,%d,%d,%d,%d],\"hand_mode\":\"%c\",\"hand_angles\":[%d,%d,%d,%d,%d]}\n";
-    const char kGETRequestFormat[] = "arm?heartbeat_count=%d&is_operational=%d&speed=%d&joint_mode=%c&rotunda_angle=%d&shoulder_angle=%d&elbow_angle=%d&wrist_pitch_angle=%d&wrist_yaw_angle=%d&hand_mode=%c&pinky_angle=%d&ring_angle=%d&middle_angle=%d&index_angle=%d&thumb_angle=%d";
+    const char kGETRequestFormat[] = "arm?heartbeat_count=%d&is_operational=%d&speed=%d&joint_mode=%c&rotunda_angle=%d&shoulder_angle=%d&elbow_angle=%d&wrist_pitch_angle=%d&wrist_roll_angle=%d&hand_mode=%c&pinky_angle=%d&ring_angle=%d&middle_angle=%d&index_angle=%d&thumb_angle=%d";
 
     struct joint_arguments
     {
@@ -21,7 +21,7 @@ namespace sjsu::arm
         int shoulder_angle = 0;
         int elbow_angle = 0;
         int wrist_pitch_angle = 0;
-        int wrist_yaw_angle = 0;
+        int wrist_roll_angle = 0;
     };
 
     struct hand_arguments
@@ -41,7 +41,7 @@ namespace sjsu::arm
 
         void Print()
         {
-            printf(kResponseBodyFormat, joint_args.heartbeat_count, joint_args.is_operational, joint_args.speed, joint_args.mode, joint_args.rotunda_angle, joint_args.shoulder_angle, joint_args.elbow_angle, joint_args.wrist_pitch_angle, joint_args.wrist_yaw_angle, hand_args.mode, hand_args.pinky_angle, hand_args.ring_angle, hand_args.middle_angle, hand_args.index_angle, hand_args.thumb_angle);
+            printf(kResponseBodyFormat, joint_args.heartbeat_count, joint_args.is_operational, joint_args.speed, joint_args.mode, joint_args.rotunda_angle, joint_args.shoulder_angle, joint_args.elbow_angle, joint_args.wrist_pitch_angle, joint_args.wrist_roll_angle, hand_args.mode, hand_args.pinky_angle, hand_args.ring_angle, hand_args.middle_angle, hand_args.index_angle, hand_args.thumb_angle);
         }
     };
 }

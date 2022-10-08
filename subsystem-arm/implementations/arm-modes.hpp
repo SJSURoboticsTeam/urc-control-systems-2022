@@ -62,7 +62,7 @@ namespace sjsu::arm
             commands.shoulder_angle = kCondensedShoulderAngle;
             commands.elbow_angle = kCondensedElbowAngle;
             commands.wrist_pitch_angle = kCondensedWristPitchAngle;
-            commands.wrist_yaw_angle = kCondensedWristYawAngle;
+            commands.wrist_roll_angle = kCondensedWristRollAngle;
             return commands;
         }
 
@@ -73,7 +73,7 @@ namespace sjsu::arm
         static constexpr float kCondensedShoulderAngle = -18;
         static constexpr float kCondensedElbowAngle = 74;
         static constexpr float kCondensedWristPitchAngle = 0;
-        static constexpr float kCondensedWristYawAngle = 0;
+        static constexpr float kCondensedWristRollAngle = 0;
         static constexpr float kCondensedFingerAngle = 0;
         static constexpr int kMaxAngle = 75;
     };

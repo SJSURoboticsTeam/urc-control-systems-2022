@@ -27,8 +27,8 @@ namespace sjsu::arm
             rotunda_.SetAngle(units::angle::degree_t(arguments.joint_args.rotunda_angle), units::angular_velocity::revolutions_per_minute_t(arguments.joint_args.speed));
             shoulder_.SetAngle(units::angle::degree_t(arguments.joint_args.shoulder_angle), units::angular_velocity::revolutions_per_minute_t(arguments.joint_args.speed));
             elbow_.SetAngle(units::angle::degree_t(arguments.joint_args.elbow_angle), units::angular_velocity::revolutions_per_minute_t(arguments.joint_args.speed));
-            left_wrist_.SetAngle(units::angle::degree_t(arguments.joint_args.wrist_pitch_angle), units::angular_velocity::revolutions_per_minute_t(arguments.joint_args.speed));
-            right_wrist_.SetAngle(units::angle::degree_t(arguments.joint_args.wrist_yaw_angle), units::angular_velocity::revolutions_per_minute_t(arguments.joint_args.speed));
+            left_wrist_.SetAngle(units::angle::degree_t(arguments.joint_args.wrist_pitch_angle + arguments.joint_args.wrist_roll_angle), units::angular_velocity::revolutions_per_minute_t(arguments.joint_args.speed));
+            right_wrist_.SetAngle(units::angle::degree_t(-arguments.joint_args.wrist_pitch_angle + arguments.joint_args.wrist_roll_angle), units::angular_velocity::revolutions_per_minute_t(arguments.joint_args.speed));
             return arguments;
         }
 
