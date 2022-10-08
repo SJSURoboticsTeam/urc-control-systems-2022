@@ -59,6 +59,7 @@ namespace sjsu::arm
         static joint_arguments CondensedMode(joint_arguments commands)
         {
             commands.rotunda_angle = kCondensedRotundaAngle;
+            sjsu::Delay(3s);
             commands.shoulder_angle = kCondensedShoulderAngle;
             commands.elbow_angle = kCondensedElbowAngle;
             commands.wrist_pitch_angle = kCondensedWristPitchAngle;
