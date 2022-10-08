@@ -15,7 +15,7 @@ namespace sjsu::arm
             CHECK(args.shoulder_angle == original_commands.shoulder_angle);
             CHECK(args.elbow_angle == original_commands.elbow_angle);
             CHECK(args.wrist_pitch_angle == original_commands.wrist_pitch_angle);
-            CHECK(args.wrist_yaw_angle == original_commands.wrist_yaw_angle);
+            CHECK(args.wrist_roll_angle == original_commands.wrist_roll_angle);
         }
 
         SECTION("should ignore arguments and set angles to proper condensed mode angles")
@@ -26,7 +26,7 @@ namespace sjsu::arm
             CHECK_NE(args.shoulder_angle, original_commands.shoulder_angle);
             CHECK_NE(args.elbow_angle, original_commands.elbow_angle);
             CHECK_NE(args.wrist_pitch_angle, original_commands.wrist_pitch_angle);
-            CHECK_NE(args.wrist_yaw_angle, original_commands.wrist_pitch_angle);
+            CHECK_NE(args.wrist_roll_angle, original_commands.wrist_pitch_angle);
         }
     }
 }
