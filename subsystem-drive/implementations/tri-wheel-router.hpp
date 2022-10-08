@@ -124,9 +124,9 @@ namespace sjsu::drive
             motor_data.right_steer_speed = right_.steer_motor_.RequestFeedbackFromMotor().GetFeedback().speed;
             motor_data.back_steer_speed = back_.steer_motor_.RequestFeedbackFromMotor().GetFeedback().speed;
             // for angles we add the magnet offset in order to simulate the return of an encoder value with the 0 being at the magnet position
-            motor_data.left_steer_angle = sjsu::common::RmdEncoder::CalcEncoderPositions(left_.steer_motor_, false) + left_wheel_offset;
-            motor_data.right_steer_angle = sjsu::common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_, false) + right_wheel_offset;
-            motor_data.back_steer_angle = sjsu::common::RmdEncoder::CalcEncoderPositions(back_.steer_motor_, false) + back_wheel_offset;
+            motor_data.left_steer_angle = sjsu::common::RmdEncoder::CalcEncoderPositions(left_.steer_motor_, false) - left_wheel_offset;
+            motor_data.right_steer_angle = sjsu::common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_, false) - right_wheel_offset;
+            motor_data.back_steer_angle = sjsu::common::RmdEncoder::CalcEncoderPositions(back_.steer_motor_, false) - back_wheel_offset;
 
             return motor_data;
         }

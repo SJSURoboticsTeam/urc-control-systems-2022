@@ -54,6 +54,7 @@ namespace sjsu::drive
 
             if (steering_motor_data.left_steer_angle > 0)
             {
+                sjsu::LogInfo("%f", steering_motor_data.left_steer_angle);
                 steer_arguments.right.hub.speed = -GetInnerWheelHubSpeed(commands.speed, outter_wheel_angle);
                 steer_arguments.left.hub.speed = -GetOutterWheelHubSpeed(commands.speed, outter_wheel_angle);
                 steer_arguments.back.hub.speed = GetBackWheelHubSpeed(commands.speed, outter_wheel_angle);
@@ -61,12 +62,14 @@ namespace sjsu::drive
 
             else if (steering_motor_data.left_steer_angle < 0)
             {
+                sjsu::LogInfo("%f", steering_motor_data.left_steer_angle);
                 steer_arguments.left.hub.speed = -GetInnerWheelHubSpeed(commands.speed, outter_wheel_angle);
                 steer_arguments.right.hub.speed = -GetOutterWheelHubSpeed(commands.speed, outter_wheel_angle);
                 steer_arguments.back.hub.speed = GetBackWheelHubSpeed(commands.speed, outter_wheel_angle);
             }
             else
             {
+                sjsu::LogInfo("here3");
                 steer_arguments.left.hub.speed = -commands.speed;
                 steer_arguments.right.hub.speed = -commands.speed;
                 steer_arguments.back.hub.speed = commands.speed;
