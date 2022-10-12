@@ -63,7 +63,8 @@ int main()
     std::string response = serial.GetCommands();
     if (response.find('{') != std::string::npos && response.find('}') != std::string::npos)
     {
-      // printf("Received:\n%s\n", response.c_str());
+      // TODO: Make this work w Joystick Serial
+      printf("Received:\n%s\n", response.c_str());
       arguments = mission_control.ParseMissionControlData(response);
       arguments = rules_engine.ValidateCommands(arguments);
       arguments = lerp.Lerp(arguments);
