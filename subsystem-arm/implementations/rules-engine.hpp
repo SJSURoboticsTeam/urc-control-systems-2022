@@ -25,7 +25,7 @@ namespace sjsu::arm
 
             if (!commands.joint_args.is_operational)
             {
-                sjsu::LogWarning("Arm is not operational...");
+                // sjsu::LogWarning("Arm is not operational...");
                 commands.joint_args.speed = 0;
             }
 
