@@ -28,9 +28,19 @@ namespace sjsu::arm
             return arguments;
         }
         // Sets angle of each finger according to what mission control sends to each individual finger.
-        static hand_arguments IndividualMode(hand_arguments arguments)
+        static hand_arguments IndividualMode(hand_arguments arguments, hand_angle angle)
         {
-            return arguments;
+            arguments.pinky_argument=clamp(arguments.pinky_argument,kMappedMinHandArgumentAngle, kMappedMaxHandArgumentAngle);
+            arguments.ring_argument=clamp(arguments.ring_argument,kMappedMinHandArgumentAngle, kMappedMaxHandArgumentAngle);
+            arguments.middle_argument=clamp(arguments.middle_argument, kMappedMinHandArgumentAngle, kMappedMaxHandArgumentAngle);
+            arguments.index_argument=clamp(arguments.index_argument, kMappedMinHandArgumentAngle, kMappedMaxHandArgumentAngle);
+            arguments.thumb_argument=clamp(arguments.thumb_argument,kMappedMinHandArgumentAngle, kMappedMaxHandArgumentAngle);
+            angle.pinky_angle=Map(arguments.pinky_argument, kMinAngle,kMaxAngle,kMappedMinHandArgumentAngle,kMappedMaxHandArgumentAngle);
+            angle.ring_angle=Map(arguments.ring_argument, kMinAngle,kMaxAngle,kMappedMinHandArgumentAngle,kMappedMaxHandArgumentAngle);
+            angle.middle_angle=Map(arguments.middle_argument, kMinAngle,kMaxAngle,kMappedMinHandArgumentAngle,kMappedMaxHandArgumentAngle);
+            angle.index_angle=Map(arguments.index_argument,kMinAngle,kMaxAngle,kMappedMinHandArgumentAngle,kMappedMaxHandArgumentAngle);
+            angle.thumb_angle=Map(arguments.thumb_argument,kMinAngle,kMaxAngle,kMappedMinHandArgumentAngle,kMappedMaxHandArgumentAngle);
+            return angle;
         }
         // Sets angle of all fingers according to what mission control sends to finger_angle.
         static hand_arguments SimultaneousMode(hand_arguments arguments)
@@ -44,8 +54,10 @@ namespace sjsu::arm
         }
 
     private:
-        static constexpr int min_angle_ = 88;
-        static constexpr int max_angle_ = 175;
+        static constexpr int kMinAngle = 88;
+        static constexpr int kMaxAngle = 175;
+        static constexpr int kMappedMinHandArgumentAngle=0;
+        static constexpr int kMappedMaxHandArgumentAngle=100;
     };
 
     class JointModes
