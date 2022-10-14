@@ -32,9 +32,9 @@ int main()
     back_steer_motor.settings.gear_ratio = 6;
     back_hub_motor.settings.gear_ratio = 15;
 
-    sjsu::demo::Leg right_leg(right_steer_motor, right_hub_motor);
-    sjsu::demo::Leg left_leg(left_steer_motor, left_hub_motor);
-    sjsu::demo::Leg back_leg(back_steer_motor, back_hub_motor);
+    sjsu::demo::Leg right_leg(right_steer_motor, right_hub_motor, 0, "Right");
+    sjsu::demo::Leg left_leg(left_steer_motor, left_hub_motor, 1, "Left");
+    sjsu::demo::Leg back_leg(back_steer_motor, back_hub_motor, 2, "Back");
 
     sjsu::demo::Rover::Legs legs = {&left_leg, &right_leg, &back_leg};
     sjsu::demo::Rover rover(legs);

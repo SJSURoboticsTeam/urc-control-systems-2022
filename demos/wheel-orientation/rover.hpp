@@ -39,6 +39,9 @@ namespace sjsu::demo
             legs_.right = legs_array_[(position + 1) % 3];
             legs_.back = legs_array_[(position + 2) % 3];
             printf("Orientation: %d legs_.left: %p legs_.right: %p legs_.back: %p\n", position % 3, legs_.left, legs_.right, legs_.back);
+            legs_.right->Print();
+            legs_.left->Print();
+            legs_.back->Print();
         };
 
     private:
