@@ -28,7 +28,7 @@ int main()
 
     sjsu::LogInfo("Serial Testing Starting...");
     sjsu::common::Serial serial(sjsu::lpc40xx::GetUart<0>());
-    int entered_angle = 0;
+    int entered_angle = 100;
 
     while (true)
     {
@@ -41,7 +41,6 @@ int main()
         units::angle::degree_t desired_angle(entered_angle);
         sjsu::LogInfo("Setting servo to %d degrees", entered_angle);
         servo.SetAngle(desired_angle);
-        sjsu::Delay(1s);
 
         // this is more realistic
         // for (units::angle::degree_t servo_angle = 0_deg; servo_angle < 180_deg; servo_angle++)
@@ -55,7 +54,7 @@ int main()
         // for (std::chrono::microseconds pulse_width = 1700us; pulse_width > 1300us; pulse_width--)
         // {
         //     servo.SetPulseWidthInMicroseconds(pulse_width);
-        //     float angle = static_cast<float>(pulse_width.count() - 500) / 10.0f;
+        //     float angle = static_cast<float>(pulse_width.count());
         //     sjsu::LogInfo("%f", angle);
         //     sjsu::Delay(10ms);
         // }
