@@ -7,7 +7,7 @@ namespace sjsu::demo
     class Leg
     {
     public:
-        Leg(sjsu::RmdX &steer, sjsu::RmdX &drive, int offset, std::string name) : steer_motor_(steer), drive_motor_(drive), offset_(offset), name_(name) {}
+        Leg(sjsu::RmdX &steer, sjsu::RmdX &drive, float offset, std::string name) : steer_motor_(steer), drive_motor_(drive), offset_(offset), name_(name) {}
 
         void Initialize()
         {
@@ -23,13 +23,13 @@ namespace sjsu::demo
 
         void Print()
         {
-            sjsu::LogInfo("%s Offset: %d", name_.c_str(), offset_);
+            sjsu::LogInfo("%s Offset: %f", name_.c_str(), offset_);
         }
 
     private:
         sjsu::RmdX &steer_motor_;
         sjsu::RmdX &drive_motor_;
-        int offset_;
+        float offset_;
         std::string name_;
     };
 } // namespace sjsu::drive

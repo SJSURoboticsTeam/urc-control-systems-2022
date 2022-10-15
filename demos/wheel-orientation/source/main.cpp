@@ -6,6 +6,7 @@
 #include "devices/actuators/servo/rmd_x.hpp"
 
 #include "../../common/serial.hpp"
+#include "../../common/rmd-encoder.hpp"
 #include "rover.hpp"
 #include "leg.hpp"
 
@@ -32,26 +33,38 @@ int main()
     back_steer_motor.settings.gear_ratio = 6;
     back_hub_motor.settings.gear_ratio = 15;
 
-    sjsu::demo::Leg right_leg(right_steer_motor, right_hub_motor, 0, "Right");
-    sjsu::demo::Leg left_leg(left_steer_motor, left_hub_motor, 1, "Left");
-    sjsu::demo::Leg back_leg(back_steer_motor, back_hub_motor, 2, "Back");
+    float left_steer_encoder_position = 1.0;
+    float right_steer_encoder_position = 2.0;
+    float back_steer_encoder_position = 3.0;
+
+    // float left_steer_encoder_position = sjsu::common::RmdEncoder::CalcEncoderPositions(left_steer_motor);
+    // float right_steer_encoder_position = sjsu::common::RmdEncoder::CalcEncoderPositions(right_steer_motor);
+    // float back_steer_encoder_position = sjsu::common::RmdEncoder::CalcEncoderPositions(back_steer_motor);
+
+    sjsu::demo::Leg left_leg(left_steer_motor, left_hub_motor, left_steer_encoder_position, "Left");
+    sjsu::demo::Leg right_leg(right_steer_motor, right_hub_motor, right_steer_encoder_position, "Right");
+    sjsu::demo::Leg back_leg(back_steer_motor, back_hub_motor, back_steer_encoder_position, "Back");
 
     sjsu::demo::Rover::Legs legs = {&left_leg, &right_leg, &back_leg};
     sjsu::demo::Rover rover(legs);
 
     rover.Initialize();
 
+    rover.SetLegsToZeroExceptBack(0);
+    sjsu::LogInfo("Waiting 3 seconds...");
+    sjsu::Delay(3s);
+    sjsu::LogInfo("Ready!");
+
     int wheel_orientation = 0;
     while (true)
     {
-        std::string response = serial.GetCommands(); // pass in a number to change wheel orientation
+        std::string response = serial.GetCommands();
         if (response != "")
         {
             int new_wheel_orientation = std::stoi(response);
             if (new_wheel_orientation != wheel_orientation)
             {
                 wheel_orientation = new_wheel_orientation;
-                // sjsu::LogInfo("Wheel orientation changed to %d", wheel_orientation);
                 rover.SwitchLegOrientation(wheel_orientation);
             }
         }
