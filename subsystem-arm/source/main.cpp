@@ -61,15 +61,20 @@ int main()
   while (1)
   {
     std::string response = serial.GetCommands();
-    if (response != "")
+    if (response.find('{') != std::string::npos && response.find('}') != std::string::npos)
     {
       // TODO: Make this work w Joystick Serial
       printf("Received:\n%s\n", response.c_str());
       arguments = mission_control.ParseMissionControlData(response);
       arguments = rules_engine.ValidateCommands(arguments);
       arguments = lerp.Lerp(arguments);
+<<<<<<< HEAD
       arguments.Print();
     }
+=======
+    }
+    arguments.Print();
+>>>>>>> ba70cea14968bdeaf8cf0aace1c84118006580ed
     arguments.joint_args = JointModeSelect::SelectMode(arguments.joint_args);
     arguments.hand_args = HandModeSelect::SelectMode(arguments.hand_args);
     joint_router.SetArmArguments(arguments);

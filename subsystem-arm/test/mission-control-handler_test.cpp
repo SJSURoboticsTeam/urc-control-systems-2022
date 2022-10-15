@@ -17,7 +17,11 @@ namespace sjsu::arm
         SECTION("should return default arm status on startup")
         {
             std::string expected_formatted_rover_status =
+<<<<<<< HEAD
                 "arm?heartbeat_count=0&is_operational=0&speed=0&joint_mode=S&rotunda_angle=0&shoulder_angle=0&elbow_angle=0&wrist_pitch_angle=0&wrist_yaw_angle=0&hand_mode=I&pinky_angle=88&ring_angle=88&middle_angle=88&index_angle=88&thumb_angle=88";
+=======
+                "arm?heartbeat_count=0&is_operational=0&speed=0&joint_mode=S&rotunda_angle=0&shoulder_angle=0&elbow_angle=0&wrist_pitch_angle=0&wrist_roll_angle=0&hand_mode=I&pinky_angle=88&ring_angle=88&middle_angle=88&index_angle=88&thumb_angle=88";
+>>>>>>> ba70cea14968bdeaf8cf0aace1c84118006580ed
 
             std::string actual_formatted_rover_status = mc_handler.CreateGETRequestParameterWithRoverStatus(arm_feedback);
 
@@ -41,7 +45,7 @@ namespace sjsu::arm
             CHECK_EQ(expected_args.joint_args.shoulder_angle, actual_args.joint_args.shoulder_angle);
             CHECK_EQ(expected_args.joint_args.elbow_angle, actual_args.joint_args.elbow_angle);
             CHECK_EQ(expected_args.joint_args.wrist_pitch_angle, actual_args.joint_args.wrist_pitch_angle);
-            CHECK_EQ(expected_args.joint_args.wrist_yaw_angle, actual_args.joint_args.wrist_yaw_angle);
+            CHECK_EQ(expected_args.joint_args.wrist_roll_angle, actual_args.joint_args.wrist_roll_angle);
             CHECK_EQ(expected_args.hand_args.mode, actual_args.hand_args.mode);
             CHECK_EQ(expected_args.hand_args.pinky_angle, actual_args.hand_args.pinky_angle);
             CHECK_EQ(expected_args.hand_args.ring_angle, actual_args.hand_args.ring_angle);

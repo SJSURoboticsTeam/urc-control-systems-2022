@@ -25,11 +25,16 @@ namespace sjsu::drive
                 response.c_str(), kResponseBodyFormat,
                 &commands_.heartbeat_count, &commands_.is_operational, &commands_.wheel_orientation,
                 &commands_.mode, &commands_.speed, &commands_.angle);
+            if (actual_arguments != kExpectedNumberOfArguments)
+            {
+                sjsu::LogError("Received %d arguments, expected %d", actual_arguments, kExpectedNumberOfArguments);
+            }
             return commands_;
         }
 
     private:
         drive_commands commands_;
+        const int kExpectedNumberOfArguments = 6;
     };
 
 }
