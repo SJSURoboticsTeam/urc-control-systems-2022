@@ -29,6 +29,8 @@ namespace sjsu::demo
         {
             legs_.left->SetSteerAngle(0);
             legs_.right->SetSteerAngle(0);
+            sjsu::LogInfo("setting back angle in 3s...");
+            sjsu::Delay(3s);
             legs_.back->SetSteerAngle(back_angle);
         }
 

@@ -33,22 +33,33 @@ int main()
     back_steer_motor.settings.gear_ratio = 6;
     back_hub_motor.settings.gear_ratio = 15;
 
-    float left_steer_encoder_position = 1.0;
-    float right_steer_encoder_position = 2.0;
-    float back_steer_encoder_position = 3.0;
+    auto &left_magnet = sjsu::lpc40xx::GetGpio<2, 1>();
+    auto &right_magnet = sjsu::lpc40xx::GetGpio<2, 2>();
+    auto &back_magnet = sjsu::lpc40xx::GetGpio<2, 0>();
 
-    // float left_steer_encoder_position = sjsu::common::RmdEncoder::CalcEncoderPositions(left_steer_motor);
-    // float right_steer_encoder_position = sjsu::common::RmdEncoder::CalcEncoderPositions(right_steer_motor);
-    // float back_steer_encoder_position = sjsu::common::RmdEncoder::CalcEncoderPositions(back_steer_motor);
+    left_steer_motor.Initialize();
+    right_steer_motor.Initialize();
+    back_steer_motor.Initialize();
 
-    sjsu::demo::Leg left_leg(left_steer_motor, left_hub_motor, left_steer_encoder_position, "Left");
-    sjsu::demo::Leg right_leg(right_steer_motor, right_hub_motor, right_steer_encoder_position, "Right");
-    sjsu::demo::Leg back_leg(back_steer_motor, back_hub_motor, back_steer_encoder_position, "Back");
+    left_hub_motor.Initialize();
+    right_hub_motor.Initialize();
+    back_hub_motor.Initialize();
+
+    float left_steer_encoder_position = sjsu::common::RmdEncoder::CalcEncoderPositions(left_steer_motor);
+    float right_steer_encoder_position = sjsu::common::RmdEncoder::CalcEncoderPositions(right_steer_motor);
+    float back_steer_encoder_position = sjsu::common::RmdEncoder::CalcEncoderPositions(back_steer_motor);
+
+    sjsu::demo::Leg left_leg(left_steer_motor, left_hub_motor, left_magnet, left_steer_encoder_position, "Left");
+    sjsu::demo::Leg right_leg(right_steer_motor, right_hub_motor, right_magnet, right_steer_encoder_position, "Right");
+    sjsu::demo::Leg back_leg(back_steer_motor, back_hub_motor, back_magnet, back_steer_encoder_position, "Back");
 
     sjsu::demo::Rover::Legs legs = {&left_leg, &right_leg, &back_leg};
     sjsu::demo::Rover rover(legs);
 
-    rover.Initialize();
+    // home rover
+    left_leg.HomeLeg();
+    right_leg.HomeLeg();
+    back_leg.HomeLeg();
 
     rover.SetLegsToZeroExceptBack(0);
     sjsu::LogInfo("Waiting 3 seconds...");
