@@ -67,7 +67,7 @@ namespace sjsu::arm
             return commands;
         }
 
-        // TODO: come up with other possible modes
+        
 
     private:
         static constexpr float kCondensedRotundaAngle = 0;

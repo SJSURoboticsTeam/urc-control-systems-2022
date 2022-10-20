@@ -20,9 +20,18 @@ namespace sjsu::arm
         int rotunda_angle = 0;
         int shoulder_angle = 0;
         int elbow_angle = 0;
-        int wrist_pitch_angle = 0;
-        int wrist_roll_angle = 0;
     };
+    
+    struct wrist_arguments
+    {
+        // these are parsed from mc
+        int pitch_angle = 0;
+        int roll_angle = 0;
+
+        // these will be calcualted based on the above angles with a default value of 5rpms
+        float left_motor_speed = 5;
+        float right_motor_speed = 5;
+    }
 
     struct hand_arguments
     {
@@ -38,10 +47,11 @@ namespace sjsu::arm
     {
         joint_arguments joint_args;
         hand_arguments hand_args;
+        wrist_arguments wrist_args;
 
         void Print()
         {
-            printf(kResponseBodyFormat, joint_args.heartbeat_count, joint_args.is_operational, joint_args.mode, joint_args.rotunda_angle, joint_args.shoulder_angle, joint_args.elbow_angle, joint_args.wrist_pitch_angle, joint_args.wrist_roll_angle);
+            printf(kResponseBodyFormat, joint_args.heartbeat_count, joint_args.is_operational, joint_args.mode, joint_args.rotunda_angle, joint_args.shoulder_angle, joint_args.elbow_angle, wrist_args.pitch_angle, wrist_args.roll_angle);
         }
     };
 }
