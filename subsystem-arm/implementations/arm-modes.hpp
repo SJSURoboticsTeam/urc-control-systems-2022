@@ -56,26 +56,12 @@ namespace sjsu::arm
             return commands;
         }
 
-        static joint_arguments CondensedMode(joint_arguments commands)
-        {
-            commands.rotunda_angle = kCondensedRotundaAngle;
-            sjsu::Delay(3s);
-            commands.shoulder_angle = kCondensedShoulderAngle;
-            commands.elbow_angle = kCondensedElbowAngle;
-            commands.wrist_pitch_angle = kCondensedWristPitchAngle;
-            commands.wrist_roll_angle = kCondensedWristRollAngle;
-            return commands;
-        }
-
-        
-
     private:
-        static constexpr float kCondensedRotundaAngle = 0;
-        static constexpr float kCondensedShoulderAngle = -18;
-        static constexpr float kCondensedElbowAngle = 74;
-        static constexpr float kCondensedWristPitchAngle = 0;
-        static constexpr float kCondensedWristRollAngle = 0;
-        static constexpr float kCondensedFingerAngle = 0;
+
+        static wrist_arguments CalcWristSpeed()
+        {
+            
+        }
         static constexpr int kMaxAngle = 75;
     };
 }
