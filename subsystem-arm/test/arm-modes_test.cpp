@@ -21,7 +21,9 @@ namespace sjsu::arm
         SECTION("should ignore arguments and set angles to proper condensed mode angles")
         {
             joint_arguments original_commands = {10, 10, 10, 10, 10, 10, 10, 10, 'S'};
-            joint_arguments args = JointModes::CondensedMode(original_commands);
+            // joint_arguments args = JointModes::CondensedMode(original_commands);
+            // Condensed Mode is being taken out
+            joint_arguments args = JointModes::SimultaneousMode(original_commands);
             CHECK_NE(args.rotunda_angle, original_commands.rotunda_angle);
             CHECK_NE(args.shoulder_angle, original_commands.shoulder_angle);
             CHECK_NE(args.elbow_angle, original_commands.elbow_angle);
