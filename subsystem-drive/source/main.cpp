@@ -82,7 +82,7 @@ int main()
             sjsu::LogInfo("Received commands: %s", response.c_str());
         }
         {
-            commands = mission_control.ParseMissionControlData(response);
+            // commands = mission_control.ParseMissionControlData(response);
             commands = rules_engine.ValidateCommands(commands);
             commands = mode_switch.SwitchSteerMode(commands, arguments, motor_speeds);
             commands = lerp.Lerp(commands);
