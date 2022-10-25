@@ -24,13 +24,13 @@ namespace sjsu::drive
 
             if (commands.angle > 0)
             {
-                outter_wheel_angle = -commands.angle;
+                outter_wheel_angle = static_cast<float>(-commands.angle);
                 steer_arguments.left.steer.angle = outter_wheel_angle;
                 steer_arguments.right.steer.angle = CalculateAckermann(outter_wheel_angle);
             }
             else if (commands.angle < 0)
             {
-                outter_wheel_angle = -commands.angle;
+                outter_wheel_angle = static_cast<float>(-commands.angle);
                 steer_arguments.right.steer.angle = outter_wheel_angle;
                 steer_arguments.left.steer.angle = CalculateAckermann(outter_wheel_angle);
             }
@@ -53,22 +53,22 @@ namespace sjsu::drive
 
             if (outter_wheel_angle > 0)
             {
-                steer_arguments.right.hub.speed = -GetInnerWheelHubSpeed(commands.speed, outter_wheel_angle);
-                steer_arguments.left.hub.speed = -GetOutterWheelHubSpeed(commands.speed, outter_wheel_angle);
-                steer_arguments.back.hub.speed = GetBackWheelHubSpeed(commands.speed, outter_wheel_angle);
+                steer_arguments.right.hub.speed = -GetInnerWheelHubSpeed(static_cast<float>(commands.speed), outter_wheel_angle);
+                steer_arguments.left.hub.speed = -GetOutterWheelHubSpeed(static_cast<float>(commands.speed), outter_wheel_angle);
+                steer_arguments.back.hub.speed = GetBackWheelHubSpeed(static_cast<float>(commands.speed), outter_wheel_angle);
             }
 
             else if (outter_wheel_angle < 0)
             {
-                steer_arguments.left.hub.speed = -GetInnerWheelHubSpeed(commands.speed, outter_wheel_angle);
-                steer_arguments.right.hub.speed = -GetOutterWheelHubSpeed(commands.speed, outter_wheel_angle);
-                steer_arguments.back.hub.speed = GetBackWheelHubSpeed(commands.speed, outter_wheel_angle);
+                steer_arguments.left.hub.speed = -GetInnerWheelHubSpeed(static_cast<float>(commands.speed), outter_wheel_angle);
+                steer_arguments.right.hub.speed = -GetOutterWheelHubSpeed(static_cast<float>(commands.speed), outter_wheel_angle);
+                steer_arguments.back.hub.speed = GetBackWheelHubSpeed(static_cast<float>(commands.speed), outter_wheel_angle);
             }
             else
             {
-                steer_arguments.left.hub.speed = -commands.speed;
-                steer_arguments.right.hub.speed = -commands.speed;
-                steer_arguments.back.hub.speed = commands.speed;
+                steer_arguments.left.hub.speed = static_cast<float>(-commands.speed);
+                steer_arguments.right.hub.speed = static_cast<float>(-commands.speed);
+                steer_arguments.back.hub.speed = static_cast<float>(commands.speed);
             }
 
             // adding the offsets to put it into the base drive mode
@@ -84,9 +84,9 @@ namespace sjsu::drive
             temp.back.steer.angle = kBackLegSpinOffset;
             temp.left.steer.angle = kLeftLegSpinOffset;
             temp.right.steer.angle = kRightLegSpinOffset;
-            temp.back.hub.speed = commands.speed;
-            temp.left.hub.speed = -commands.speed;
-            temp.right.hub.speed = commands.speed;
+            temp.back.hub.speed = static_cast<float>(commands.speed);
+            temp.left.hub.speed = static_cast<float>(-commands.speed);
+            temp.right.hub.speed = static_cast<float>(commands.speed);
 
             return temp;
         }
@@ -95,13 +95,13 @@ namespace sjsu::drive
         {
             tri_wheel_router_arguments steer_arguments;
 
-            steer_arguments.left.steer.angle = commands.angle + kLeftLegDriveOffset;
-            steer_arguments.right.steer.angle = commands.angle + kRightLegDriveOffset;
-            steer_arguments.back.steer.angle = commands.angle + kBackLegDriveOffset;
+            steer_arguments.left.steer.angle = static_cast<float>(commands.angle) + kLeftLegDriveOffset;
+            steer_arguments.right.steer.angle = static_cast<float>(commands.angle) + kRightLegDriveOffset;
+            steer_arguments.back.steer.angle = static_cast<float>(commands.angle) + kBackLegDriveOffset;
 
-            steer_arguments.left.hub.speed = -commands.speed;
-            steer_arguments.right.hub.speed = -commands.speed;
-            steer_arguments.back.hub.speed = commands.speed;
+            steer_arguments.left.hub.speed = static_cast<float>(-commands.speed);
+            steer_arguments.right.hub.speed = static_cast<float>(-commands.speed);
+            steer_arguments.back.hub.speed = static_cast<float>(commands.speed);
 
             return steer_arguments;
         }
@@ -146,17 +146,17 @@ namespace sjsu::drive
 
         static float GetInnerWheelRadius(float outter_wheel_angle)
         {
-            return (15 * pow(abs(outter_wheel_angle), -.971));
+            return (15 * std::pow(std::abs(outter_wheel_angle), static_cast<float>(-.971)));
         }
 
         static float GetBackWheelRadius(float outter_wheel_angle)
         {
-            return (11.6 * pow(abs(outter_wheel_angle), -.698));
+            return (static_cast<float>(11.6) * std::pow(std::abs(outter_wheel_angle), static_cast<float>(-.698)));
         }
 
         static float GetOutterWheelRadius(float outter_wheel_angle)
         {
-            return (11.6 * pow(abs(outter_wheel_angle), -.616));
+            return (static_cast<float>(11.6) * std::pow(std::abs(outter_wheel_angle), static_cast<float>(-.616)));
         }
     };
 } // sjsu::drive
