@@ -9,11 +9,11 @@ namespace sjsu::arm
         arm_arguments Lerp(arm_arguments commands)
         {
             // TODO: Fix this logic - don't think we want to lerp angles just speed
-            last_lerped_command_.joint_args.elbow_angle = std::lerp(last_lerped_command_.joint_args.elbow_angle, commands.joint_args.elbow_angle, kSpeedLerp);
-            last_lerped_command_.joint_args.rotunda_angle = std::lerp(last_lerped_command_.joint_args.rotunda_angle, commands.joint_args.rotunda_angle, kSpeedLerp);
-            last_lerped_command_.joint_args.shoulder_angle = std::lerp(last_lerped_command_.joint_args.shoulder_angle, commands.joint_args.shoulder_angle, kSpeedLerp);
-            last_lerped_command_.joint_args.wrist_roll_angle = std::lerp(last_lerped_command_.joint_args.wrist_roll_angle, commands.joint_args.wrist_roll_angle, kSpeedLerp);
-            last_lerped_command_.joint_args.wrist_pitch_angle = std::lerp(last_lerped_command_.joint_args.wrist_pitch_angle, commands.joint_args.wrist_pitch_angle, kSpeedLerp);
+            last_lerped_command_.joint_args.elbow_angle = static_cast<int>(std::lerp(last_lerped_command_.joint_args.elbow_angle, commands.joint_args.elbow_angle, kSpeedLerp));
+            last_lerped_command_.joint_args.rotunda_angle = static_cast<int>(std::lerp(last_lerped_command_.joint_args.rotunda_angle, commands.joint_args.rotunda_angle, kSpeedLerp));
+            last_lerped_command_.joint_args.shoulder_angle = static_cast<int>(std::lerp(last_lerped_command_.joint_args.shoulder_angle, commands.joint_args.shoulder_angle, kSpeedLerp));
+            last_lerped_command_.joint_args.wrist_roll_angle = static_cast<int>(std::lerp(last_lerped_command_.joint_args.wrist_roll_angle, commands.joint_args.wrist_roll_angle, kSpeedLerp));
+            last_lerped_command_.joint_args.wrist_pitch_angle = static_cast<int>(std::lerp(last_lerped_command_.joint_args.wrist_pitch_angle, commands.joint_args.wrist_pitch_angle, kSpeedLerp));
             commands.joint_args.wrist_pitch_angle = last_lerped_command_.joint_args.wrist_pitch_angle;
 <<<<<<< HEAD
             commands.joint_args.wrist_yaw_angle = last_lerped_command_.joint_args.wrist_yaw_angle;
