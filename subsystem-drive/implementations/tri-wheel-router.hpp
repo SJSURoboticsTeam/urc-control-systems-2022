@@ -73,7 +73,7 @@ namespace sjsu::drive
 
             motor_feedback angle_verification;
 
-            while ((common::RmdEncoder::CalcEncoderPositions(left_.steer_motor_) >= static_cast<float>(0.01) &&  common::RmdEncoder::CalcEncoderPositions(left_.steer_motor_) <= static_cast<float>(-0.01))&& (common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_) >= static_cast<float>(0.01) &&  common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_) <= static_cast<float>(-0.01)) && (common::RmdEncoder::CalcEncoderPositions(back_.steer_motor_) >= static_cast<float>(0.01) &&  common::RmdEncoder::CalcEncoderPositions(back_.steer_motor_) <= static_cast<float>(-0.01)))
+            while ((common::RmdEncoder::CalcEncoderPositions(left_.steer_motor_) >= static_cast<float>(0.01) ||  common::RmdEncoder::CalcEncoderPositions(left_.steer_motor_) <= static_cast<float>(-0.01))&& (common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_) >= static_cast<float>(0.01) ||  common::RmdEncoder::CalcEncoderPositions(right_.steer_motor_) <= static_cast<float>(-0.01)) && (common::RmdEncoder::CalcEncoderPositions(back_.steer_motor_) >= static_cast<float>(0.01) ||  common::RmdEncoder::CalcEncoderPositions(back_.steer_motor_) <= static_cast<float>(-0.01)))
             {
                 if (left_.magnet_.Read() == not_homed)
                 {
