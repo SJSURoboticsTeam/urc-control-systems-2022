@@ -125,7 +125,7 @@ namespace sjsu::drive
             float ratio = GetOutterWheelRadius(outter_wheel_angle) /
                           GetInnerWheelRadius(outter_wheel_angle);
             // std::clamp(inner_wheel_speed, -100 / ratio, 100 / ratio);
-            return outter_wheel_speed;
+            return (outter_wheel_speed * ratio);
         }
 
         static float GetBackWheelHubSpeed(float outter_wheel_speed, float outter_wheel_angle)
