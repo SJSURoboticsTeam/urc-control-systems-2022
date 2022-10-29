@@ -54,14 +54,14 @@ namespace sjsu::drive
             if (outter_wheel_angle > 0)
             {
                 steer_arguments.right.hub.speed = -GetInnerWheelHubSpeed(static_cast<float>(commands.speed), outter_wheel_angle);
-                steer_arguments.left.hub.speed = -GetOutterWheelHubSpeed(static_cast<float>(commands.speed), outter_wheel_angle);
+                steer_arguments.left.hub.speed = -static_cast<float>(commands.speed);
                 steer_arguments.back.hub.speed = GetBackWheelHubSpeed(static_cast<float>(commands.speed), outter_wheel_angle);
             }
 
             else if (outter_wheel_angle < 0)
             {
                 steer_arguments.left.hub.speed = -GetInnerWheelHubSpeed(static_cast<float>(commands.speed), outter_wheel_angle);
-                steer_arguments.right.hub.speed = -GetOutterWheelHubSpeed(static_cast<float>(commands.speed), outter_wheel_angle);
+                steer_arguments.right.hub.speed = -static_cast<float>(commands.speed);
                 steer_arguments.back.hub.speed = GetBackWheelHubSpeed(static_cast<float>(commands.speed), outter_wheel_angle);
             }
             else
@@ -122,8 +122,9 @@ namespace sjsu::drive
             // clamps the inner wheel speed to be no faster then what will mess up the
             // correct ackerman velocity this clamp will then ensure the same for the
             // back wheel speed since its based on this angle
-            float ratio = GetOutterWheelRadius(outter_wheel_angle) /
-                          GetInnerWheelRadius(outter_wheel_angle);
+            float ratio = GetInnerWheelRadius(outter_wheel_angle) / 
+            GetOutterWheelRadius(outter_wheel_angle);
+            sjsu::LogInfo("Inner Ratio: %F\n", ratio);
             // std::clamp(inner_wheel_speed, -100 / ratio, 100 / ratio);
             return (outter_wheel_speed * ratio);
         }
@@ -131,18 +132,19 @@ namespace sjsu::drive
         static float GetBackWheelHubSpeed(float outter_wheel_speed, float outter_wheel_angle)
         {
             float ratio = GetBackWheelRadius(outter_wheel_angle) /
-                          GetInnerWheelRadius(outter_wheel_angle);
-            float back_wheel_speed = outter_wheel_speed * ratio;
+                          GetOutterWheelRadius(outter_wheel_angle);
+            sjsu::LogInfo("Back Ratio: %F\n", ratio);
             // std::clamp(inner_wheel_speed * ratio, -100 / ratio, 100 / ratio);
-            return back_wheel_speed;
-        }
-
-        static float GetOutterWheelHubSpeed(float outter_wheel_speed, float outter_wheel_angle)
-        {
-            float ratio = GetOutterWheelRadius(outter_wheel_angle) /
-                          GetInnerWheelRadius(outter_wheel_angle);
             return (outter_wheel_speed * ratio);
         }
+
+        // static float GetOutterWheelHubSpeed(float outter_wheel_speed, float outter_wheel_angle)
+        // {
+        //     float ratio = GetOutterWheelRadius(outter_wheel_angle) /
+        //                   GetInnerWheelRadius(outter_wheel_angle);
+        //     sjsu::LogInfo("Outer Ratio: %F\n", ratio);
+        //     return (outter_wheel_speed * ratio);
+        // }
 
         static float GetInnerWheelRadius(float outter_wheel_angle)
         {
