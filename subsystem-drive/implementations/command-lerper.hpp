@@ -17,8 +17,8 @@ namespace sjsu::drive
         }
 
     private:
-        const float kSpeedLerp = static_cast<float>(0.4);
-        const float kAngleLerp = static_cast<float>(0.6);
+        const float kSpeedLerp = 0.4f;
+        const float kAngleLerp = 0.6f;
         drive_commands last_lerped_command_{}; // don't touch mode or wheel orientation logic
     };
 }

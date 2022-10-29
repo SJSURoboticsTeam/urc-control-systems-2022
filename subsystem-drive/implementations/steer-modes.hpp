@@ -124,7 +124,6 @@ namespace sjsu::drive
             // back wheel speed since its based on this angle
             float ratio = GetInnerWheelRadius(outter_wheel_angle) / 
             GetOutterWheelRadius(outter_wheel_angle);
-            sjsu::LogInfo("Inner Ratio: %F\n", ratio);
             // std::clamp(inner_wheel_speed, -100 / ratio, 100 / ratio);
             return (outter_wheel_speed * ratio);
         }
@@ -133,32 +132,23 @@ namespace sjsu::drive
         {
             float ratio = GetBackWheelRadius(outter_wheel_angle) /
                           GetOutterWheelRadius(outter_wheel_angle);
-            sjsu::LogInfo("Back Ratio: %F\n", ratio);
             // std::clamp(inner_wheel_speed * ratio, -100 / ratio, 100 / ratio);
             return (outter_wheel_speed * ratio);
         }
 
-        // static float GetOutterWheelHubSpeed(float outter_wheel_speed, float outter_wheel_angle)
-        // {
-        //     float ratio = GetOutterWheelRadius(outter_wheel_angle) /
-        //                   GetInnerWheelRadius(outter_wheel_angle);
-        //     sjsu::LogInfo("Outer Ratio: %F\n", ratio);
-        //     return (outter_wheel_speed * ratio);
-        // }
-
         static float GetInnerWheelRadius(float outter_wheel_angle)
         {
-            return (15 * std::pow(std::abs(outter_wheel_angle), static_cast<float>(-.971)));
+            return (15.0f * std::pow(std::abs(outter_wheel_angle), -.971f));
         }
 
         static float GetBackWheelRadius(float outter_wheel_angle)
         {
-            return (static_cast<float>(11.6) * std::pow(std::abs(outter_wheel_angle), static_cast<float>(-.698)));
+            return (11.6f * std::pow(std::abs(outter_wheel_angle), -.698f));
         }
 
         static float GetOutterWheelRadius(float outter_wheel_angle)
         {
-            return (static_cast<float>(11.6) * std::pow(std::abs(outter_wheel_angle), static_cast<float>(-.616)));
+            return (11.6f * std::pow(std::abs(outter_wheel_angle), -.616f));
         }
     };
 } // sjsu::drive
