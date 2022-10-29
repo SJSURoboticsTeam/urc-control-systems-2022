@@ -24,11 +24,11 @@ namespace sjsu::arm
 
         void MoveToAngle(hand_arguments hand_arguments)
         {
-            pca_module_.setPulseWidth(0, AngleToPulseWidth(hand_arguments.pinky_angle));
-            pca_module_.setPulseWidth(1, AngleToPulseWidth(hand_arguments.ring_angle));
-            pca_module_.setPulseWidth(2, AngleToPulseWidth(hand_arguments.middle_angle));
-            pca_module_.setPulseWidth(3, AngleToPulseWidth(hand_arguments.index_angle));
-            pca_module_.setPulseWidth(4, AngleToPulseWidth(hand_arguments.thumb_angle));
+            pca_module_.setPulseWidth(0, AngleToPulseWidth(hand_arguments.pinky_argument));
+            pca_module_.setPulseWidth(1, AngleToPulseWidth(hand_arguments.ring_argument));
+            pca_module_.setPulseWidth(2, AngleToPulseWidth(hand_arguments.middle_argument));
+            pca_module_.setPulseWidth(3, AngleToPulseWidth(hand_arguments.index_argument));
+            pca_module_.setPulseWidth(4, AngleToPulseWidth(hand_arguments.thumb_argument));
         }
 
     private:

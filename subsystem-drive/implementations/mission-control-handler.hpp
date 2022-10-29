@@ -14,7 +14,7 @@ namespace sjsu::drive
             char request_parameter[200];
             snprintf(
                 request_parameter, 200, kGETRequestFormat,
-                commands.mode, commands.speed, commands.angle, commands.wheel_orientation);
+                commands.heartbeat_count, commands.is_operational, commands.wheel_orientation, commands.mode, commands.speed, commands.angle);
             return request_parameter;
         }
 
