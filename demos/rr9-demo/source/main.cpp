@@ -29,8 +29,9 @@ int main()
 
     sjsu::LogInfo("Serial Testing Starting...");
     sjsu::common::Serial serial(sjsu::lpc40xx::GetUart<0>());
-    int entered_angle = 100;
-
+    // int entered_angle = 100;
+    
+    
     while (true)
     {
         // std::string response = serial.GetCommands();
@@ -46,20 +47,28 @@ int main()
         //this is more realisticservo.settings.min_angle
         // Open
          printf("before 1st for\n");
-
-        for (units::angle::degree_t servo_angle = 0_deg; servo_angle < 65_deg; servo_angle++)
+        for (units::angle::degree_t servo_angle = 0_deg; servo_angle < 45_deg; servo_angle++)
         {
             // printf("Setting servo to %f degrees\n\n", servo_angle.to<double>());
             servo.SetAngle(servo_angle);
             sjsu::Delay(30ms);
         }
-         printf("before 2nd for\n");
-        for (units::angle::degree_t servo_angle = 65_deg; servo_angle > 0_deg; servo_angle--)
-        {
-            // printf("Setting servo to %f degrees\n\n", servo_angle.to<double>());
-            servo.SetAngle(servo_angle);
-            sjsu::Delay(30ms);
-        }
+        printf("before 2nd for\n");
+        for (units::angle::degree_t servo_angle = 45_deg; servo_angle > 0_deg; servo_angle--)
+            {
+                // printf("Setting servo to %f degrees\n\n", servo_angle.to<double>());
+                servo.SetAngle(servo_angle);
+                sjsu::Delay(30ms);
+            }
+    
+        
+    
+        // for (units::angle::degree_t servo_angle = 65_deg; servo_angle > 0_deg; servo_angle--)
+        // {
+        //     // printf("Setting servo to %f degrees\n\n", servo_angle.to<double>());
+        //     servo.SetAngle(servo_angle);
+        //     sjsu::Delay(30ms);
+        // }
 
         // not sure why they did this but it was in the demo
         // for (std::chrono::microseconds pulse_width = 1700us; pulse_width > 1300us; pulse_width--)
