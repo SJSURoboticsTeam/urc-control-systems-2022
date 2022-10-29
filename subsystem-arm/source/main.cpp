@@ -67,7 +67,6 @@ int main()
       printf("Received:\n%s\n", response.c_str());
       arguments = mission_control.ParseMissionControlData(response);
       arguments = rules_engine.ValidateCommands(arguments);
-      arguments = lerp.Lerp(arguments);
     }
     arguments.Print();
     arguments.joint_args = JointModeSelect::SelectMode(arguments.joint_args);
