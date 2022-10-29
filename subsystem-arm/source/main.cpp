@@ -10,7 +10,6 @@
 #include "../implementations/routers/mpu-router.hpp"
 
 #include "../implementations/mission-control-handler.hpp"
-#include "../implementations/command-lerper.hpp"
 #include "../implementations/rules-engine.hpp"
 #include "../implementations/mode-select.hpp"
 #include "../implementations/pca9685.hpp"
@@ -46,7 +45,6 @@ int main()
   JointRouter joint_router(rotunda_motor, shoulder_motor, elbow_motor, left_wrist_motor, right_wrist_motor);
   MissionControlHandler mission_control;
   RulesEngine rules_engine;
-  CommandLerper lerp;
   // TODO: Fix hand from crashing program when pca9685 is not connected!
   // HandRouter hand_router(pca9685);
   arm_arguments arguments;
