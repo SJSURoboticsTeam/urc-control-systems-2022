@@ -25,6 +25,7 @@ namespace sjsu::arm
                 return HandModes::SimultaneousMode(commands);
                 break;
             default:
+                return commands;
                 break;
             }
         }
