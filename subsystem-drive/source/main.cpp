@@ -64,7 +64,7 @@ int main()
 
     tri_wheel.Initialize();
     sjsu::Delay(1s);
-    tri_wheel.HomeLegs();
+    // tri_wheel.HomeLegs();
     sjsu::LogInfo("Starting control loop...");
     sjsu::Delay(1s);
 
@@ -77,6 +77,10 @@ int main()
         // For Serial
         std::string response = serial.GetCommands();
         if (response.find('{') != std::string::npos && response.find('}') != std::string::npos)
+        {
+            commands = mission_control.ParseMissionControlData(response);
+            sjsu::LogInfo("Received commands: %s", response.c_str());
+        }
         {
             commands = mission_control.ParseMissionControlData(response);
             commands = rules_engine.ValidateCommands(commands);
