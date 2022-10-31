@@ -31,6 +31,18 @@ namespace sjsu::arm
         // Sets angle of each finger according to what mission control sends to each individual finger.
         static hand_arguments IndividualMode(hand_arguments arguments)
         {
+          //  kClampedAngle.to();
+            // int pClamped=clamp(arguments.pinky_angle,mapped_min_angle,mapped_max_angle);
+            // int rClamped=clamp(arguments.ring_angle,mapped_min_angle,mapped_max_angle);
+            // int mClamped=clamp(arguments.middle_angle, mapped_min_angle, mapped_max_angle);
+            // int iClamped=clamp(arguments.index_angle, mapped_min_angle, mapped_max_angle);
+            // int tClamped=clamp(arguments.thumb_angle,mapped_min_angle, mapped_max_angle);
+            // int p=Map(pClamped, min_angle,max_angle,mapped_min_angle,mapped_max_angle);
+            // int r=Map(rClamped, min_angle,max_angle,mapped_min_angle,mapped_max_angle);
+            // int m=Map(mClamped, min_angle, max_angle,mapped_min_angle,mapped_max_angle);
+            // int i=Map(iClamped,min_angle, max_angle,mapped_min_angle,mapped_max_angle);
+            // int t=Map(tClamped,max_angle,min_angle,mapped_min_angle,mapped_max_angle);
+
             return arguments;
         }
         // Sets angle of all fingers according to what mission control sends to finger_angle.
@@ -45,8 +57,10 @@ namespace sjsu::arm
         }
 
     private:
-        static constexpr int min_angle_ = 88;
+        static constexpr int kMinAngle = 88;
         // static constexpr int neutral_angle_ = 90;
-        static constexpr int max_angle_ = 175;
+        static constexpr int kMaxAngle = 175;
+        static constexpr int kMappedMinAngle=0;
+        static constexpr int kMappedMaxAngle=100;
     };
 }

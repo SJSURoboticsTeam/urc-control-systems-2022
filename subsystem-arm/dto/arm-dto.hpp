@@ -33,7 +33,6 @@ namespace sjsu::arm
         int index_angle = 88;
         int thumb_angle = 88;
     };
-
     struct arm_arguments
     {
         joint_arguments joint_args;
