@@ -12,7 +12,7 @@ namespace sjsu::arm
             char request_parameter[350];
             snprintf(
                 request_parameter, 350, kGETRequestFormat,
-                arm.joint_args.heartbeat_count, arm.joint_args.is_operational, arm.joint_args.speed,
+                arm.joint_args.heartbeat_count, arm.joint_args.is_operational,
                 arm.joint_args.mode, arm.joint_args.rotunda_angle, arm.joint_args.shoulder_angle,
                 arm.joint_args.elbow_angle, arm.joint_args.wrist_pitch_angle, arm.joint_args.wrist_roll_angle,
                 arm.hand_args.mode, arm.hand_args.pinky_angle, arm.hand_args.ring_angle,
