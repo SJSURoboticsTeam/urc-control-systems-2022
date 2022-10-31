@@ -52,7 +52,7 @@ int main()
   arm_arguments arguments;
 
   joint_router.Initialize();
-  joint_router.HomeArm();
+  // joint_router.HomeArm();
   // hand_router.Initialize();
 
   sjsu::LogInfo("Starting control loop...");
@@ -71,7 +71,7 @@ int main()
       arguments.Print();
     }
     arguments.joint_args = JointModeSelect::SelectMode(arguments.joint_args);
-    arguments.hand_args = HandModeSelect::SelectMode(arguments.hand_args);
+    // arguments.hand_args = HandModeSelect::SelectMode(arguments.hand_args);
     joint_router.SetArmArguments(arguments);
     // hand_router.MoveToAngle(arguments.hand_args);
   }
