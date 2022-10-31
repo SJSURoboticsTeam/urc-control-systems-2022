@@ -14,29 +14,29 @@ namespace sjsu::arm
         static constexpr int kMaxFingerAngle = 175;
         static constexpr int kMaxShoulderAngle = 90;
 
-        arm_arguments ValidateCommands(arm_arguments commands)
+        mc_commands ValidateCommands(mc_commands commands)
         {
-            // if(!heartbeat_.IsSyncedWithMissionControl(commands.joint_args.heartbeat_count))
+            // if(!heartbeat_.IsSyncedWithMissionControl(commands.heartbeat_count))
             // {
             //     sjsu::LogInfo("Overriding joint speed");
-            //     commands.joint_args.speed = 0;
+            //     commands.speed = 0;
             //     return commands;
             // }
 
-            if (!commands.joint_args.is_operational)
+            if (!commands.is_operational)
             {
                 // sjsu::LogWarning("Arm is not operational...");
-                commands.joint_args.speed = 0;
+                commands.speed = 0;
+            }
+            else {
+                commands.speed = 5;
             }
 
-            commands.hand_args.pinky_angle = std::clamp(commands.hand_args.pinky_angle, kMinFingerAngle, kMaxFingerAngle);
-            commands.hand_args.ring_angle = std::clamp(commands.hand_args.ring_angle, kMinFingerAngle, kMaxFingerAngle);
-            commands.hand_args.middle_angle = std::clamp(commands.hand_args.middle_angle, kMinFingerAngle, kMaxFingerAngle);
-            commands.hand_args.index_angle = std::clamp(commands.hand_args.index_angle, kMinFingerAngle, kMaxFingerAngle);
-            commands.hand_args.thumb_angle = std::clamp(commands.hand_args.thumb_angle, kMinFingerAngle, kMaxFingerAngle);
-
-            commands.joint_args.speed = std::clamp(commands.joint_args.speed, -kMaxSpeed, kMaxSpeed);
-
+            commands.first_angle = std::clamp(commands.first_angle, kMinFingerAngle, kMaxFingerAngle);
+            commands.second_angle = std::clamp(commands.second_angle, kMinFingerAngle, kMaxFingerAngle);
+            commands.third_angle = std::clamp(commands.third_angle, kMinFingerAngle, kMaxFingerAngle);
+            commands.fourth_angle = std::clamp(commands.fourth_angle, kMinFingerAngle, kMaxFingerAngle);
+            commands.fifth_angle = std::clamp(commands.fifth_angle, kMinFingerAngle, kMaxFingerAngle);
             heartbeat_.IncrementHeartbeatCount();
             return commands;
         }
