@@ -2,8 +2,7 @@
 
 namespace sjsu::drive
 {
-    const char kResponseBodyFormat[] = "{\"heartbeat_count\":%d,\"is_operational\":%d,\"wheel_orientation\":%d,\"drive_mode\":\"%c\",\"speed\":%d,\"angle\":%d}\n";
-
+    const char kResponseBodyFormat[] = "{\"HB\":%d,\"IO\":%d,\"WO\":%d,\"DM\":\"%c\",\"CMD\":[%d,%d]}\n";
     const char kGETRequestFormat[] = "drive?heartbeat_count=%d&is_operational=%d&wheel_orientation=%d&drive_mode=%c&speed=%d&angle=%d";
 
     struct drive_commands
@@ -17,8 +16,7 @@ namespace sjsu::drive
 
         void Print()
         {
-            printf(kResponseBodyFormat,
-                   heartbeat_count, is_operational, wheel_orientation, mode, speed, angle);
+            printf(kResponseBodyFormat,heartbeat_count, is_operational, wheel_orientation, mode, speed, angle);
         }
     };
 

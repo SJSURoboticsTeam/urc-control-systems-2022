@@ -64,7 +64,7 @@ int main()
 
     tri_wheel.Initialize();
     sjsu::Delay(1s);
-    tri_wheel.HomeLegs();
+    //tri_wheel.HomeLegs();
     sjsu::LogInfo("Starting control loop...");
     sjsu::Delay(1s);
 
