@@ -10,7 +10,6 @@
 #include "../implementations/routers/mpu-router.hpp"
 
 #include "../implementations/mission-control-handler.hpp"
-#include "../implementations/command-lerper.hpp"
 #include "../implementations/rules-engine.hpp"
 #include "../implementations/mode-select.hpp"
 #include "../implementations/pca9685.hpp"
@@ -47,7 +46,6 @@ int main()
   HandRouter hand_router(pca9685);
   MissionControlHandler mission_control;
   RulesEngine rules_engine;
-  CommandLerper lerp;
   // TODO: Fix hand from crashing program when pca9685 is not connected!
   arm_arguments arguments;
   mc_commands commands;
