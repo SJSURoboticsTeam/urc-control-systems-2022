@@ -13,23 +13,21 @@ namespace sjsu::arm
             {
                 switch (commands.mode)
                 {
-                    case 'J':
-                        ArmMode::HandMode(commands, arm_args);
-                        return arm_args;
-                        break;
                     case 'H':
-                        ArmMode::JointMode(commands, arm_args);
-                        arm_args;
+                        return ArmMode::HandMode(commands, arm_args);
+                        break;
+                    case 'J':
+                        return ArmMode::JointMode(commands, arm_args);
                         break;
                     case 'R':
-                        ArmMode::RRNineMode(commands, arm_args);
-                        return arm_args;
+                        return ArmMode::RRNineMode(commands, arm_args);
                         break;
                     default:
                         return arm_args;
                         break;
                 }
             }
+
         private:
     };
 }

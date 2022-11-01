@@ -42,6 +42,9 @@ namespace sjsu::arm
         int third_angle = 0;
         int fourth_angle = 0;
         int fifth_angle = 0;
+        void Print() {
+            printf("%d, %d, %d, %c, %d, %d, %d, %d, %d", heartbeat_count, is_operational, speed, mode, first_angle, second_angle, third_angle, fourth_angle, fifth_angle);
+        }
     };
 
     struct arm_arguments
@@ -51,7 +54,7 @@ namespace sjsu::arm
 
         void Print()
         {
-            printf(kResponseBodyFormat, joint_args.rotunda_angle, joint_args.shoulder_angle, joint_args.elbow_angle, joint_args.wrist_pitch_angle, joint_args.wrist_roll_angle);
+            printf(kResponseBodyFormat, 0, 1, 'd', joint_args.rotunda_angle, joint_args.shoulder_angle, joint_args.elbow_angle, joint_args.wrist_pitch_angle, joint_args.wrist_roll_angle);
         }
     };
 }

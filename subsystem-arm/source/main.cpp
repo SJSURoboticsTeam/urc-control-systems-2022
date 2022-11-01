@@ -53,8 +53,8 @@ int main()
   mc_commands commands;
 
   joint_router.Initialize();
-  joint_router.HomeArm();
-  hand_router.Initialize();
+  // joint_router.HomeArm();
+  // hand_router.Initialize();
 
   sjsu::LogInfo("Starting control loop...");
   sjsu::Delay(1s);
@@ -70,7 +70,7 @@ int main()
       commands = rules_engine.ValidateCommands(commands);
     }
     arguments = ModeSelect::SelectMode(commands, arguments);
-    arguments.Print();
+    commands.Print();
     if(commands.mode == 'J') {
       arguments.joint_args = joint_router.SetJointArguments(arguments.joint_args);
     }

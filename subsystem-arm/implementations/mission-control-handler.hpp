@@ -10,13 +10,13 @@ namespace sjsu::arm
         std::string CreateGETRequestParameterWithRoverStatus(arm_arguments arm, mc_commands commands)
         {
             char request_parameter[350];
-            // snprintf(
-            //     request_parameter, 350, kGETRequestFormat,
-            //     arm.joint_args.heartbeat_count, arm.joint_args.is_operational,
-            //     arm.joint_args.mode, arm.joint_args.rotunda_angle, arm.joint_args.shoulder_angle,
-            //     arm.joint_args.elbow_angle, arm.joint_args.wrist_pitch_angle, arm.joint_args.wrist_roll_angle,
-            //     arm.hand_args.mode, arm.hand_args.pinky_angle, arm.hand_args.ring_angle,
-            //     arm.hand_args.middle_angle, arm.hand_args.index_angle, arm.hand_args.thumb_angle);
+            snprintf(
+                request_parameter, 350, kGETRequestFormat,
+                commands.heartbeat_count, commands.is_operational, arm.joint_args.speed,
+                commands.mode, arm.joint_args.rotunda_angle, arm.joint_args.shoulder_angle,
+                arm.joint_args.elbow_angle, arm.joint_args.wrist_pitch_angle, arm.joint_args.wrist_roll_angle,
+                commands.mode, arm.hand_args.pinky_angle, arm.hand_args.ring_angle,
+                arm.hand_args.middle_angle, arm.hand_args.index_angle, arm.hand_args.thumb_angle);
             return request_parameter;
         }
 

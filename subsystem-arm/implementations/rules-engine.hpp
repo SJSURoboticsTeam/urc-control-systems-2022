@@ -31,12 +31,13 @@ namespace sjsu::arm
             else {
                 commands.speed = 5;
             }
-
-            commands.first_angle = std::clamp(commands.first_angle, kMinFingerAngle, kMaxFingerAngle);
-            commands.second_angle = std::clamp(commands.second_angle, kMinFingerAngle, kMaxFingerAngle);
-            commands.third_angle = std::clamp(commands.third_angle, kMinFingerAngle, kMaxFingerAngle);
-            commands.fourth_angle = std::clamp(commands.fourth_angle, kMinFingerAngle, kMaxFingerAngle);
-            commands.fifth_angle = std::clamp(commands.fifth_angle, kMinFingerAngle, kMaxFingerAngle);
+            if(commands.mode != 'J'){
+                commands.first_angle = std::clamp(commands.first_angle, kMinFingerAngle, kMaxFingerAngle);
+                commands.second_angle = std::clamp(commands.second_angle, kMinFingerAngle, kMaxFingerAngle);
+                commands.third_angle = std::clamp(commands.third_angle, kMinFingerAngle, kMaxFingerAngle);
+                commands.fourth_angle = std::clamp(commands.fourth_angle, kMinFingerAngle, kMaxFingerAngle);
+                commands.fifth_angle = std::clamp(commands.fifth_angle, kMinFingerAngle, kMaxFingerAngle);
+            }
             heartbeat_.IncrementHeartbeatCount();
             return commands;
         }

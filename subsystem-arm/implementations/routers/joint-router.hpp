@@ -24,11 +24,11 @@ namespace sjsu::arm
 
         joint_arguments SetJointArguments(joint_arguments arguments)
         {
-            rotunda_.SetAngle(units::angle::degree_t(arguments.rotunda_angle), units::angular_velocity::revolutions_per_minute_t(arguments.speed));
-            shoulder_.SetAngle(units::angle::degree_t(arguments.shoulder_angle), units::angular_velocity::revolutions_per_minute_t(arguments.speed));
-            elbow_.SetAngle(units::angle::degree_t(arguments.elbow_angle), units::angular_velocity::revolutions_per_minute_t(arguments.speed));
-            left_wrist_.SetAngle(units::angle::degree_t(arguments.wrist_pitch_angle + arguments.wrist_roll_angle), units::angular_velocity::revolutions_per_minute_t(arguments.speed));
-            right_wrist_.SetAngle(units::angle::degree_t(arguments.wrist_roll_angle - arguments.wrist_pitch_angle), units::angular_velocity::revolutions_per_minute_t(arguments.speed));
+            rotunda_.SetAngle(units::angle::degree_t(static_cast<float>(arguments.rotunda_angle)), units::angular_velocity::revolutions_per_minute_t(static_cast<float>(arguments.speed)));
+            shoulder_.SetAngle(units::angle::degree_t(static_cast<float>(arguments.shoulder_angle)), units::angular_velocity::revolutions_per_minute_t(static_cast<float>(arguments.speed)));
+            elbow_.SetAngle(units::angle::degree_t(static_cast<float>(arguments.elbow_angle)), units::angular_velocity::revolutions_per_minute_t(static_cast<float>(arguments.speed)));
+            left_wrist_.SetAngle(units::angle::degree_t(static_cast<float>(arguments.wrist_pitch_angle) + static_cast<float>(arguments.wrist_roll_angle)), units::angular_velocity::revolutions_per_minute_t(static_cast<float>(arguments.speed)));
+            right_wrist_.SetAngle(units::angle::degree_t(static_cast<float>(arguments.wrist_roll_angle) - static_cast<float>(arguments.wrist_pitch_angle)), units::angular_velocity::revolutions_per_minute_t(static_cast<float>(arguments.speed)));
             return arguments;
         }
 
