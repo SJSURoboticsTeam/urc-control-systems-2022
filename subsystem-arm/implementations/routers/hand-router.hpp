@@ -22,14 +22,22 @@ namespace sjsu::arm
             return std::chrono::microseconds(angle * (4096 / 360));
         }
 
-        void MoveToAngle(hand_arguments hand_arguments)
+        hand_arguments SetHandArguments(hand_arguments hand_arguments, char mode)
         {
-            pca_module_.setPulseWidth(0, AngleToPulseWidth(hand_arguments.pinky_argument));
-            pca_module_.setPulseWidth(1, AngleToPulseWidth(hand_arguments.ring_argument));
-            pca_module_.setPulseWidth(2, AngleToPulseWidth(hand_arguments.middle_argument));
-            pca_module_.setPulseWidth(3, AngleToPulseWidth(hand_arguments.index_argument));
-            pca_module_.setPulseWidth(4, AngleToPulseWidth(hand_arguments.thumb_argument));
+            if(mode == 'H') {
+                pca_module_.setPulseWidth(0, AngleToPulseWidth(hand_arguments.pinky_angle));
+                pca_module_.setPulseWidth(1, AngleToPulseWidth(hand_arguments.ring_angle));
+                pca_module_.setPulseWidth(2, AngleToPulseWidth(hand_arguments.middle_angle));
+                pca_module_.setPulseWidth(3, AngleToPulseWidth(hand_arguments.index_angle));
+                pca_module_.setPulseWidth(4, AngleToPulseWidth(hand_arguments.thumb_angle));
+            }
+            else if(mode == 'R') {
+                // do logic for RR9 moving here
+            }
+            return hand_arguments;
         }
+
+
 
     private:
         // sjsu::arm::arm_arguments arguments_;
