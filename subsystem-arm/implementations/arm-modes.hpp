@@ -4,54 +4,37 @@
 
 namespace sjsu::arm
 {
-    class HandModes
+    class ArmMode
     {
-    public:
-        // Sets angle of all fingers according to what mission control sends to finger_angle.
-        static hand_arguments SimultaneousMode(hand_arguments arguments)
-        {
-            arguments.pinky_angle = arguments.index_angle;
-            arguments.ring_angle = arguments.index_angle;
-            arguments.middle_angle = arguments.index_angle;
-            arguments.index_angle = arguments.index_angle;
-            arguments.thumb_angle = arguments.index_angle;
-            return arguments;
-        }
+        public:
+            static arm_arguments JointMode(mc_commands commands, arm_arguments args)
+            {
+                args.joint_args.rotunda_angle = commands.first_angle;
+                args.joint_args.shoulder_angle = commands.second_angle;
+                args.joint_args.elbow_angle = commands.third_angle;
+                args.joint_args.wrist_pitch_angle = commands.fourth_angle;
+                args.joint_args.wrist_roll_angle = commands.fifth_angle;
+                return args;
+            }
 
-    private:
-        static constexpr int kMinAngle = 88;
-        static constexpr int kMaxAngle = 175;
-        static constexpr int kMappedMinHandArgumentAngle=0;
-        static constexpr int kMappedMaxHandArgumentAngle=100;
-    };
+            static arm_arguments HandMode(mc_commands commands, arm_arguments args)
+            {
+                args.hand_args.pinky_angle = commands.first_angle;
+                args.hand_args.ring_angle = commands.second_angle;
+                args.hand_args.middle_angle = commands.third_angle;
+                args.hand_args.index_angle = commands.fourth_angle;
+                args.hand_args.thumb_angle = commands.fifth_angle;
+                return args;
+            }
 
-    class JointModes
-    {
-    public:
-        static joint_arguments SimultaneousMode(joint_arguments commands)
-        {
-            return commands;
-        }
+            static arm_arguments RRNineMode(mc_commands commands, arm_arguments args) 
+            {
+                // put logic here
+                commands = commands;
+                return args;
+            }
 
-        static joint_arguments CondensedMode(joint_arguments commands)
-        {
-            commands.rotunda_angle = kCondensedRotundaAngle;
-            commands.shoulder_angle = kCondensedShoulderAngle;
-            commands.elbow_angle = kCondensedElbowAngle;
-            commands.wrist_pitch_angle = kCondensedWristPitchAngle;
-            commands.wrist_roll_angle = kCondensedWristYawAngle;
-            return commands;
-        }
+        private:
 
-        // TODO: come up with other possible modes
-
-    private:
-        static constexpr float kCondensedRotundaAngle = 0;
-        static constexpr float kCondensedShoulderAngle = -18;
-        static constexpr float kCondensedElbowAngle = 74;
-        static constexpr float kCondensedWristPitchAngle = 0;
-        static constexpr float kCondensedWristYawAngle = 0;
-        static constexpr float kCondensedFingerAngle = 0;
-        static constexpr int kMaxAngle = 75;
     };
 }
