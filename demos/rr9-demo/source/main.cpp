@@ -1,3 +1,4 @@
+#include <array>
 #include <cstdint>
 
 #include "peripherals/lpc40xx/pwm.hpp"
@@ -7,11 +8,15 @@
 #include "utility/log.hpp"
 #include "peripherals/lpc40xx/uart.hpp"
 #include "../../common/serial.hpp"
+#include "peripherals/lpc40xx/adc.hpp"
 
 int main()
 {
     sjsu::LogInfo("Servo application starting...");
     sjsu::lpc40xx::Pwm &pwm = sjsu::lpc40xx::GetPwm<1, 0>();
+    sjsu::LogInfo("ADC channel 5 is connected to pin P1.31");
+    sjsu::lpc40xx::Adc & adc5 = sjsu::lpc40xx::GetAdc<5>();
+
     sjsu::Servo servo(pwm);
     sjsu::LogInfo("Setting Servo pulse width bounds from 500us to 2500us.");
     // documentation says 1.5ms is neutral, but 1.5ms is 1500us
@@ -46,23 +51,30 @@ int main()
 
         //this is more realisticservo.settings.min_angle
         // Open
-         printf("before 1st for\n");
-        for (units::angle::degree_t servo_angle = 0_deg; servo_angle < 45_deg; servo_angle++)
-        {
-            // printf("Setting servo to %f degrees\n\n", servo_angle.to<double>());
-            servo.SetAngle(servo_angle);
-            sjsu::Delay(30ms);
-        }
-        printf("before 2nd for\n");
-        for (units::angle::degree_t servo_angle = 45_deg; servo_angle > 0_deg; servo_angle--)
-            {
-                // printf("Setting servo to %f degrees\n\n", servo_angle.to<double>());
-                servo.SetAngle(servo_angle);
-                sjsu::Delay(30ms);
-            }
+
+        //WORKING STARTS
+        //  printf("before 1st for\n");
+        // for (units::angle::degree_t servo_angle = 0_deg; servo_angle < 45_deg; servo_angle++)
+        // {
+        //     // printf("Setting servo to %f degrees\n\n", servo_angle.to<double>());
+        //     servo.SetAngle(servo_angle);
+        //     sjsu::Delay(30ms);
+        // }
+        // printf("before 2nd for\n");
+        // for (units::angle::degree_t servo_angle = 45_deg; servo_angle > 0_deg; servo_angle--)
+        //     {
+        //         // printf("Setting servo to %f degrees\n\n", servo_angle.to<double>());
+        //         servo.SetAngle(servo_angle);
+        //         sjsu::Delay(30ms);
+        //     }
     
-        
-    
+        //WORKING ENDS
+        units::voltage::volt_t adc_voltage = adc5.Voltage();
+        // Lowest 0013 Highest 315% (can go up to 3153???)
+        sjsu::LogInfo("ADC5 voltage = %.5f V",
+                  adc_voltage.to<double>());
+
+        sjsu::Delay(250ms);
         // for (units::angle::degree_t servo_angle = 65_deg; servo_angle > 0_deg; servo_angle--)
         // {
         //     // printf("Setting servo to %f degrees\n\n", servo_angle.to<double>());
