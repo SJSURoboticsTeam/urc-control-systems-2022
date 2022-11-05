@@ -7,7 +7,7 @@
 
 int main()
 {
-    sjsu::Adc & adc4 = sjsu::lpc40xx::GetAdc<4>();
+    sjsu::Adc& adc4 = sjsu::lpc40xx::GetAdc<4>();
     adc4.Initialize();
     sjsu::LogInfo("ADC initialized.");
 
