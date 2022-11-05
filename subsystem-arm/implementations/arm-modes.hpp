@@ -4,10 +4,10 @@
 
 namespace sjsu::arm
 {
-    class ArmMode
+    class Mode // change this name
     {
         public:
-            static arm_arguments JointMode(mc_commands commands, arm_arguments args)
+            static arm_arguments Joint(mc_commands commands, arm_arguments args)
             {
                 args.joint_args.rotunda_angle = commands.first_angle;
                 args.joint_args.shoulder_angle = commands.second_angle;
@@ -17,7 +17,7 @@ namespace sjsu::arm
                 return args;
             }
 
-            static arm_arguments HandMode(mc_commands commands, arm_arguments args)
+            static arm_arguments Hand(mc_commands commands, arm_arguments args)
             {
                 args.hand_args.pinky_angle = commands.first_angle;
                 args.hand_args.ring_angle = commands.second_angle;
@@ -27,7 +27,7 @@ namespace sjsu::arm
                 return args;
             }
 
-            static arm_arguments RRNineMode(mc_commands commands, arm_arguments args) 
+            static arm_arguments RRNine(mc_commands commands, arm_arguments args) 
             {
                 // put logic here
                 commands = commands;
