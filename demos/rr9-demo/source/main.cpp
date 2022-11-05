@@ -27,69 +27,29 @@ int main()
     sjsu::LogInfo("Setting Servo angle bounds from 0 deg to 180 deg.");
     servo.settings.min_angle = 0_deg;
     servo.settings.max_angle = 200_deg;
-    // servo max angle is at 173, 173> makes go servo crazy, right now servo ossicilates betweem 0--> 173
 
     sjsu::LogInfo("Initalizing Servo");
     servo.Initialize();
 
+    // Initializing pin 31 for potentiometer
+    adc5.Initialize();
+
     sjsu::LogInfo("Serial Testing Starting...");
     sjsu::common::Serial serial(sjsu::lpc40xx::GetUart<0>());
-    // int entered_angle = 100;
-    
     
     while (true)
     {
-        // std::string response = serial.GetCommands();
-        // if (response != "")
-        // {
-        //     printf("Received: %s\n", response.c_str());
-        //     entered_angle = std::stoi(response);
-        // }
-        // units::angle::degree_t desired_angle(entered_angle);
-        // sjsu::LogInfo("Setting servo to %d degrees", entered_angle);
-        // servo.SetAngle(desired_angle);
+        uint32_t digital_value = adc5.Read();
 
-        //this is more realisticservo.settings.min_angle
-        // Open
+        sjsu::LogInfo("ADC5 = %04lu",
+                digital_value);
 
-        //WORKING STARTS
-        //  printf("before 1st for\n");
-        // for (units::angle::degree_t servo_angle = 0_deg; servo_angle < 45_deg; servo_angle++)
-        // {
-        //     // printf("Setting servo to %f degrees\n\n", servo_angle.to<double>());
-        //     servo.SetAngle(servo_angle);
-        //     sjsu::Delay(30ms);
-        // }
-        // printf("before 2nd for\n");
-        // for (units::angle::degree_t servo_angle = 45_deg; servo_angle > 0_deg; servo_angle--)
-        //     {
-        //         // printf("Setting servo to %f degrees\n\n", servo_angle.to<double>());
-        //         servo.SetAngle(servo_angle);
-        //         sjsu::Delay(30ms);
-        //     }
-    
-        //WORKING ENDS
-        units::voltage::volt_t adc_voltage = adc5.Voltage();
-        // Lowest 0013 Highest 315% (can go up to 3153???)
-        sjsu::LogInfo("ADC5 voltage = %.5f V",
-                  adc_voltage.to<double>());
+        float servo_angle =
+                sjsu::Map(digital_value, 0, adc5.GetMaximumValue(), 0, 150);
 
-        sjsu::Delay(250ms);
-        // for (units::angle::degree_t servo_angle = 65_deg; servo_angle > 0_deg; servo_angle--)
-        // {
-        //     // printf("Setting servo to %f degrees\n\n", servo_angle.to<double>());
-        //     servo.SetAngle(servo_angle);
-        //     sjsu::Delay(30ms);
-        // }
+        sjsu::LogInfo("%f\n", servo_angle);
 
-        // not sure why they did this but it was in the demo
-        // for (std::chrono::microseconds pulse_width = 1700us; pulse_width > 1300us; pulse_width--)
-        // {
-        //     servo.SetPulseWidthInMicroseconds(pulse_width);
-        //     float angle = static_cast<float>(pulse_width.count());
-        //     sjsu::LogInfo("%f", angle);
-        //     sjsu::Delay(10ms);
-        // }
+        servo.SetAngle(units::angle::degree_t(servo_angle));
     }
     return 0;
 }
