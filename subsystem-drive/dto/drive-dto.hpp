@@ -17,8 +17,7 @@ namespace sjsu::drive
 
         void Print()
         {
-            printf(kResponseBodyFormat,
-                   heartbeat_count, is_operational, wheel_orientation, mode, speed, angle);
+            printf(kResponseBodyFormat, heartbeat_count, is_operational, wheel_orientation, mode, speed, angle);
         }
     };
 
