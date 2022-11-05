@@ -14,13 +14,13 @@ namespace sjsu::arm
                 switch (commands.mode)
                 {
                     case 'H':
-                        return ArmMode::HandMode(commands, arm_args);
+                        return Mode::Hand(commands, arm_args);
                         break;
                     case 'J':
-                        return ArmMode::JointMode(commands, arm_args);
+                        return Mode::Joint(commands, arm_args);
                         break;
                     case 'R':
-                        return ArmMode::RRNineMode(commands, arm_args);
+                        return Mode::RRNine(commands, arm_args);
                         break;
                     default:
                         return arm_args;
