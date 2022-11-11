@@ -3,6 +3,8 @@
 #include "devices/sensors/movement/accelerometer/mpu6050.hpp"
 #include "utility/log.hpp"
 
+
+
 void PrintAcceleration(sjsu::Mpu6050 &mpu)
 {
     auto current_acceleration = mpu.Read();
@@ -11,6 +13,10 @@ void PrintAcceleration(sjsu::Mpu6050 &mpu)
 
 void InitializeBase(sjsu::Mpu6050 &rotunda, sjsu::Mpu6050 &shoulder)
 {
+    i2c.Initialize();
+    uint8_t buff[1] = {0};
+    buff[0] = 1 ;
+    i2c.Write(0x70, buff,1); // set [00000001]
     rotunda.Initialize();
     shoulder.Initialize();
 }
@@ -51,7 +57,7 @@ int main()
     {
         sjsu::LogInfo("Starting main control loop");
         buff[0] = 1;
-        i2c.Write(0x70, buff, 1); // set [00000001]
+        i2c.Write(0x70, buff,1); // set [00000001]
         sjsu::LogInfo("Reading rotunda Mpu6050 acceleration data...");
         PrintAcceleration(rotunda);
         sjsu::Delay(10ms);
