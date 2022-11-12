@@ -77,11 +77,11 @@ namespace sjsu::drive
 
             motor_feedback angle_verification;
 
-            while (WheelNotZeroDoThis(left_) || WheelNotZeroDoThis(right_) || WheelNotZeroDoThis(back_))
+            while (WheelNotZeroDoThis(left_) | WheelNotZeroDoThis(right_) | WheelNotZeroDoThis(back_))
             {
                 //This loops until all of the wheels are zeroed and/or homed
             }
-            while (WheelNotHomeDoThis(left_) || WheelNotHomeDoThis(right_)|| WheelNotHomeDoThis(back_))
+            while (WheelNotHomeDoThis(left_) | WheelNotHomeDoThis(right_) | WheelNotHomeDoThis(back_))
             {
                 sjsu::LogInfo("HomingPins L = %d\t R = %d\t B = %d", left_.magnet_.Read(), right_.magnet_.Read(), back_.magnet_.Read()); //sigma
 
