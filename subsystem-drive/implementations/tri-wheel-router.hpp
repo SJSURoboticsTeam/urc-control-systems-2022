@@ -81,27 +81,12 @@ namespace sjsu::drive
             {
                 //This loops until all of the wheels are zeroed and/or homed
             }
-            while (left_.magnet_.Read() == not_homed || right_.magnet_.Read() == not_homed || back_.magnet_.Read() == not_homed)
+            while (WheelNotHomeDoThis(left_) || WheelNotHomeDoThis(right_)|| WheelNotHomeDoThis(back_))
             {
                 sjsu::LogInfo("HomingPins L = %d\t R = %d\t B = %d", left_.magnet_.Read(), right_.magnet_.Read(), back_.magnet_.Read()); //sigma
-                if (left_.magnet_.Read() == not_homed)
-                {
-                    left_.wheel_offset_++;
-                    left_.steer_motor_.SetAngle(units::angle::degree_t(left_.wheel_offset_, 2_rpm));
-                }
 
-                if (right_.magnet_.Read() == not_homed)
-                {
-                    right_.wheel_offset_++;
-                    right_.steer_motor_.SetAngle(units::angle::degree_t(right_.wheel_offset_, 2_rpm));
-                }
-
-                if (back_.magnet_.Read() == not_homed)
-                {
-                    back_.wheel_offset_++;
-                    back_.steer_motor_.SetAngle(units::angle::degree_t(back_.wheel_offset_, 2_rpm));
-                }
                 sjsu::LogInfo("b = %d\tr = %d\tl = %d", back_.wheel_offset_, right_.wheel_offset_, left_.wheel_offset_);
+
                 angle_verification = GetMotorFeedback();
                 while (angle_verification.left_steer_speed != 0_rpm || angle_verification.right_steer_speed != 0_rpm || angle_verification.back_steer_speed != 0_rpm)
                 {
@@ -144,8 +129,19 @@ namespace sjsu::drive
             }
         }
 
-        bool WheelNotHome (leg* leg_) {
+        bool WheelNotHomeDoThis (leg& leg_) {
+            int not_homed = 1;
 
+            if (leg_.magnet_.Read() == not_homed)
+            {
+                leg_.wheel_offset_++;
+                leg_.steer_motor_.SetAngle(units::angle::degree_t(leg_.wheel_offset_, 2_rpm));
+                return true;
+            }
+            else 
+            {
+            return false;
+            }
         }
 
         // member variables
