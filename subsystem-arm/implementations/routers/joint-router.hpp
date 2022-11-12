@@ -22,13 +22,13 @@ namespace sjsu::arm
             right_wrist_.Initialize();
         };
 
-        arm_arguments SetArmArguments(arm_arguments arguments)
+        joint_arguments SetJointArguments(joint_arguments arguments)
         {
-            rotunda_.SetAngle(units::angle::degree_t(static_cast<float>(arguments.joint_args.rotunda_angle)), units::angular_velocity::revolutions_per_minute_t(static_cast<float>(arguments.joint_args.speed)));
-            shoulder_.SetAngle(units::angle::degree_t(static_cast<float>(arguments.joint_args.shoulder_angle)), units::angular_velocity::revolutions_per_minute_t(static_cast<float>(arguments.joint_args.speed)));
-            elbow_.SetAngle(units::angle::degree_t(static_cast<float>(arguments.joint_args.elbow_angle)), units::angular_velocity::revolutions_per_minute_t(static_cast<float>(arguments.joint_args.speed)));
-            left_wrist_.SetAngle(units::angle::degree_t(static_cast<float>(arguments.joint_args.wrist_pitch_angle) + static_cast<float>(arguments.joint_args.wrist_roll_angle)), units::angular_velocity::revolutions_per_minute_t(static_cast<float>(arguments.joint_args.speed)));
-            right_wrist_.SetAngle(units::angle::degree_t(static_cast<float>(arguments.joint_args.wrist_roll_angle) - static_cast<float>(arguments.joint_args.wrist_pitch_angle)), units::angular_velocity::revolutions_per_minute_t(static_cast<float>(arguments.joint_args.speed)));
+            rotunda_.SetAngle(units::angle::degree_t(static_cast<float>(arguments.rotunda_angle)), units::angular_velocity::revolutions_per_minute_t(static_cast<float>(arguments.speed)));
+            shoulder_.SetAngle(units::angle::degree_t(static_cast<float>(arguments.shoulder_angle)), units::angular_velocity::revolutions_per_minute_t(static_cast<float>(arguments.speed)));
+            elbow_.SetAngle(units::angle::degree_t(static_cast<float>(arguments.elbow_angle)), units::angular_velocity::revolutions_per_minute_t(static_cast<float>(arguments.speed)));
+            left_wrist_.SetAngle(units::angle::degree_t(static_cast<float>(arguments.wrist_pitch_angle) + static_cast<float>(arguments.wrist_roll_angle)), units::angular_velocity::revolutions_per_minute_t(static_cast<float>(arguments.speed)));
+            right_wrist_.SetAngle(units::angle::degree_t(static_cast<float>(arguments.wrist_roll_angle) - static_cast<float>(arguments.wrist_pitch_angle)), units::angular_velocity::revolutions_per_minute_t(static_cast<float>(arguments.speed)));
             return arguments;
         }
 

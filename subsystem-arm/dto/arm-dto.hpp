@@ -13,10 +13,7 @@ namespace sjsu::arm
 
     struct joint_arguments
     {
-        int heartbeat_count = 0;
-        int is_operational = 0;
         int speed = 5;
-        char mode = 'S';
         int rotunda_angle = 0;
         int shoulder_angle = 0;
         int elbow_angle = 0;
@@ -26,24 +23,30 @@ namespace sjsu::arm
 
     struct hand_arguments
     {
-        char mode = 'I';
-<<<<<<< HEAD
-        int pinky_argument = 88;
-        int ring_argument = 88;
-        int middle_argument = 88;
-        int index_argument = 88;
-        int thumb_argument = 88;
-    };
-    struct hand_angle
-    {
-=======
->>>>>>> ba70cea14968bdeaf8cf0aace1c84118006580ed
+        int speed = 5;
         int pinky_angle = 88;
         int ring_angle = 88;
         int middle_angle = 88;
         int index_angle = 88;
         int thumb_angle = 88;
     };
+
+    struct mc_commands
+    {
+        int heartbeat_count = 0;
+        int is_operational = 0;
+        int speed = 5;
+        char mode = 'J';
+        int first_angle  = 0;
+        int second_angle = 0;
+        int third_angle = 0;
+        int fourth_angle = 0;
+        int fifth_angle = 0;
+        void Print() {
+            printf("%d, %d, %d, %c, %d, %d, %d, %d, %d", heartbeat_count, is_operational, speed, mode, first_angle, second_angle, third_angle, fourth_angle, fifth_angle);
+        }
+    };
+
     struct arm_arguments
     {
         joint_arguments joint_args;
@@ -51,7 +54,7 @@ namespace sjsu::arm
 
         void Print()
         {
-            printf(kResponseBodyFormat, joint_args.heartbeat_count, joint_args.is_operational, joint_args.mode, joint_args.rotunda_angle, joint_args.shoulder_angle, joint_args.elbow_angle, joint_args.wrist_pitch_angle, joint_args.wrist_roll_angle);
+            printf(kResponseBodyFormat, 0, 1, 'd', joint_args.rotunda_angle, joint_args.shoulder_angle, joint_args.elbow_angle, joint_args.wrist_pitch_angle, joint_args.wrist_roll_angle);
         }
     };
 }

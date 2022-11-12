@@ -30,7 +30,7 @@ namespace sjsu::arm
             Accelerometer::Acceleration_t rotunda_mpu = rotunda_.Read();
             Accelerometer::Acceleration_t shoulder_mpu = shoulder_.Read();
             Accelerometer::Acceleration_t elbow_mpu = elbow_.Read();
-            Accelerometer::Acceleration_t wrist_mpu = wrist_.Read();
+            // Accelerometer::Acceleration_t wrist_mpu = wrist_.Read();
 
             temp.rotunda.x = static_cast<int>(rotunda_mpu.x);
             temp.rotunda.y = static_cast<int>(rotunda_mpu.y);
