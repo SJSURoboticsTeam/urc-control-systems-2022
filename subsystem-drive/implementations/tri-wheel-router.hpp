@@ -73,8 +73,6 @@ namespace sjsu::drive
         /// At the moment, homing is where the legs turn on so we just calculate the initial encoder positions. ***Must be called in main
         void HomeLegs()
         {
-            int not_homed = 1;
-
             motor_feedback angle_verification;
 
             while (WheelNotZeroDoThis(left_) | WheelNotZeroDoThis(right_) | WheelNotZeroDoThis(back_))
