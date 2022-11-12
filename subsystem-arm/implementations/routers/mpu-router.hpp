@@ -46,7 +46,9 @@ namespace sjsu::arm
             return temp;
         }
 
+
     private:
+        
         Accelerometer &rotunda_;
         Accelerometer &shoulder_;
         Accelerometer &elbow_;
