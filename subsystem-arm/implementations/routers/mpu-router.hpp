@@ -5,20 +5,18 @@
 
 #include "../../dto/arm-dto.hpp"
 #include "../../dto/feedback-dto.hpp"
+#include "tca9458a-router.hpp"
 
 namespace sjsu::arm
 {
-    class MpuRouter
+    class HomingSystem
     {
-        MpuRouter(Accelerometer &rotunda, Accelerometer &shoulder, Accelerometer &elbow, Accelerometer &wrist) : rotunda_(rotunda), shoulder_(shoulder), elbow_(elbow), wrist_(wrist)
+        HomingSystem(Accelerometer &rotunda, Accelerometer &shoulder, Accelerometer &elbow, Accelerometer &wrist, TCA9458A &multiplexor ) : rotunda_(rotunda), shoulder_(shoulder), elbow_(elbow), wrist_(wrist), mux_(multiplexor)
         {
-            // TODO
-        }
-
-        void InitializeAcclerometer()
-        {
+            mux_.OpenBus(0);
             rotunda_.ModuleInitialize();
             shoulder_.ModuleInitialize();
+            mux_.OpenBus(1);
             elbow_.ModuleInitialize();
             wrist_.ModuleInitialize();
         }
@@ -29,6 +27,7 @@ namespace sjsu::arm
 
             Accelerometer::Acceleration_t rotunda_mpu = rotunda_.Read();
             Accelerometer::Acceleration_t shoulder_mpu = shoulder_.Read();
+            mux_.OpenBus(1);
             Accelerometer::Acceleration_t elbow_mpu = elbow_.Read();
             // Accelerometer::Acceleration_t wrist_mpu = wrist_.Read();
 
@@ -52,5 +51,6 @@ namespace sjsu::arm
         Accelerometer &shoulder_;
         Accelerometer &elbow_;
         Accelerometer &wrist_;
+        TCA9458A &mux_;
     };
 }

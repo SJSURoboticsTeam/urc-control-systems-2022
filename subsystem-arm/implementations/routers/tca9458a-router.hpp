@@ -6,21 +6,21 @@
 
 namespace sjsu::arm
 {
-    class tca9458
+    class TCA9458A
     {
-        tca9458(sjsu::lpc40xx::I2c &i2c)
+        public:
+        TCA9458A(sjsu::lpc40xx::I2c &i2c) : i2c_(i2c)
         {
             buffer[0] = 1;
-            i2c.Write(0x70,buffer);
         }
 
-        void OpenBus(int a, sjsu::lpc40xx::I2c &i2c) 
+        void OpenBus(int a) 
         //bus translates to physical connection to the mux
         {
             if((a <= 7) || (a >= 0)){
                 buffer[0] = static_cast <uint8_t> (pow(2,a));
-                i2c.Write(0x70,buffer);
-                sjsu::Delay(100ms);
+                i2c_.Write(0x70,buffer);
+                sjsu::Delay(10ms);
             }
             else{
                 sjsu::LogInfo("Invalid bus");
@@ -29,5 +29,6 @@ namespace sjsu::arm
 
     private:
         std::array<uint8_t,1> buffer = {0};
+        sjsu::lpc40xx::I2c &i2c_;
     };
 }
