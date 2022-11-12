@@ -125,9 +125,9 @@ namespace sjsu::drive
             //This leg is NOT at zero
             if ((common::RmdEncoder::CalcEncoderPositions(leg_.steer_motor_) >= 0.01f) ||  common::RmdEncoder::CalcEncoderPositions(leg_.steer_motor_) <= -0.01f) 
             {
-                if (left_.magnet_.Read() == not_homed)
+                if (leg_.magnet_.Read() == not_homed)
                 {
-                    left_.steer_motor_.SetAngle(0_deg, 2_rpm);
+                    leg_.steer_motor_.SetAngle(0_deg, 2_rpm);
                     //This wheel is NOT at zero
                     return true;
                 }
