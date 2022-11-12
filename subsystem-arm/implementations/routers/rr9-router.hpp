@@ -24,16 +24,17 @@ namespace sjsu::arm
         // Initialize
         void Initialize()
         {
-            sjsu::lpc40xx::Pwm &pwm = sjsu::lpc40xx::GetPwm<1, 0>();
-            sjsu::Servo servo_(pwm);
-            servo_.settings.min_pulse = 500us;
-            servo_.settings.max_pulse = 2500us; 
-            servo_.settings.min_angle = 0_deg;
-            servo_.settings.max_angle = 200_deg;
+            // sjsu::lpc40xx::Pwm &pwm = sjsu::lpc40xx::GetPwm<1, 0>();
+            // sjsu::Servo servo_(pwm);
+            // servo_.settings.min_pulse = 500us;
+            // servo_.settings.max_pulse = 2500us; 
+            // servo_.settings.min_angle = 0_deg;
+            // servo_.settings.max_angle = 200_deg;
             servo_.Initialize();
         }
 
         void SetRr9Angle(int angle) {
+            
             servo_.SetAngle(units::angle::degree_t(angle));
         }
 

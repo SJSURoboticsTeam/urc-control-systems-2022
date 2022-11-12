@@ -45,7 +45,7 @@ int main()
                 digital_value);
 
         float servo_angle =
-                sjsu::Map(digital_value, 0, adc5.GetMaximumValue(), 0, 150);
+                sjsu::Map(digital_value, 0, adc5.GetMaximumValue(), 0, 170);
 
         sjsu::LogInfo("%f\n", servo_angle);
 

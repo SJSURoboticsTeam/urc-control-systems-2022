@@ -35,16 +35,20 @@ int main()
   sjsu::RmdX left_wrist_motor(can_network, 0x144);
   sjsu::RmdX right_wrist_motor(can_network, 0x145);
   sjsu::Pca9685 pca9685(sjsu::lpc40xx::GetI2c<2>(), 0x40);
-
+  sjsu::Servo claw(sjsu::lpc40xx::GetPwm<1, 0>());
   // TODO: Verify gear ratios
   rotunda_motor.settings.gear_ratio = 8;
   shoulder_motor.settings.gear_ratio = 8 * 65 / 16;
   elbow_motor.settings.gear_ratio = 8 * 5 / 2;
   left_wrist_motor.settings.gear_ratio = 8;
   right_wrist_motor.settings.gear_ratio = 8;
+  claw.settings.min_pulse = 500us;
+  claw.settings.max_pulse = 2500us;
+  claw.settings.min_angle = 0_deg;
+  claw.settings.max_angle = 200_deg;
 
   JointRouter joint_router(rotunda_motor, shoulder_motor, elbow_motor, left_wrist_motor, right_wrist_motor);
-  HandRouter hand_router(pca9685);
+  HandRouter hand_router(pca9685,claw);
   MissionControlHandler mission_control;
   RulesEngine rules_engine;
   // TODO: Fix hand from crashing program when pca9685 is not connected!
@@ -74,7 +78,7 @@ int main()
       arguments.joint_args = joint_router.SetJointArguments(arguments.joint_args);
     }
     else {
-      arguments.hand_args = hand_router.SetHandArguments(arguments.hand_args, commands.mode);
+      arguments.hand_args = hand_router.SetArguments(arguments.hand_args, commands.mode);
     }
   }
 }

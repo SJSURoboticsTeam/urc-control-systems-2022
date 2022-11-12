@@ -24,7 +24,7 @@ namespace sjsu::arm
     struct hand_arguments
     {
         int speed = 5;
-        int pinky_angle = 88;
+        int pinky_angle = 88; //first angle
         int ring_angle = 88;
         int middle_angle = 88;
         int index_angle = 88;
