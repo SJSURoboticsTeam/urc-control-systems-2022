@@ -77,9 +77,9 @@ namespace sjsu::drive
 
             motor_feedback angle_verification;
 
-            while (WheelNotZero(left_) || WheelNotZero(right_) || WheelNotZero(back_))
+            while (WheelNotZeroDoThis(left_) || WheelNotZeroDoThis(right_) || WheelNotZeroDoThis(back_))
             {
-                //Intentionally left empty
+                //This loops until all of the wheels are zeroed and/or homed
             }
             while (left_.magnet_.Read() == not_homed || right_.magnet_.Read() == not_homed || back_.magnet_.Read() == not_homed)
             {
@@ -120,7 +120,7 @@ namespace sjsu::drive
         }
 
     private:
-        bool WheelNotZero(leg& leg_) {
+        bool WheelNotZeroDoThis(leg& leg_) {
             int not_homed = 1;
             //This leg is NOT at zero
             if ((common::RmdEncoder::CalcEncoderPositions(leg_.steer_motor_) >= 0.01f) ||  common::RmdEncoder::CalcEncoderPositions(leg_.steer_motor_) <= -0.01f) 
@@ -142,6 +142,10 @@ namespace sjsu::drive
                 //This wheel is at zero
                 return false;
             }
+        }
+
+        bool WheelNotHome (leg* leg_) {
+
         }
 
         // member variables
