@@ -13,10 +13,6 @@ void PrintAcceleration(sjsu::Mpu6050 &mpu)
 
 void InitializeBase(sjsu::Mpu6050 &rotunda, sjsu::Mpu6050 &shoulder)
 {
-    i2c.Initialize();
-    uint8_t buff[1] = {0};
-    buff[0] = 1 ;
-    i2c.Write(0x70, buff,1); // set [00000001]
     rotunda.Initialize();
     shoulder.Initialize();
 }
