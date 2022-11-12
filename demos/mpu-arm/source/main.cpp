@@ -30,12 +30,12 @@ int main()
 {
     sjsu::LogInfo("Mpu6050 Application Starting...");
     sjsu::lpc40xx::I2c &i2c = sjsu::lpc40xx::GetI2c<2>();
-    sjsu::arm::TCA9458A mux(i2c);
+    uint8_t buff[1] = {1};
     i2c.Initialize();
-
+    
     // write to the base accelerometers to open the correct mux bus
     sjsu::LogInfo("Initializing base accelerometers...");
-    mux.OpenBus(1);
+    i2c.Write(0x70, buff, 1);
     sjsu::Mpu6050 rotunda(i2c, 0x68);
     sjsu::Mpu6050 shoulder(i2c, 0x69);
     InitializeBase(rotunda, shoulder);
@@ -55,12 +55,14 @@ int main()
         mux.OpenBus(0);
         sjsu::LogInfo("Reading rotunda Mpu6050 acceleration data...");
         PrintAcceleration(rotunda);
+        sjsu::Delay(10ms);
         sjsu::LogInfo("Reading shoulder Mpu6050 acceleration data...");
         PrintAcceleration(shoulder);
 
         mux.OpenBus(1);
         sjsu::LogInfo("Reading elbow Mpu6050 acceleration data...");
         PrintAcceleration(elbow);
+        sjsu::Delay(10ms);
         sjsu::LogInfo("Reading wrist Mpu6050 acceleration data...");
         PrintAcceleration(wrist);
 
