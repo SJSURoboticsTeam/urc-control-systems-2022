@@ -117,6 +117,9 @@ namespace sjsu::drive
                 else 
                 {
                     //This wheel should not be rotated further
+                    if(leg_.wheel_offset_ != 0) {
+                        leg_.wheel_offset_ = common::RmdEncoder::CalcEncoderPositions(leg_.steer_motor_);
+                    }
                     return false;
                 }
             }
