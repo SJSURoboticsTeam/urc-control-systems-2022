@@ -8,6 +8,7 @@
 #include "../implementations/routers/joint-router.hpp"
 #include "../implementations/routers/hand-router.hpp"
 #include "../implementations/routers/mpu-router.hpp"
+#include "../implementations/routers/tca9458a-router.hpp"
 
 #include "../implementations/mission-control-handler.hpp"
 #include "../implementations/rules-engine.hpp"
