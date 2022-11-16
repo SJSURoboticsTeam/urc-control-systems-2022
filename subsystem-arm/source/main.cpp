@@ -2,6 +2,7 @@
 #include "peripherals/lpc40xx/i2c.hpp"
 #include "peripherals/lpc40xx/can.hpp"
 #include "peripherals/lpc17xx/pwm.hpp"
+#include "peripherals/lpc40xx/timer.hpp"
 #include "devices/actuators/servo/rmd_x.hpp"
 #include "devices/sensors/movement/accelerometer/mpu6050.hpp"
 
@@ -27,6 +28,7 @@ int main()
   sjsu::lpc40xx::Can &can = sjsu::lpc40xx::GetCan<1>();
   sjsu::StaticMemoryResource<1024> memory_resource;
   sjsu::CanNetwork can_network(can, &memory_resource);
+  sjsu::lpc40xx::Timer timer(sjsu::lpc40xx::Timer::Peripheral::kTimer0);
 
   // RMD addresses 0x141 - 0x148 are available
   sjsu::RmdX rotunda_motor(can_network, 0x141);
@@ -51,6 +53,8 @@ int main()
   arm_arguments arguments;
   mc_commands commands;
 
+  //initialize timer to be 100 hert or 10ms
+  timer.Initialize(100_Hz);
   joint_router.Initialize();
   // joint_router.HomeArm();
   // hand_router.Initialize();
@@ -60,6 +64,7 @@ int main()
 
   while (1)
   {
+    timer.Start();
     std::string response = serial.GetCommands();
     if (response.find('{') != std::string::npos && response.find('}') != std::string::npos)
     {
@@ -76,5 +81,8 @@ int main()
     else {
       arguments.hand_args = hand_router.SetHandArguments(arguments.hand_args, commands.mode);
     }
+    // while the timer hasn't expired, wait
+    while(timer.GetCount() != 0);
+    timer.Reset();
   }
 }
