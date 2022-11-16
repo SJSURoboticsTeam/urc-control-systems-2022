@@ -6,6 +6,7 @@
 #include "peripherals/lpc40xx/uart.hpp"
 #include "devices/actuators/servo/rmd_x.hpp"
 #include "peripherals/lpc40xx/gpio.hpp"
+#include "utility/time/timeout_timer.hpp"
 
 #include "../implementations/mission-control-handler.hpp"
 #include "../implementations/steer-modes.hpp"
@@ -70,6 +71,7 @@ int main()
 
     while (1)
     {
+        sjsu::TimeoutTimer timer(10_ms);
         // For ESP
         // std::string endpoint = mission_control.CreateGETRequestParameterWithRoverStatus(commands);
         // std::string response = esp.GetCommands(endpoint);
@@ -87,6 +89,7 @@ int main()
         arguments = ModeSelect::SelectMode(commands);
         arguments = tri_wheel.SetLegArguments(arguments);
         motor_speeds = tri_wheel.GetMotorFeedback();
+        while(!timer.HasExpired());
     }
 
     return 0;
