@@ -7,6 +7,10 @@ namespace sjsu::arm{
         int x = 0;
         int y = 0;
         int z = 0;
+        void Print()
+        {
+            sjsu::LogInfo("X: %d,   Y: %d,  Z: %d");
+        }
     };
     
     struct arm_accelerometer_feedback
@@ -17,7 +21,16 @@ namespace sjsu::arm{
         accelerometer_feedback wrist{}; 
 
         void Print()
-        {}
+        {
+            sjsu::LogInfo("Rotunda: ");
+            rotunda.Print();
+            sjsu::LogInfo("Shoulder: ");
+            shoulder.Print();
+            sjsu::LogInfo("Elbow: ");
+            elbow.Print();
+            sjsu::LogInfo("Wrist: ");
+            wrist.Print();
+        }
     };
     
     struct motors_feedback
