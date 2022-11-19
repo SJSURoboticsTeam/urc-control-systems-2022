@@ -4,12 +4,12 @@
 namespace sjsu::arm{    
     struct accelerometer_feedback
     {
-        int x = 0;
-        int y = 0;
-        int z = 0;
+        double x = 0;
+        double y = 0;
+        double z = 0;
         void Print()
         {
-            sjsu::LogInfo("X: %d,   Y: %d,  Z: %d");
+            sjsu::LogInfo("X: %.4f,   Y: %.4f,  Z: %.4f", x, y,z);
         }
     };
     

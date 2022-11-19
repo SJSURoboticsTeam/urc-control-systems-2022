@@ -12,42 +12,48 @@ namespace sjsu::arm
     class HomingSystem
     {
     public:
-        HomingSystem(Accelerometer &rotunda, Accelerometer &shoulder, Accelerometer &elbow, Accelerometer &wrist, TCA9458A &multiplexor ) : rotunda_(rotunda), shoulder_(shoulder), elbow_(elbow), wrist_(wrist), mux_(multiplexor)
+        HomingSystem(sjsu::Mpu6050 &rotunda, sjsu::Mpu6050 &shoulder, sjsu::Mpu6050 &elbow, sjsu::Mpu6050 &wrist, TCA9458A &multiplexor ) : rotunda_(rotunda), shoulder_(shoulder), elbow_(elbow), wrist_(wrist), mux_(multiplexor)
         {
-            mux_.OpenBus(0);
-            rotunda_.ModuleInitialize();
-            shoulder_.ModuleInitialize();
-            mux_.OpenBus(1);
-            elbow_.ModuleInitialize();
-            wrist_.ModuleInitialize();
+            
         }
-
+        void Initialize(){
+            mux_.OpenBus(0);
+            rotunda_.Initialize();
+            shoulder_.Initialize();
+            mux_.OpenBus(1);
+            elbow_.Initialize();
+            wrist_.Initialize();
+        }
         arm_accelerometer_feedback GetFeedback()
         {
             arm_accelerometer_feedback temp;
-
-            Accelerometer::Acceleration_t rotunda_mpu = rotunda_.Read();
-            Accelerometer::Acceleration_t shoulder_mpu = shoulder_.Read();
+            mux_.OpenBus(0);
+            sjsu::Accelerometer::Acceleration_t rotunda_mpu = rotunda_.Read();
+            // rotunda_mpu.Print();
+            sjsu::Accelerometer::Acceleration_t shoulder_mpu = shoulder_.Read();
+            // shoulder_mpu.Print();
             mux_.OpenBus(1);
-            Accelerometer::Acceleration_t elbow_mpu = elbow_.Read();
-            Accelerometer::Acceleration_t wrist_mpu = wrist_.Read();
+            sjsu::Accelerometer::Acceleration_t elbow_mpu = elbow_.Read();
+            // elbow_mpu.Print();
+            sjsu::Accelerometer::Acceleration_t wrist_mpu = wrist_.Read();
+            // wrist_mpu.Print();
             // Accelerometer::Acceleration_t wrist_mpu = wrist_.Read();
 
-            temp.rotunda.x = static_cast<int>(rotunda_mpu.x);
-            temp.rotunda.y = static_cast<int>(rotunda_mpu.y);
-            temp.rotunda.z = static_cast<int>(rotunda_mpu.z);
+            temp.rotunda.x = rotunda_mpu.x.to<double>();
+            temp.rotunda.y = rotunda_mpu.y.to<double>();
+            temp.rotunda.z = rotunda_mpu.z.to<double>();
 
-            temp.shoulder.x = static_cast<int>(shoulder_mpu.x);
-            temp.shoulder.y = static_cast<int>(shoulder_mpu.y);
-            temp.shoulder.z = static_cast<int>(shoulder_mpu.z);
+            temp.elbow.x = elbow_mpu.x.to<double>();
+            temp.elbow.y = elbow_mpu.y.to<double>();
+            temp.elbow.z = elbow_mpu.z.to<double>();
 
-            temp.elbow.x = static_cast<int>(elbow_mpu.x);
-            temp.elbow.y = static_cast<int>(elbow_mpu.y);
-            temp.elbow.z = static_cast<int>(elbow_mpu.z);
+            temp.shoulder.x = shoulder_mpu.x.to<double>();
+            temp.shoulder.y = shoulder_mpu.y.to<double>();
+            temp.shoulder.z = shoulder_mpu.z.to<double>();
 
-            temp.wrist.x = static_cast<int>(wrist_mpu.x);
-            temp.wrist.y = static_cast<int>(wrist_mpu.y);
-            temp.wrist.z = static_cast<int>(wrist_mpu.z);
+            temp.wrist.x = wrist_mpu.x.to<double>();
+            temp.wrist.y = wrist_mpu.y.to<double>();
+            temp.wrist.z = wrist_mpu.z.to<double>();
 
             return temp;
         }
@@ -55,10 +61,10 @@ namespace sjsu::arm
 
     private:
         
-        Accelerometer &rotunda_;
-        Accelerometer &shoulder_;
-        Accelerometer &elbow_;
-        Accelerometer &wrist_;
+        Mpu6050 &rotunda_;
+        Mpu6050 &shoulder_;
+        Mpu6050 &elbow_;
+        Mpu6050 &wrist_;
         TCA9458A &mux_;
     };
 }
