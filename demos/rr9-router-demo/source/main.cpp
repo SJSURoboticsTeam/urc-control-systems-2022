@@ -24,17 +24,16 @@ int main() {
     rr9_router.Initialize();    
     sjsu::common::Serial serial(sjsu::lpc40xx::GetUart<0>());
     std::string serial_input;
-    sjsu::LogInfo("starting bla bla\n");
+    sjsu::LogInfo("Starting\n");
     while (1)
     {
-        sjsu::LogInfo("looking for data!!!\n");
-        sjsu::LogInfo("death 0\n");
         serial_input = serial.GetCommands();
-        sjsu::LogInfo("death 1\n");
-        if (!serial_input.compare("")) 
+        
+        if (serial_input.length() != 0){
+            sjsu::LogInfo("%s\n", serial_input);
             rr9_router.SetAngle(stoi(serial_input));
-        sjsu::LogInfo("death 2\n");
-        sjsu::LogInfo("%s \n", serial_input);
+        } 
+    
         sjsu::Delay(1s);
     }
 
