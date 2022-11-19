@@ -79,6 +79,12 @@ namespace sjsu::drive
             {
                 //This loops until all of the wheels are zeroed and/or homed
             }
+
+            int not_homed = 1;
+            bool leftHome = !(left_.magnet_.Read() == not_homed), rightHome = !(right_.magnet_.Read() == not_homed), backHome = !(back_.magnet_.Read() == not_homed);
+            
+            while((leftHome && WheelNotNeg60DoThis(left_)) | (rightHome && WheelNotNeg60DoThis(right_)) | (backHome && WheelNotNeg60DoThis(back_))  ) {}
+
             while (WheelNotHomeDoThis(left_) | WheelNotHomeDoThis(right_) | WheelNotHomeDoThis(back_))
             {
                 sjsu::LogInfo("HomingPins L = %d\t R = %d\t B = %d", left_.magnet_.Read(), right_.magnet_.Read(), back_.magnet_.Read()); //sigma
@@ -104,28 +110,32 @@ namespace sjsu::drive
 
     private:
         bool WheelNotZeroDoThis(leg& leg_) {
-            int not_homed = 1;
             //This leg is NOT at zero
             if ((common::RmdEncoder::CalcEncoderPositions(leg_.steer_motor_) >= 0.01f) ||  common::RmdEncoder::CalcEncoderPositions(leg_.steer_motor_) <= -0.01f) 
             {
-                if (leg_.magnet_.Read() == not_homed)
-                {
-                    leg_.steer_motor_.SetAngle(0_deg, 2_rpm);
-                    //This wheel is NOT at zero
-                    return true;
-                }
-                else 
-                {
-                    //This wheel should not be rotated further
-                    if(leg_.wheel_offset_ != 0) {
-                        leg_.wheel_offset_ = common::RmdEncoder::CalcEncoderPositions(leg_.steer_motor_);
-                    }
-                    return false;
-                }
+                leg_.steer_motor_.SetAngle(0_deg, 2_rpm);
+                //This wheel is NOT at zero
+                return true;
             }
             else
             {
                 //This wheel is at zero
+                return false;
+            }
+        }
+
+        bool WheelNotNeg60DoThis(leg& leg_) {
+            //This leg is NOT at zero
+            leg_.wheel_offset_ = 300;
+            if ((common::RmdEncoder::CalcEncoderPositions(leg_.steer_motor_) >= 0.01f) ||  common::RmdEncoder::CalcEncoderPositions(leg_.steer_motor_) <= -0.01f) 
+            {
+                leg_.steer_motor_.SetAngle(-60_deg, 2_rpm);
+                //This wheel is NOT at -60
+                return true;
+            }
+            else
+            {
+                //This wheel is at -60
                 return false;
             }
         }
