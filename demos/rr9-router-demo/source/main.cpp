@@ -1,5 +1,5 @@
 #include <cstdio>
-
+#include "../../common/serial.hpp"
 #include "utility/log.hpp"
 #include "devices/actuators/servo/servo.hpp"
 #include "peripherals/lpc40xx/pwm.hpp"
@@ -21,12 +21,20 @@ int main() {
     servo.settings.max_angle = 200_deg;
 
     sjsu::arm::Rr9Router rr9_router(servo);
-    rr9_router.Initialize();
+    rr9_router.Initialize();    
+    sjsu::common::Serial serial(sjsu::lpc40xx::GetUart<0>());
+    std::string serial_input;
+    sjsu::LogInfo("starting bla bla\n");
     while (1)
     {
-        rr9_router.SetAngle(0);
-        sjsu::Delay(1s);
-        rr9_router.SetAngle(90);
+        sjsu::LogInfo("looking for data!!!\n");
+        sjsu::LogInfo("death 0\n");
+        serial_input = serial.GetCommands();
+        sjsu::LogInfo("death 1\n");
+        if (!serial_input.compare("")) 
+            rr9_router.SetAngle(stoi(serial_input));
+        sjsu::LogInfo("death 2\n");
+        sjsu::LogInfo("%s \n", serial_input);
         sjsu::Delay(1s);
     }
 
