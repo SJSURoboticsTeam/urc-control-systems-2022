@@ -14,7 +14,7 @@ namespace sjsu::arm
         }
 
         // rr9 servo ctor
-        HandRouter(sjsu::Servo *servo) : servo_(servo),  pca_module_(NULL){
+        HandRouter(sjsu::Servo *servo) : servo_(servo){
             servo_->settings.min_pulse = 500us;
             servo_->settings.max_pulse = 2500us;
             servo_->settings.min_angle = 0_deg;
@@ -38,7 +38,7 @@ namespace sjsu::arm
             }
             else if(mode == 'R') {
                 // do logic for RR9 moving here
-                servo_->SetAngle(units::angle::degree_t(hand_arguments.pinky_angle));
+                servo_->SetAngle(units::angle::degree_t(static_cast<float>(hand_arguments.pinky_angle)));
             }
             return hand_arguments;
         }
@@ -48,8 +48,8 @@ namespace sjsu::arm
     private:
         // sjsu::arm::arm_arguments arguments_;
         // hand_arguments hand_arguments_;
-        sjsu::Pca9685 *pca_module_ = NULL;
-        sjsu::Servo *servo_ = NULL;
+        sjsu::Pca9685 *pca_module_;
+        sjsu::Servo *servo_;
         char mode_;
     };
 }

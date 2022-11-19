@@ -4,6 +4,7 @@
 #include "peripherals/lpc17xx/pwm.hpp"
 #include "devices/actuators/servo/rmd_x.hpp"
 #include "devices/sensors/movement/accelerometer/mpu6050.hpp"
+#include "devices/actuators/servo/servo.hpp"
 
 #include "../implementations/routers/joint-router.hpp"
 #include "../implementations/routers/hand-router.hpp"
@@ -44,7 +45,9 @@ int main()
   right_wrist_motor.settings.gear_ratio = 8;
 
   JointRouter joint_router(rotunda_motor, shoulder_motor, elbow_motor, left_wrist_motor, right_wrist_motor);
-  HandRouter hand_router(pca9685);
+  HandRouter hand_router(&pca9685);
+  sjsu::Servo servo(sjsu::lpc40xx::GetPwm<1, 0>());
+  HandRouter rr9_claw_router(&servo);
   MissionControlHandler mission_control;
   RulesEngine rules_engine;
   // TODO: Fix hand from crashing program when pca9685 is not connected!
