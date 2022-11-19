@@ -66,23 +66,11 @@ public:
             throw std::invalid_argument(e_msg);
         }
 
-        float average = 0;
         std::array<float, N> results;
         results.fill(0);
         for (unsigned int i = 0; i < N; i++)
         {
-            // switch channel
-            average = 0;
-            SwapChannels(channel_list[i]);
-            sjsu::Delay(5ms);
-            for (int j = 0; j < 10; j++)
-            {
-                auto digital_value = adc_.Read(); // read input
-                float voltage = sjsu::Map(digital_value, 0, adc_.GetMaximumValue(), 0.0f, 3.3f); // bind our voltage between 0 and 3.3 volts
-                average += voltage;
-            }
-            average = average / 10;
-            results[i] = average;
+            results[i] = ReadOne(channel_list[i]);
         }
         return results;
     }
@@ -92,8 +80,27 @@ public:
     /// @return The voltage of the channel selected.
     float ReadOne(unsigned int channel)
     {
-        std::array<unsigned int, 1> c_list = {channel}; 
-        return ReadAll<1>(c_list)[0];
+        if (channel > 16)
+        {
+            auto e_msg = "No channel greater than 16 on multiplexer.";
+            sjsu::LogError("%s", e_msg);
+            throw std::invalid_argument(e_msg);
+        }
+
+        float average = 0;
+        average = 0;
+        SwapChannels(channel);
+        sjsu::Delay(5ms);
+        for (int j = 0; j < 10; j++)
+        {
+            auto digital_value = adc_.Read(); // read input
+            float voltage = sjsu::Map(digital_value, 0, adc_.GetMaximumValue(), 0.0f, 3.3f); // bind our voltage between 0 and 3.3 volts
+            average += voltage;
+        }
+        average = average / 10;
+        return average;
+
+        
     }
 
 private:
