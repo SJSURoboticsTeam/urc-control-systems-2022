@@ -8,15 +8,16 @@ namespace sjsu::arm
 {
     TEST_CASE("Hand Mode Testing")
     {
-        SECTION("Should set angles to correct given manual mode angles")
+        SECTION("should set hand angles based off mc commands")
         {
-            hand_arguments original_commands{100, 100, 100, 100, 100, 'S'};
-            hand_arguments args = HandModes::IndividualMode(original_commands);
-            CHECK(args.pinky_angle == original_commands.pinky_angle);
-            CHECK(args.ring_angle == original_commands.ring_angle);
-            CHECK(args.middle_angle == original_commands.middle_angle);
-            CHECK(args.index_angle == original_commands.index_angle);
-            CHECK(args.thumb_angle == original_commands.thumb_angle);
+            mc_commands commands = {first_angle:1, second_angle:2, third_angle:3, fourth_angle:4, fifth_angle:5};
+            arm_arguments args;
+            args = ArmMode::HandMode(commands, args);
+            CHECK(args.hand_args.pinky_angle == commands.first_angle);
+            CHECK(args.hand_args.ring_angle == commands.second_angle);
+            CHECK(args.hand_args.middle_angle == commands.third_angle);
+            CHECK(args.hand_args.index_angle == commands.fourth_angle);
+            CHECK(args.hand_args.thumb_angle == commands.fifth_angle);
         }
     }
 }

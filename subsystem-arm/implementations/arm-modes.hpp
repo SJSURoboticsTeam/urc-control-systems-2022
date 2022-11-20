@@ -33,8 +33,5 @@ namespace sjsu::arm
                 commands = commands;
                 return args;
             }
-
-        private:
-
     };
 }
