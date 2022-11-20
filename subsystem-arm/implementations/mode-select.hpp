@@ -20,7 +20,8 @@ namespace sjsu::arm
                         return ArmMode::JointMode(commands, arm_args);
                         break;
                     case 'R':
-                        return ArmMode::RRNineMode(commands, arm_args);
+                        // return ArmMode::RRNineMode(commands, arm_args);
+                        return ArmMode::HandMode(commands, arm_args);
                         break;
                     default:
                         return arm_args;
