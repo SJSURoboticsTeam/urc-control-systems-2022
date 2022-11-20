@@ -4,11 +4,12 @@
 #include "peripherals/lpc17xx/pwm.hpp"
 #include "devices/actuators/servo/rmd_x.hpp"
 #include "devices/sensors/movement/accelerometer/mpu6050.hpp"
+#include "devices/actuators/servo/servo.hpp"
 
 #include "../implementations/routers/joint-router.hpp"
 #include "../implementations/routers/hand-router.hpp"
 #include "../implementations/routers/mpu-router.hpp"
-#include "../implementations/routers/tca9458a-router.hpp"
+#include "../implementations/routers/rr9-router.hpp"
 
 #include "../implementations/mission-control-handler.hpp"
 #include "../implementations/rules-engine.hpp"
@@ -44,7 +45,9 @@ int main()
   right_wrist_motor.settings.gear_ratio = 8;
 
   JointRouter joint_router(rotunda_motor, shoulder_motor, elbow_motor, left_wrist_motor, right_wrist_motor);
-  HandRouter hand_router(pca9685);
+  // HandRouter hand_router(&pca9685);
+  sjsu::Servo servo(sjsu::lpc40xx::GetPwm<1, 0>());
+  HandRouter hand_router(&servo);
   MissionControlHandler mission_control;
   RulesEngine rules_engine;
   // TODO: Fix hand from crashing program when pca9685 is not connected!
@@ -66,10 +69,10 @@ int main()
       // TODO: Make this work w Joystick Serial
       printf("Received:\n%s\n", response.c_str());
       commands = mission_control.ParseMissionControlData(response);
-      commands = rules_engine.ValidateCommands(commands);
+      // commands = rules_engine.ValidateCommands(commands);
     }
     arguments = ModeSelect::SelectMode(commands, arguments);
-    commands.Print();
+    // commands.Print();
     if(commands.mode == 'J') {
       arguments.joint_args = joint_router.SetJointArguments(arguments.joint_args);
     }
