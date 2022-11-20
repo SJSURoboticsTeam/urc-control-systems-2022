@@ -31,6 +31,11 @@ namespace sjsu::arm
         int thumb_angle = 88;
     };
 
+    struct rr9_arguments
+    {
+        int angle = 0;
+    };
+
     struct mc_commands
     {
         int heartbeat_count = 0;
@@ -51,6 +56,8 @@ namespace sjsu::arm
     {
         joint_arguments joint_args;
         hand_arguments hand_args;
+        // Nina and Viha's doing
+        rr9_arguments rr9_args;
 
         void Print()
         {
