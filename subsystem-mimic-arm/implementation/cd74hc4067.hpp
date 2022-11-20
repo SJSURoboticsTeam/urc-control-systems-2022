@@ -90,7 +90,7 @@ public:
         float average = 0;
         average = 0;
         SwapChannels(channel);
-        sjsu::Delay(5ms);
+        sjsu::Delay(1ms);
         for (int j = 0; j < 10; j++)
         {
             auto digital_value = adc_.Read(); // read input

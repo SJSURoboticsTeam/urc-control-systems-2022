@@ -11,6 +11,18 @@
 
 
 
+/// @brief Converts raw voltage from a potentiometer to the true degree given an input voltage and a ratio between volts and degrees.
+/// 3.3V is considered 0 degrees
+/// @param voltage The input voltage
+/// @param volt_to_deg_ratio The ratio of voltage to one degree (how much voltage is changed when the pot moves one degree)
+/// @return The degree of the potentiometer.
+float VoltageToTrueDegree(float voltage, float max_voltage, float max_degree)
+{
+    
+    return sjsu::Map(voltage, 0, max_voltage, 0, max_degree);
+}
+
+
 int main()
 {
     sjsu::lpc40xx::Adc& adc4 = sjsu::lpc40xx::GetAdc<ADC_CHANNEL>(); 
@@ -25,10 +37,14 @@ int main()
     
     while(true)
     {
-        std::array<unsigned int, 5> channels = {0, 1, 2, 3, 4};
-        std::array<float, 5> output = digital_multiplexer.ReadAll<5>(channels);
-        for (int i = 0; i < 5; i++)
-            sjsu::LogInfo("Channel %i: Voltage: %f", channels[i], output[i]);
+        const size_t N = 3;
+        std::array<unsigned int, N> channels = {0, 1, 2};
+        std::array<float, N> output = digital_multiplexer.ReadAll<N>(channels);
+        for (int i = 0; i < N; i++)
+        {
+            sjsu::LogInfo("Channel %i: Degree: %f", channels[i], VoltageToTrueDegree(output[i], 3.3, 180));
+           // sjsu::LogInfo("Channel %i: Voltage: %f", channels[i], output[i]);
+        }
     }
 
     return 0;
