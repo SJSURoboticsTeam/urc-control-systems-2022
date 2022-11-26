@@ -127,9 +127,10 @@ namespace sjsu::drive
         bool WheelNotNeg60DoThis(leg& leg_) {
             //This leg is NOT at zero
             leg_.wheel_offset_ = 300;
-            if ((common::RmdEncoder::CalcEncoderPositions(leg_.steer_motor_) >= 0.01f) ||  common::RmdEncoder::CalcEncoderPositions(leg_.steer_motor_) <= -0.01f) 
+            leg_.steer_motor_.SetAngle(-60_deg, 2_rpm);
+
+            if (leg_.steer_motor_.RequestFeedbackFromMotor().GetFeedback().speed != 0_rpm) 
             {
-                leg_.steer_motor_.SetAngle(-60_deg, 2_rpm);
                 //This wheel is NOT at -60
                 return true;
             }
