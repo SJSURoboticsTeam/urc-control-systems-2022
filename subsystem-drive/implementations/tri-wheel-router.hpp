@@ -47,6 +47,19 @@ namespace sjsu::drive
             back_.wheel_offset_ = 0;
         }
 
+        tri_wheel_router_arguments ExecuteCommands(tri_wheel_router_arguments tri_wheel_arguments)
+        {
+            if(tri_wheel_arguments.mode == 'R') {
+                ReHomeLegs();
+                tri_wheel_arguments_ = tri_wheel_arguments;
+                return tri_wheel_arguments_;
+            }
+            else {
+                return SetLegArguments(tri_wheel_arguments);
+            }
+        }
+
+
         tri_wheel_router_arguments SetLegArguments(tri_wheel_router_arguments tri_wheel_arguments)
         {
             left_.steer_motor_.SetAngle(units::angle::degree_t(-tri_wheel_arguments.left.steer.angle + left_.wheel_offset_),
@@ -68,6 +81,11 @@ namespace sjsu::drive
         tri_wheel_router_arguments GetTriWheelRouterArguments() const
         {
             return tri_wheel_arguments_;
+        }
+
+        void ReHomeLegs() {
+            sjsu::LogInfo("Rehoming wheels.");
+            //To be implemented
         }
 
         /// At the moment, homing is where the legs turn on so we just calculate the initial encoder positions. ***Must be called in main
