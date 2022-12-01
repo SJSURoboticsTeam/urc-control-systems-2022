@@ -30,11 +30,9 @@ namespace sjsu::arm
             static arm_arguments RRNineMode(mc_commands commands, arm_arguments args) 
             {
                 // put logic here
-                commands = commands;
+                args.rr9_args.angle = commands.first_angle;
+                // commands = commands;
                 return args;
             }
-
-        private:
-
     };
 }
