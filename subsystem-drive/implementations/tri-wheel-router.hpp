@@ -78,16 +78,14 @@ namespace sjsu::drive
             while (WheelNotZeroDoThis(left_) | WheelNotZeroDoThis(right_) | WheelNotZeroDoThis(back_))
             {
                 // This loops until all of the wheels are zeroed and/or homed
-                sjsu::LogInfo("Going to zero");
             }
 
             int not_homed = 1;
-            bool leftHome = (left_.magnet_.Read() == not_homed), rightHome = (right_.magnet_.Read() == not_homed), backHome = (back_.magnet_.Read() == not_homed);
-            sjsu::LogInfo("Left home? %d. Right home? %d. Back home? %d.", leftHome, rightHome, backHome);
+            bool leftNotHome = (left_.magnet_.Read() == not_homed), rightNotHome = (right_.magnet_.Read() == not_homed), backNotHome = (back_.magnet_.Read() == not_homed);
 
-            while ((!leftHome && WheelNotNeg60DoThis(left_, 'l')) | (!rightHome && WheelNotNeg60DoThis(right_, 'r')) | (!backHome && WheelNotNeg60DoThis(back_, 'b')))
+            while ((!leftNotHome && WheelNotNeg60DoThis(left_)) | (!rightNotHome && WheelNotNeg60DoThis(right_)) | (!backNotHome && WheelNotNeg60DoThis(back_)))
             {
-                sjsu::LogInfo("Going to negative 60");
+                //This loop moves wheels that were prematurely homed away from their current position
             }
 
             while (WheelNotHomeDoThis(left_) | WheelNotHomeDoThis(right_) | WheelNotHomeDoThis(back_))
@@ -131,13 +129,10 @@ namespace sjsu::drive
             }
         }
 
-        bool WheelNotNeg60DoThis(leg &leg_, char leg_name_)
+        bool WheelNotNeg60DoThis(leg &leg_)
         {
-            // This leg is NOT at zero
             leg_.wheel_offset_ = -60;
             leg_.steer_motor_.SetAngle(-60_deg, 2_rpm);
-
-            sjsu::LogInfo("%c leg angle is %f", leg_name_, common::RmdEncoder::CalcEncoderPositions(leg_.steer_motor_));
 
             if (leg_.steer_motor_.RequestFeedbackFromMotor().GetFeedback().speed != 0_rpm)
             {
