@@ -38,6 +38,8 @@ namespace sjsu::drive
         leg_arguments right{};
         leg_arguments back{};
 
+        char mode = 'D';
+
         void Print()
         {
             // printf("Args\tLeg\tSpeed\tAngle\n");

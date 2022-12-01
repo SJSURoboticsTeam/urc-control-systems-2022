@@ -21,6 +21,11 @@ namespace sjsu::drive
             case 'T':
                 return SteerModes::TranslateSteering(commands);
                 break;
+            case 'R':
+                tri_wheel_router_arguments temp{};
+                temp.mode = 'R';
+                return temp;
+                break;
             default:
                 return tri_wheel_router_arguments{};
                 break;

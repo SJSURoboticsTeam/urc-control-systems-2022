@@ -75,6 +75,7 @@ namespace sjsu::drive
             steer_arguments.left.steer.angle += kLeftLegDriveOffset;
             steer_arguments.right.steer.angle += kRightLegDriveOffset;
             steer_arguments.back.steer.angle += kBackLegDriveOffset;
+            steer_arguments.mode = 'D';
             return steer_arguments;
         }
 
@@ -87,6 +88,7 @@ namespace sjsu::drive
             temp.back.hub.speed = static_cast<float>(commands.speed);
             temp.left.hub.speed = static_cast<float>(-commands.speed);
             temp.right.hub.speed = static_cast<float>(commands.speed);
+            temp.mode = 'D';
 
             return temp;
         }
@@ -102,6 +104,7 @@ namespace sjsu::drive
             steer_arguments.left.hub.speed = static_cast<float>(-commands.speed);
             steer_arguments.right.hub.speed = static_cast<float>(-commands.speed);
             steer_arguments.back.hub.speed = static_cast<float>(commands.speed);
+            steer_arguments.mode = 'T';
 
             return steer_arguments;
         }
