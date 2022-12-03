@@ -13,7 +13,7 @@ namespace sjsu::arm
         static constexpr int kMinFingerAngle = 0;
         static constexpr int kMaxFingerAngle = 90;
         static constexpr int kMinRR9Angle = 0;
-        static constexpr int kMaxRR9Angle = 90;
+        static constexpr int kMaxRR9Angle = 150;
         static constexpr int kMinShoulderAngle = 0;
         static constexpr int kMaxShoulderAngle = 90;
         static constexpr int kMinElbowAngle = -150;
