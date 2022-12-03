@@ -26,7 +26,5 @@ namespace sjsu::arm
             args.hand_args.thumb_angle = commands.fifth_angle;
             return args;
         }
-
-    private:
     };
 }

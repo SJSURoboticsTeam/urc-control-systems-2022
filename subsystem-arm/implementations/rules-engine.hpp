@@ -16,6 +16,10 @@ namespace sjsu::arm
         static constexpr int kMaxRR9Angle = 90;
         static constexpr int kMinShoulderAngle = 0;
         static constexpr int kMaxShoulderAngle = 90;
+        static constexpr int kMinElbowAngle = -150;
+        static constexpr int kMaxElbowAngle = 150;
+        static constexpr int kMinWristPitchAngle = -90;
+        static constexpr int kMaxWristPitchAngle = 90;
 
         mc_commands ValidateCommands(mc_commands commands)
         {
@@ -45,6 +49,8 @@ namespace sjsu::arm
             if (commands.mode == 'J')
             {
                 commands.second_angle = std::clamp(commands.second_angle, kMinShoulderAngle, kMaxShoulderAngle);
+                commands.third_angle = std::clamp(commands.third_angle, kMinElbowAngle, kMaxElbowAngle);
+                commands.fourth_angle = std::clamp(commands.fourth_angle, kMinWristPitchAngle, kMaxWristPitchAngle);
             }
             if (commands.mode == 'R')
             {

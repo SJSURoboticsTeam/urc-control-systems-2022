@@ -46,8 +46,6 @@ namespace sjsu::arm
         }
 
     private:
-        // sjsu::arm::arm_arguments arguments_;
-        // hand_arguments hand_arguments_;
         sjsu::Pca9685 *pca_module_;
         sjsu::Servo *servo_;
         char mode_;
