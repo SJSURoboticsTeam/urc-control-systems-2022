@@ -13,7 +13,7 @@ namespace sjsu::arm
 
     struct joint_arguments
     {
-        int speed = 5;
+        int speed = 2;
         int rotunda_angle = 0;
         int shoulder_angle = 0;
         int elbow_angle = 0;
@@ -23,7 +23,7 @@ namespace sjsu::arm
 
     struct hand_arguments
     {
-        int speed = 5;
+        int speed = 2;
         int pinky_angle = 0;
         int ring_angle = 0;
         int middle_angle = 0;
@@ -40,7 +40,7 @@ namespace sjsu::arm
     {
         int heartbeat_count = 0;
         int is_operational = 0;
-        int speed = 5;
+        int speed = 2;
         char mode = 'J';
         int first_angle = 0;
         int second_angle = 0;
