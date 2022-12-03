@@ -11,9 +11,9 @@ namespace sjsu::drive
     public:
         std::string CreateGETRequestParameterWithRoverStatus(drive_commands commands)
         {
-            char request_parameter[200];
+            char request_parameter[350];
             snprintf(
-                request_parameter, 200, kGETRequestFormat,
+                request_parameter, 350, kGETRequestFormat,
                 commands.heartbeat_count, commands.is_operational, commands.wheel_orientation, commands.mode, commands.speed, commands.angle);
             return request_parameter;
         }
@@ -25,9 +25,10 @@ namespace sjsu::drive
                 response.c_str(), kResponseBodyFormat,
                 &commands_.heartbeat_count, &commands_.is_operational, &commands_.wheel_orientation,
                 &commands_.mode, &commands_.speed, &commands_.angle);
+
             if (actual_arguments != kExpectedNumberOfArguments)
             {
-                sjsu::LogError("Received %d arguments, expected %d", actual_arguments, kExpectedNumberOfArguments);
+                sjsu::LogError("Read %d args from %s", actual_arguments, response.c_str());
             }
             return commands_;
         }

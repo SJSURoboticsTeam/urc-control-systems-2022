@@ -24,16 +24,11 @@ namespace sjsu::arm
     struct hand_arguments
     {
         int speed = 5;
-        int pinky_angle = 88;
-        int ring_angle = 88;
-        int middle_angle = 88;
-        int index_angle = 88;
-        int thumb_angle = 88;
-    };
-
-    struct rr9_arguments
-    {
-        int angle = 0;
+        int pinky_angle = 0;
+        int ring_angle = 0;
+        int middle_angle = 0;
+        int index_angle = 0;
+        int thumb_angle = 0;
     };
 
     struct mc_commands
@@ -42,13 +37,14 @@ namespace sjsu::arm
         int is_operational = 0;
         int speed = 5;
         char mode = 'J';
-        int first_angle  = 0;
+        int first_angle = 0;
         int second_angle = 0;
         int third_angle = 0;
         int fourth_angle = 0;
         int fifth_angle = 0;
-        void Print() {
-            printf("%d, %d, %d, %c, %d, %d, %d, %d, %d", heartbeat_count, is_operational, speed, mode, first_angle, second_angle, third_angle, fourth_angle, fifth_angle);
+        void Print()
+        {
+            printf(kResponseBodyFormat, heartbeat_count, is_operational, mode, first_angle, second_angle, third_angle, fourth_angle, fifth_angle);
         }
     };
 
@@ -56,8 +52,6 @@ namespace sjsu::arm
     {
         joint_arguments joint_args;
         hand_arguments hand_args;
-        // Nina and Viha's doing
-        rr9_arguments rr9_args;
 
         void Print()
         {

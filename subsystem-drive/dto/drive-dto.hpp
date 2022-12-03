@@ -7,16 +7,16 @@ namespace sjsu::drive
 
     struct drive_commands
     {
+        int heartbeat_count = 0;
+        int is_operational = 0;
+        int wheel_orientation = 0;
         char mode = 'D';
         int speed = 0;
         int angle = 0;
-        int wheel_orientation = 0;
-        int is_operational = 0;
-        int heartbeat_count = 0;
 
         void Print()
         {
-            printf(kResponseBodyFormat,heartbeat_count, is_operational, wheel_orientation, mode, speed, angle);
+            printf(kResponseBodyFormat, heartbeat_count, is_operational, wheel_orientation, mode, speed, angle);
         }
     };
 
@@ -40,10 +40,6 @@ namespace sjsu::drive
 
         void Print()
         {
-            // printf("Args\tLeg\tSpeed\tAngle\n");
-            // printf("\tLeft\t%.1f\t%.1f\n", static_cast<double>(left.hub.speed), static_cast<double>(left.steer.angle));
-            // printf("\tRight\t%.1f\t%.1f\n", static_cast<double>(right.hub.speed), static_cast<double>(right.steer.angle));
-            // printf("\tBack\t%.1f\t%.1f\n", static_cast<double>(back.hub.speed), static_cast<double>(back.steer.angle));
         }
     };
 } // sjsu::drive

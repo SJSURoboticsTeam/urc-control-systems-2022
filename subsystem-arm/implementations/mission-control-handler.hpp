@@ -23,8 +23,9 @@ namespace sjsu::arm
         mc_commands ParseMissionControlData(std::string &response)
         {
             response = response.substr(response.find('{'));
-            int actual_arguments = sscanf(response.c_str(), kResponseBodyFormat,
-                                          &commands_.heartbeat_count, &commands_.is_operational, &commands_.mode, &commands_.first_angle, &commands_.second_angle, &commands_.third_angle, &commands_.fourth_angle, &commands_.fifth_angle);
+            int actual_arguments = sscanf(
+                response.c_str(), kResponseBodyFormat,
+                &commands_.heartbeat_count, &commands_.is_operational, &commands_.mode, &commands_.first_angle, &commands_.second_angle, &commands_.third_angle, &commands_.fourth_angle, &commands_.fifth_angle);
             if (actual_arguments != kExpectedNumberOfArguments)
             {
                 sjsu::LogError("Received %d expected %d arguments", actual_arguments, kExpectedNumberOfArguments);

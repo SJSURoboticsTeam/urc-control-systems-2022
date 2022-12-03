@@ -9,14 +9,13 @@
 #include "../implementations/routers/joint-router.hpp"
 #include "../implementations/routers/hand-router.hpp"
 #include "../implementations/routers/mpu-router.hpp"
-#include "../implementations/routers/rr9-router.hpp"
 
 #include "../implementations/mission-control-handler.hpp"
 #include "../implementations/rules-engine.hpp"
 #include "../implementations/mode-select.hpp"
 #include "../implementations/pca9685.hpp"
 #include "../common/serial.hpp"
-//#include "../common/esp.hpp"
+// #include "../common/esp.hpp"
 #include "dto/arm-dto.hpp"
 
 using namespace sjsu::arm;
@@ -56,7 +55,6 @@ int main()
 
   joint_router.Initialize();
   // joint_router.HomeArm();
-  // hand_router.Initialize();
 
   sjsu::LogInfo("Starting control loop...");
   sjsu::Delay(1s);
@@ -66,18 +64,18 @@ int main()
     std::string response = serial.GetCommands();
     if (response.find('{') != std::string::npos && response.find('}') != std::string::npos)
     {
-      // TODO: Make this work w Joystick Serial
-      printf("Received:\n%s\n", response.c_str());
       commands = mission_control.ParseMissionControlData(response);
-      // commands = rules_engine.ValidateCommands(commands);
+      commands = rules_engine.ValidateCommands(commands);
     }
     arguments = ModeSelect::SelectMode(commands, arguments);
-    // commands.Print();
-    if(commands.mode == 'J') {
+    if (commands.mode == 'J')
+    {
       arguments.joint_args = joint_router.SetJointArguments(arguments.joint_args);
     }
-    else {
+    else
+    {
       arguments.hand_args = hand_router.SetHandArguments(arguments.hand_args, commands.mode);
     }
+    commands.Print();
   }
 }
