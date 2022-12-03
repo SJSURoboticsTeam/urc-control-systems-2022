@@ -76,16 +76,15 @@ int main()
         std::string response = serial.GetCommands();
         if (response.find('{') != std::string::npos && response.find('}') != std::string::npos)
         {
-            printf("Response: %s", response.c_str());
             commands = mission_control.ParseMissionControlData(response);
             commands = rules_engine.ValidateCommands(commands);
             // commands = mode_switch.SwitchSteerMode(commands, arguments, motor_speeds);
             commands = lerp.Lerp(commands);
-            commands.Print();
         }
         arguments = ModeSelect::SelectMode(commands);
         arguments = tri_wheel.SetLegArguments(arguments);
         motor_speeds = tri_wheel.GetMotorFeedback();
+        commands.Print();
     }
     return 0;
 }
