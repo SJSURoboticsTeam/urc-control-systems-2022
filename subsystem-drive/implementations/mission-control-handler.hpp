@@ -28,7 +28,7 @@ namespace sjsu::drive
 
             if (actual_arguments != kExpectedNumberOfArguments)
             {
-                sjsu::LogError("Read %d args from %s", actual_arguments, response.c_str());
+                sjsu::LogError("Read %d args", actual_arguments);
             }
             return commands_;
         }
