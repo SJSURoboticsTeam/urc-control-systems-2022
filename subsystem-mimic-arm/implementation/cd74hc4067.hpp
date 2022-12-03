@@ -103,6 +103,8 @@ public:
         
     }
 
+    
+
 private:
     sjsu::lpc40xx::Adc& adc_;
     sjsu::lpc40xx::Gpio& s0_;

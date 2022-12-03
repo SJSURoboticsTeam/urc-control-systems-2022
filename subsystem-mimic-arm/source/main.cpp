@@ -1,4 +1,7 @@
 #include "../implementation/cd74hc4067.hpp"
+#include "peripherals/lpc40xx/uart.hpp"
+#include "serial.hpp"
+#include <sstream>
 
 // Signal ports and pins for GPIO digital pins to control the mux.
 // order for each macros is channel, port
@@ -8,7 +11,6 @@
 #define SIGNAL_3 2, 8
 #define ADC_CHANNEL 4
 // 1, 30 ADC output used for 5 pots.
-
 
 
 /// @brief Converts raw voltage from a potentiometer to the true degree given an input voltage and a ratio between volts and degrees.
@@ -38,6 +40,26 @@ float DegreePhaseShift(float input_deg, float new_zero)
     return input_deg - new_zero;
 }
 
+void send_data_mc(std::array<float, 6> raw_data)
+{
+    std::stringstream ss;
+    // Default structure of json file
+    /* 
+    { 
+        HB: 0,
+        IO: 1,
+        M: 'M',
+        Angles: [$ROTUNDA, $SHOULDER, $ELBOW, $WRIST_PITCH, $WRIST_ROLL, $END_EFFECTOR]
+    }
+    */
+    ss << "{ HB: 0, IO: 1, M:'M', Angles:[";
+    for (auto i: raw_data)
+        ss << i << ",";
+    
+    ss << "]}";
+    printf(ss.str().c_str()); // print to serial
+}
+
 int main()
 {
     sjsu::lpc40xx::Adc& adc4 = sjsu::lpc40xx::GetAdc<ADC_CHANNEL>(); 
@@ -49,28 +71,14 @@ int main()
     auto digital_multiplexer = Cd74hc4067(adc4, s0, s1, s2, s3);
     sjsu::LogInfo("Signal pins configured");
     sjsu::LogInfo("ADC initialized.");
-    
-    // demo code
-    // TODO: move to its own file.
-    while(true)
-    {
-        const size_t N = 3;
-        std::array<unsigned int, N> channels = {0, 1, 2};
-        std::array<float, N> output = digital_multiplexer.ReadAll<N>(channels);
-        for (int i = 0; i < N; i++)
-        {
-            float degree = DegreePhaseShift(VoltageToTrueDegree(output[i], 3.3, 180), 90);
-            sjsu::LogInfo("Channel %i: Degree: %f", channels[i], degree);
-           // sjsu::LogInfo("Channel %i: Voltage: %f", channels[i], output[i]);
-        }
-    }
 
     // Control loop for mimic arm controller
     // Rotunda (channel 0) and wrist rotate (channel 4)
     while (true)
     {
         // read voltages from pots
-        std::array<float, 5> output_voltages = digital_multiplexer.ReadAll<5>({0, 1, 2, 3, 4});
+        std::array<unsigned int, 5> channels = {0, 1, 2, 3, 4};
+        std::array<float, 5> output_voltages = digital_multiplexer.ReadAll<5>(channels);
         std::array<float, 5> degree_conversion = {360, 90, 90, 90, 360};
         std::array<float, 5> results = {};
         for (int i = 0; i < 5; i++)
@@ -79,7 +87,12 @@ int main()
             results[i] = DegreePhaseShift(true_degree, degree_conversion[i]);
         }
 
-        // TODO: POST to mission control various degrees
+        for (int i = 0; i < 5; i++)
+            sjsu::LogInfo("Channel %d: Output: %f", channels[i], output_voltages[i]);
+
+        sjsu::common::Serial serial(sjsu::lpc40xx::GetUart<0>());
+
+
     }
 
     return 0;
