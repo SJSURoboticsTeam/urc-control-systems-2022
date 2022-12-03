@@ -14,8 +14,8 @@ namespace sjsu::arm
         static constexpr int kMaxFingerAngle = 90;
         static constexpr int kMinRR9Angle = 0;
         static constexpr int kMaxRR9Angle = 150;
-        static constexpr int kMinShoulderAngle = 0;
-        static constexpr int kMaxShoulderAngle = 90;
+        static constexpr int kMinShoulderAngle = -90;
+        static constexpr int kMaxShoulderAngle = 15;
         static constexpr int kMinElbowAngle = -150;
         static constexpr int kMaxElbowAngle = 150;
         static constexpr int kMinWristPitchAngle = -90;
@@ -35,7 +35,7 @@ namespace sjsu::arm
             }
             else
             {
-                commands.speed = 5;
+                commands.speed = 2;
             }
 
             if (commands.mode == 'H')
