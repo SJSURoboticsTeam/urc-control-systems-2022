@@ -1,6 +1,5 @@
 #include "../implementation/cd74hc4067.hpp"
 #include "peripherals/lpc40xx/uart.hpp"
-#include "serial.hpp"
 #include <sstream>
 
 // Signal ports and pins for GPIO digital pins to control the mux.
@@ -42,7 +41,7 @@ float DegreePhaseShift(float input_deg, float new_zero)
 
 void send_data_mc(std::array<float, 6> raw_data)
 {
-    std::stringstream ss;
+    // std::stringstream ss;
     // Default structure of json file
     /* 
     { 
@@ -52,7 +51,8 @@ void send_data_mc(std::array<float, 6> raw_data)
         Angles: [$ROTUNDA, $SHOULDER, $ELBOW, $WRIST_PITCH, $WRIST_ROLL, $END_EFFECTOR]
     }
     */
-    ss << "{ HB: 0, IO: 1, M:'M', Angles:[";
+   std::stringstream ss;
+    ss << "{ \"HB\": \"0\", \"IO\": \"1\", \"M\":\"M\", \"CMD\":[";
     for (auto i: raw_data)
         ss << i << ",";
     
@@ -77,21 +77,22 @@ int main()
     while (true)
     {
         // read voltages from pots
-        std::array<unsigned int, 5> channels = {0, 1, 2, 3, 4};
-        std::array<float, 5> output_voltages = digital_multiplexer.ReadAll<5>(channels);
-        std::array<float, 5> degree_conversion = {360, 90, 90, 90, 360};
-        std::array<float, 5> results = {};
-        for (int i = 0; i < 5; i++)
+        // Pot order: ROTUNDA, SHOULDER, ELBOW, WRIST_PITCH, WRIST_ROLL, END_EFFECTOR
+        const size_t N = 6;
+        std::array<unsigned int, N> channels = {0, 1, 2, 3, 4, 5};
+        std::array<float, N> output_voltages = digital_multiplexer.ReadAll<N>(channels);
+        std::array<float, N> degree_conversion = {360, 90, 90, 90, 360, 360}; // FIXME: scaling is wrong
+        std::array<float, N> results = {};
+        for (size_t i = 0; i < N; i++)
         {
             float true_degree = VoltageToTrueDegree(output_voltages[i], 3.3, 360);
             results[i] = DegreePhaseShift(true_degree, degree_conversion[i]);
         }
 
-        for (int i = 0; i < 5; i++)
-            sjsu::LogInfo("Channel %d: Output: %f", channels[i], output_voltages[i]);
+        // for (int i = 0; i < 5; i++)
+        //     sjsu::LogInfo("Channel %d: Output: %f", channels[i], output_voltages[i]);
 
-        sjsu::common::Serial serial(sjsu::lpc40xx::GetUart<0>());
-
+        send_data_mc(results);
 
     }
 
