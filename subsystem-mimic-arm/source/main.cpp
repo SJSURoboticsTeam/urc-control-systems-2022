@@ -1,6 +1,4 @@
 #include "../implementation/cd74hc4067.hpp"
-#include "peripherals/lpc40xx/uart.hpp"
-#include <sstream>
 
 // Signal ports and pins for GPIO digital pins to control the mux.
 // order for each macros is channel, port
@@ -10,6 +8,7 @@
 #define SIGNAL_3 2, 8
 #define ADC_CHANNEL 4
 // 1, 30 ADC output used for 5 pots.
+
 
 
 /// @brief Converts raw voltage from a potentiometer to the true degree given an input voltage and a ratio between volts and degrees.
@@ -39,10 +38,11 @@ float DegreePhaseShift(float input_deg, float new_zero)
     return input_deg - new_zero;
 }
 
-void send_data_mc(std::array<float, 6> raw_data)
+/// TODO: Update to use proper http POST requests
+template <unsigned int N>
+void send_data_mc(std::array<float, N> raw_data)
 {
-    // std::stringstream ss;
-    // Default structure of json file
+    // Structure of json file
     /* 
     { 
         HB: 0,
@@ -51,51 +51,47 @@ void send_data_mc(std::array<float, 6> raw_data)
         Angles: [$ROTUNDA, $SHOULDER, $ELBOW, $WRIST_PITCH, $WRIST_ROLL, $END_EFFECTOR]
     }
     */
-   std::stringstream ss;
-    ss << "{ \"HB\": \"0\", \"IO\": \"1\", \"M\":\"M\", \"CMD\":[";
-    for (auto i: raw_data)
-        ss << i << ",";
+    std::string json_str = "{\"HB\":\"0\",\"IO\":\"1\",\"M\":\"M\",\"CMD\":[";
+    for (unsigned int i = 0; i < N; i++)
+    {
+        if (i != N - 1)
+            json_str.append(std::to_string(raw_data[i]) + ",");
+        else
+            json_str.append(std::to_string(raw_data[i]));
+    }
     
-    ss << "]}";
-    printf(ss.str().c_str()); // print to serial
+    json_str.append("]}");
+    printf("%s", json_str.c_str()); // print to serial
 }
 
 int main()
 {
-    sjsu::lpc40xx::Adc& adc4 = sjsu::lpc40xx::GetAdc<ADC_CHANNEL>(); 
+    auto& adc4 = sjsu::lpc40xx::GetAdc<ADC_CHANNEL>(); 
     auto& s0 = sjsu::lpc40xx::GetGpio<SIGNAL_0>();
     auto& s1 = sjsu::lpc40xx::GetGpio<SIGNAL_1>();
     auto& s2 = sjsu::lpc40xx::GetGpio<SIGNAL_2>();
     auto& s3 = sjsu::lpc40xx::GetGpio<SIGNAL_3>();
 
     auto digital_multiplexer = Cd74hc4067(adc4, s0, s1, s2, s3);
-    sjsu::LogInfo("Signal pins configured");
-    sjsu::LogInfo("ADC initialized.");
 
-    // Control loop for mimic arm controller
-    // Rotunda (channel 0) and wrist rotate (channel 4)
     while (true)
     {
-        // read voltages from pots
         // Pot order: ROTUNDA, SHOULDER, ELBOW, WRIST_PITCH, WRIST_ROLL, END_EFFECTOR
         const size_t N = 6;
         std::array<unsigned int, N> channels = {0, 1, 2, 3, 4, 5};
+        // read voltages from pots
         std::array<float, N> output_voltages = digital_multiplexer.ReadAll<N>(channels);
-        std::array<float, N> degree_conversion = {360, 90, 90, 90, 360, 360}; // FIXME: scaling is wrong
+        /// TODO: double check scaling.
+        std::array<float, N> degree_conversion = {360, 90, 90, 90, 360, 360}; 
         std::array<float, N> results = {};
+        /// Convert voltages to degree at specified phase.
         for (size_t i = 0; i < N; i++)
         {
-            float true_degree = VoltageToTrueDegree(output_voltages[i], 3.3, 360);
+            float true_degree = VoltageToTrueDegree(output_voltages[i], 3.3f, 360);
             results[i] = DegreePhaseShift(true_degree, degree_conversion[i]);
         }
-
-        // for (int i = 0; i < 5; i++)
-        //     sjsu::LogInfo("Channel %d: Output: %f", channels[i], output_voltages[i]);
-
-        send_data_mc(results);
+        send_data_mc<N>(results);
 
     }
-
     return 0;
-
 }
