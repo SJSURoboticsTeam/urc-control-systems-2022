@@ -16,7 +16,7 @@
 #include "../implementations/rules-engine.hpp"
 #include "../dto/motor-feedback-dto.hpp"
 #include "../common/serial.hpp"
-//#include "../common/esp.hpp"
+// #include "../common/esp.hpp"
 
 using namespace sjsu::drive;
 
@@ -63,7 +63,6 @@ int main()
     CommandLerper lerp;
 
     tri_wheel.Initialize();
-    sjsu::Delay(1s);
     tri_wheel.HomeLegs();
     sjsu::LogInfo("Starting control loop...");
     sjsu::Delay(1s);
@@ -74,7 +73,6 @@ int main()
         // std::string endpoint = mission_control.CreateGETRequestParameterWithRoverStatus(commands);
         // std::string response = esp.GetCommands(endpoint);
 
-        // For Serial
         std::string response = serial.GetCommands();
         if (response.find('{') != std::string::npos && response.find('}') != std::string::npos)
         {
@@ -88,6 +86,5 @@ int main()
         arguments = tri_wheel.SetLegArguments(arguments);
         motor_speeds = tri_wheel.GetMotorFeedback();
     }
-
     return 0;
 }

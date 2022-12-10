@@ -17,8 +17,7 @@ namespace sjsu::common
 
         std::string GetCommands()
         {
-            std::array<uint8_t, 1024 * 2> raw_response;
-            std::fill(raw_response.begin(), raw_response.end(), 0);
+            std::array<uint8_t, 1024 * 2> raw_response = {0};
             if (uart_.HasData())
             {
                 const size_t response_size = uart_.Read(raw_response, 50ms);

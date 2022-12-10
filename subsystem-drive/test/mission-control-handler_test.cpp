@@ -12,9 +12,16 @@ namespace sjsu::drive
         {
             drive_commands expected_commands;
             expected_commands.is_operational = 1;
-            std::string mission_control_commands =
-                "{\"heartbeat_count\":0,\"is_operational\":1,\"wheel_orientation\":0,\"drive_mode\":\"D\",\"speed\":0,\"angle\":0}";
-            drive_commands actual_commands = mission_control_handler.ParseMissionControlData(mission_control_commands);
+            expected_commands.speed = 100;
+            expected_commands.angle = 12;
+
+            char mc_commands[200];
+            snprintf(
+                mc_commands, 200, kResponseBodyFormat,
+                expected_commands.heartbeat_count, expected_commands.is_operational, expected_commands.wheel_orientation, expected_commands.mode, expected_commands.speed, expected_commands.angle);
+            std::string mc_commands_string = mc_commands;
+
+            drive_commands actual_commands = mission_control_handler.ParseMissionControlData(mc_commands_string);
             CHECK_EQ(expected_commands.mode, actual_commands.mode);
             CHECK_EQ(expected_commands.speed, actual_commands.speed);
             CHECK_EQ(expected_commands.angle, actual_commands.angle);
