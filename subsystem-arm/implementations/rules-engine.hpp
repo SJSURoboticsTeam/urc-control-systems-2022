@@ -33,29 +33,11 @@ namespace sjsu::arm
             {
                 commands.speed = 0;
             }
-            else
-            {
-                commands.speed = 2;
-            }
+            commands.second_angle = std::clamp(commands.second_angle, kMinShoulderAngle, kMaxShoulderAngle);
+            commands.third_angle = std::clamp(commands.third_angle, kMinElbowAngle, kMaxElbowAngle);
+            commands.fourth_angle = std::clamp(commands.fourth_angle, kMinWristPitchAngle, kMaxWristPitchAngle);
+            commands.first_angle = std::clamp(commands.first_angle, kMinRR9Angle, kMaxRR9Angle);
 
-            if (commands.mode == 'H')
-            {
-                commands.first_angle = std::clamp(commands.first_angle, kMinFingerAngle, kMaxFingerAngle);
-                commands.second_angle = std::clamp(commands.second_angle, kMinFingerAngle, kMaxFingerAngle);
-                commands.third_angle = std::clamp(commands.third_angle, kMinFingerAngle, kMaxFingerAngle);
-                commands.fourth_angle = std::clamp(commands.fourth_angle, kMinFingerAngle, kMaxFingerAngle);
-                commands.fifth_angle = std::clamp(commands.fifth_angle, kMinFingerAngle, kMaxFingerAngle);
-            }
-            if (commands.mode == 'J')
-            {
-                commands.second_angle = std::clamp(commands.second_angle, kMinShoulderAngle, kMaxShoulderAngle);
-                commands.third_angle = std::clamp(commands.third_angle, kMinElbowAngle, kMaxElbowAngle);
-                commands.fourth_angle = std::clamp(commands.fourth_angle, kMinWristPitchAngle, kMaxWristPitchAngle);
-            }
-            if (commands.mode == 'R')
-            {
-                commands.first_angle = std::clamp(commands.first_angle, kMinRR9Angle, kMaxRR9Angle);
-            }
             heartbeat_.IncrementHeartbeatCount();
             return commands;
         }

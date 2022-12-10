@@ -22,7 +22,7 @@ namespace sjsu::arm
             right_wrist_.Initialize();
         };
 
-        joint_arguments SetJointArguments(joint_arguments arguments)
+        arm_arguments SetJointArguments(arm_arguments arguments)
         {
             rotunda_.SetAngle(units::angle::degree_t(static_cast<float>(arguments.rotunda_angle)), units::angular_velocity::revolutions_per_minute_t(static_cast<float>(arguments.speed)));
             shoulder_.SetAngle(units::angle::degree_t(static_cast<float>(arguments.shoulder_angle)), units::angular_velocity::revolutions_per_minute_t(static_cast<float>(arguments.speed)));

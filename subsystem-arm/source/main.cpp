@@ -9,12 +9,11 @@
 #include "../implementations/routers/joint-router.hpp"
 #include "../implementations/routers/hand-router.hpp"
 #include "../implementations/routers/mpu-router.hpp"
-#include "../implementations/routers/rr9-router.hpp"
 
 #include "../implementations/mission-control-handler.hpp"
 #include "../implementations/rules-engine.hpp"
-#include "../implementations/mode-select.hpp"
-#include "../implementations/pca9685.hpp"
+// #include "../implementations/mode-select.hpp"
+// #include "../implementations/pca9685.hpp"
 #include "../common/serial.hpp"
 // #include "../common/esp.hpp"
 #include "dto/arm-dto.hpp"
@@ -67,15 +66,16 @@ int main()
     {
       commands = mission_control.ParseMissionControlData(response);
       commands = rules_engine.ValidateCommands(commands);
-    }
-    arguments = ModeSelect::SelectMode(commands, arguments);
-    if (commands.mode == 'J')
-    {
-      arguments.joint_args = joint_router.SetJointArguments(arguments.joint_args);
-    }
-    else
-    {
-      arguments.hand_args = hand_router.SetHandArguments(arguments.hand_args, commands.mode);
+      arguments.speed = commands.speed;
+      arguments.rotunda_angle = commands.first_angle;
+      arguments.shoulder_angle = commands.second_angle;
+      arguments.elbow_angle = commands.third_angle;
+      arguments.wrist_pitch_angle = commands.fourth_angle;
+      arguments.wrist_roll_angle = commands.fifth_angle;
+      arguments.end_effector_angle = commands.sixth_angle;
+
+      joint_router.SetJointArguments(arguments);
+      hand_router.SetEndEffectorAngle(arguments);
     }
     commands.Print();
   }
