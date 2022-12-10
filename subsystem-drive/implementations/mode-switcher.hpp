@@ -11,7 +11,7 @@ namespace sjsu::drive
         // Should handle all the logic for switching to new steer mode
         drive_commands SwitchSteerMode(drive_commands commands, tri_wheel_router_arguments previous_arguments, motor_feedback current_motor_feedback)
         {
-            bool hubs_stopped((previous_arguments.left.hub.speed >= -0.01f || previous_arguments.left.hub.speed <= 0.01f) && (previous_arguments.right.hub.speed >= -0.01f || previous_arguments.right.hub.speed <= 0.01f) && (previous_arguments.back.hub.speed >= -0.01f || previous_arguments.back.hub.speed <= 0.01f));
+            bool hubs_stopped((previous_arguments.left.hub.speed >= -0.01f && previous_arguments.left.hub.speed <= 0.01f) && (previous_arguments.right.hub.speed >= -0.01f && previous_arguments.right.hub.speed <= 0.01f) && (previous_arguments.back.hub.speed >= -0.01f && previous_arguments.back.hub.speed <= 0.01f));
             bool steers_stopped(current_motor_feedback.left_steer_speed == 0_rpm && current_motor_feedback.right_steer_speed == 0_rpm && current_motor_feedback.back_steer_speed == 0_rpm);
             if (previous_mode_ != commands.mode)
             {

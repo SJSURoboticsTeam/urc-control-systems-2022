@@ -2,8 +2,8 @@
 
 namespace sjsu::drive
 {
-    // const char kResponseBodyFormat[] = "{\"HB\":%d,\"IO\":%d,\"WO\":%d,\"DM\":\"%c\",\"CMD\":[%d,%d]}\n";
-    const char kResponseBodyFormat[] = "{\"heartbeat_count\":%d,\"is_operational\":%d,\"wheel_orientation\":%d,\"mode\":\"%c\",\"CMD\":[%d,%d]}\n"; // new DTO format works better
+    const char kResponseBodyFormat[] = "{\"HB\":%d,\"IO\":%d,\"WO\":%d,\"DM\":\"%c\",\"CMD\":[%d,%d]}\n";
+    // const char kResponseBodyFormat[] = "{\"heartbeat_count\":%d,\"is_operational\":%d,\"wheel_orientation\":%d,\"mode\":\"%c\",\"CMD\":[%d,%d]}\n";
     const char kGETRequestFormat[] = "drive?heartbeat_count=%d&is_operational=%d&wheel_orientation=%d&mode=%c&speed=%d&angle=%d";
 
     struct drive_commands
