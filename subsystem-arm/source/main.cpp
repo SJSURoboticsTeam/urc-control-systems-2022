@@ -5,18 +5,13 @@
 #include "devices/actuators/servo/rmd_x.hpp"
 #include "devices/sensors/movement/accelerometer/mpu6050.hpp"
 #include "devices/actuators/servo/servo.hpp"
-
 #include "../implementations/routers/joint-router.hpp"
-#include "../implementations/routers/hand-router.hpp"
 #include "../implementations/routers/mpu-router.hpp"
-#include "../implementations/routers/rr9-router.hpp"
-
+#include "../implementations/routers/RR9-router.hpp"
 #include "../implementations/mission-control-handler.hpp"
 #include "../implementations/rules-engine.hpp"
-#include "../implementations/mode-select.hpp"
-#include "../implementations/pca9685.hpp"
 #include "../common/serial.hpp"
-//#include "../common/esp.hpp"
+// #include "../common/esp.hpp"
 #include "dto/arm-dto.hpp"
 
 using namespace sjsu::arm;
@@ -45,13 +40,11 @@ int main()
   right_wrist_motor.settings.gear_ratio = 8;
 
   JointRouter joint_router(rotunda_motor, shoulder_motor, elbow_motor, left_wrist_motor, right_wrist_motor);
-  HandRouter hand_router(&pca9685);
   sjsu::Servo servo(sjsu::lpc40xx::GetPwm<1, 0>());
-  HandRouter rr9_claw_router(&servo);
+  RR9Router rr9_claw_router(&servo);
   MissionControlHandler mission_control;
   RulesEngine rules_engine;
   // TODO: Fix hand from crashing program when pca9685 is not connected!
-  arm_arguments arguments;
   mc_commands commands;
 
   joint_router.Initialize();
@@ -71,13 +64,9 @@ int main()
       commands = mission_control.ParseMissionControlData(response);
       commands = rules_engine.ValidateCommands(commands);
     }
-    arguments = ModeSelect::SelectMode(commands, arguments);
+    
     commands.Print();
-    if(commands.mode == 'J') {
-      arguments.joint_args = joint_router.SetJointArguments(arguments.joint_args);
-    }
-    else {
-      arguments.hand_args = hand_router.SetHandArguments(arguments.hand_args, commands.mode);
-    }
+    commands = joint_router.SetJointArguments(commands);
+    commands = rr9_claw_router.SetRR9Arguments(commands);
   }
 }

@@ -10,8 +10,6 @@ namespace sjsu::arm
     {
     public:
         static constexpr int kMaxSpeed = 20;
-        static constexpr int kMinFingerAngle = 88;
-        static constexpr int kMaxFingerAngle = 175;
         static constexpr int kMaxShoulderAngle = 90;
 
         mc_commands ValidateCommands(mc_commands commands)
@@ -27,16 +25,6 @@ namespace sjsu::arm
             {
                 // sjsu::LogWarning("Arm is not operational...");
                 commands.speed = 0;
-            }
-            else {
-                commands.speed = 5;
-            }
-            if(commands.mode != 'J'){
-                commands.first_angle = std::clamp(commands.first_angle, kMinFingerAngle, kMaxFingerAngle);
-                commands.second_angle = std::clamp(commands.second_angle, kMinFingerAngle, kMaxFingerAngle);
-                commands.third_angle = std::clamp(commands.third_angle, kMinFingerAngle, kMaxFingerAngle);
-                commands.fourth_angle = std::clamp(commands.fourth_angle, kMinFingerAngle, kMaxFingerAngle);
-                commands.fifth_angle = std::clamp(commands.fifth_angle, kMinFingerAngle, kMaxFingerAngle);
             }
             heartbeat_.IncrementHeartbeatCount();
             return commands;
