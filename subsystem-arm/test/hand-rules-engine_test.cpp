@@ -5,39 +5,42 @@
 
 namespace sjsu::arm
 {
-    TEST_CASE("Hand Rules Engine")
+    TEST_CASE("Rules Engine Testing")
     {
         RulesEngine engine;
-        hand_arguments commands;
-        // TODO: FIX THESE TESTS
-        // SECTION("should validate not change hand state")
-        // {
-        //     commands.middle_angle = 90;
-        //     commands.index_angle = 90;
+        mc_commands commands, response;
 
-        //     hand_arguments response = engine.ValidateCommands(commands);
-        //     CHECK_EQ(response.index_angle, commands.index_angle);
-        //     commands.middle_angle = 20;
-        //     commands.index_angle = 30;
-        //     response = engine.ValidateCommands(commands);
-        //     CHECK_NE(commands.middle_angle, response.middle_angle);
-        //     CHECK_NE(commands.index_angle, response.index_angle);
-        // }
+        SECTION("should validate max and min finger angles clamping")
+        {
+            commands.mode = 'H';
+            commands.first_angle = 181;
+            commands.second_angle = 190;
+            commands.third_angle = -90;
+            commands.fourth_angle = 200;
+            commands.fifth_angle = -180;
 
-        // SECTION("should validate max and min finger angles clamping")
-        // {
-        //     commands.thumb_angle = -180;
-        //     commands.index_angle = 200;
-        //     commands.middle_angle = -90;
-        //     commands.ring_angle = 190;
-        //     commands.pinky_angle = 181;
+            response = engine.ValidateCommands(commands);
 
-        //     hand_arguments response = engine.ValidateCommands(commands);
-        //     CHECK_NE(commands.thumb_angle, response.thumb_angle);
-        //     CHECK_NE(commands.index_angle, response.index_angle);
-        //     CHECK_NE(commands.middle_angle, response.middle_angle);
-        //     CHECK_NE(commands.ring_angle, response.ring_angle);
-        //     CHECK_NE(commands.pinky_angle, response.pinky_angle);
-        // }
+            CHECK_NE(commands.first_angle, response.first_angle);
+            CHECK_NE(commands.second_angle, response.second_angle);
+            CHECK_NE(commands.third_angle, response.third_angle);
+            CHECK_NE(commands.fourth_angle, response.fourth_angle);
+            CHECK_NE(commands.fifth_angle, response.fifth_angle);
+        }
+
+        SECTION("should validate max and min joint angles clamping")
+        {
+            commands.mode = 'J';
+            commands.second_angle = 100;
+            commands.third_angle = -180;
+            commands.fourth_angle = 120;
+
+            response = engine.ValidateCommands(commands);
+
+            CHECK_NE(commands.second_angle, response.second_angle);
+            CHECK_NE(commands.third_angle, response.third_angle);
+            CHECK_NE(commands.fourth_angle, response.fourth_angle);
+        }
+
     }
 }

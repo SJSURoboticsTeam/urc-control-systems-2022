@@ -10,7 +10,12 @@ namespace sjsu::arm
     {
     public:
         static constexpr int kMaxSpeed = 20;
+        static constexpr int kMinShoulderAngle = 0;
         static constexpr int kMaxShoulderAngle = 90;
+        static constexpr int kMinElbowAngle = -150;
+        static constexpr int kMaxElbowAngle = 150;
+        static constexpr int kMinWristPitchAngle = -90;
+        static constexpr int kMaxWristPitchAngle = 90;
 
         mc_commands ValidateCommands(mc_commands commands)
         {

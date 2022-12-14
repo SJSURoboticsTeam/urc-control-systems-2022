@@ -8,15 +8,7 @@
 #include "../implementations/routers/joint-router.hpp"
 #include "../implementations/routers/mpu-router.hpp"
 #include "../implementations/routers/RR9-router.hpp"
-#include "../implementations/mission-control-handler.hpp"
-#include "../implementations/rules-engine.hpp"
-#include "../common/serial.hpp"
-// #include "../common/esp.hpp"
 #include "dto/arm-dto.hpp"
-
-using namespace sjsu::arm;
-
-int main()
 {
   // sjsu::common::Esp esp;
   sjsu::common::Serial serial(sjsu::lpc40xx::GetUart<0>());
@@ -62,7 +54,7 @@ int main()
       // TODO: Make this work w Joystick Serial
       printf("Received:\n%s\n", response.c_str());
       commands = mission_control.ParseMissionControlData(response);
-      commands = rules_engine.ValidateCommands(commands);
+      // commands = rules_engine.ValidateCommands(commands);
     }
     
     commands.Print();
