@@ -4,11 +4,21 @@
 #include "peripherals/lpc17xx/pwm.hpp"
 #include "devices/actuators/servo/rmd_x.hpp"
 #include "devices/sensors/movement/accelerometer/mpu6050.hpp"
+
 #include "devices/actuators/servo/servo.hpp"
 #include "../implementations/routers/joint-router.hpp"
 #include "../implementations/routers/mpu-router.hpp"
 #include "../implementations/routers/RR9-router.hpp"
+
+#include "../implementations/mission-control-handler.hpp"
+#include "../implementations/rules-engine.hpp"
+#include "../common/serial.hpp"
 #include "dto/arm-dto.hpp"
+
+
+using namespace sjsu::arm;
+
+int main()
 {
   // sjsu::common::Esp esp;
   sjsu::common::Serial serial(sjsu::lpc40xx::GetUart<0>());
@@ -56,7 +66,7 @@
       commands = mission_control.ParseMissionControlData(response);
       // commands = rules_engine.ValidateCommands(commands);
     }
-    
+
     commands.Print();
     commands = joint_router.SetJointArguments(commands);
     commands = rr9_claw_router.SetRR9Arguments(commands);
