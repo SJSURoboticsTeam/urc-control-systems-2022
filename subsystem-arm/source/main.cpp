@@ -6,19 +6,16 @@
 #include "devices/sensors/movement/accelerometer/mpu6050.hpp"
 #include "devices/actuators/servo/servo.hpp"
 
+#include "devices/actuators/servo/servo.hpp"
 #include "../implementations/routers/joint-router.hpp"
-#include "../implementations/routers/hand-router.hpp"
 #include "../implementations/routers/mpu-router.hpp"
-#include "../implementations/routers/tca9458a-router.hpp"
-#include "../implementations/routers/rr9-router.hpp"
+#include "../implementations/routers/RR9-router.hpp"
 
 #include "../implementations/mission-control-handler.hpp"
 #include "../implementations/rules-engine.hpp"
-#include "../implementations/mode-select.hpp"
-#include "../implementations/pca9685.hpp"
 #include "../common/serial.hpp"
-//#include "../common/esp.hpp"
 #include "dto/arm-dto.hpp"
+
 
 using namespace sjsu::arm;
 
@@ -46,13 +43,17 @@ int main()
   right_wrist_motor.settings.gear_ratio = 8;
 
   JointRouter joint_router(rotunda_motor, shoulder_motor, elbow_motor, left_wrist_motor, right_wrist_motor);
+<<<<<<< HEAD
   // HandRouter hand_router(&pca9685);
   sjsu::Servo servo(sjsu::lpc40xx::GetPwm<1, 0>());
   HandRouter hand_router(&servo);
+=======
+  sjsu::Servo servo(sjsu::lpc40xx::GetPwm<1, 0>());
+  RR9Router rr9_claw_router(&servo);
+>>>>>>> 22fd82faff44a875d9d3eee063ac5d56454bf606
   MissionControlHandler mission_control;
   RulesEngine rules_engine;
   // TODO: Fix hand from crashing program when pca9685 is not connected!
-  arm_arguments arguments;
   mc_commands commands;
 
   joint_router.Initialize();
@@ -72,6 +73,7 @@ int main()
       commands = mission_control.ParseMissionControlData(response);
       // commands = rules_engine.ValidateCommands(commands);
     }
+<<<<<<< HEAD
     arguments = ModeSelect::SelectMode(commands, arguments);
     // commands.Print();
     if(commands.mode == 'J') {
@@ -80,5 +82,11 @@ int main()
     else {
       arguments.hand_args = hand_router.SetHandArguments(arguments.hand_args, commands.mode);
     }
+=======
+
+    commands.Print();
+    commands = joint_router.SetJointArguments(commands);
+    commands = rr9_claw_router.SetRR9Arguments(commands);
+>>>>>>> 22fd82faff44a875d9d3eee063ac5d56454bf606
   }
 }
