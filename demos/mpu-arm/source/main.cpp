@@ -59,6 +59,8 @@ int main()
         PrintAcceleration(elbow);
         sjsu::LogInfo("Reading wrist Mpu6050 acceleration data...");
         PrintAcceleration(wrist);
+
+        sjsu::Delay(1s);
     }
     return 0;
 }
