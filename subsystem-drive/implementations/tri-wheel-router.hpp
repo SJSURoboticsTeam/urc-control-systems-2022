@@ -77,11 +77,20 @@ namespace sjsu::drive
 
             while (WheelNotZeroDoThis(left_) | WheelNotZeroDoThis(right_) | WheelNotZeroDoThis(back_))
             {
-                //This loops until all of the wheels are zeroed and/or homed
+                // This loops until all of the wheels are zeroed and/or homed
             }
+
+            int not_homed = 1;
+            bool leftNotHome = (left_.magnet_.Read() == not_homed), rightNotHome = (right_.magnet_.Read() == not_homed), backNotHome = (back_.magnet_.Read() == not_homed);
+
+            while ((!leftNotHome && WheelNotNeg60DoThis(left_)) | (!rightNotHome && WheelNotNeg60DoThis(right_)) | (!backNotHome && WheelNotNeg60DoThis(back_)))
+            {
+                //This loop moves wheels that were prematurely homed away from their current position
+            }
+
             while (WheelNotHomeDoThis(left_) | WheelNotHomeDoThis(right_) | WheelNotHomeDoThis(back_))
             {
-                sjsu::LogInfo("HomingPins L = %d\t R = %d\t B = %d", left_.magnet_.Read(), right_.magnet_.Read(), back_.magnet_.Read()); //sigma
+                sjsu::LogInfo("HomingPins L = %d\t R = %d\t B = %d", left_.magnet_.Read(), right_.magnet_.Read(), back_.magnet_.Read()); // sigma
 
                 sjsu::LogInfo("b = %d\tr = %d\tl = %d", back_.wheel_offset_, right_.wheel_offset_, left_.wheel_offset_);
 
@@ -89,6 +98,7 @@ namespace sjsu::drive
                 while (angle_verification.left_steer_speed != 0_rpm || angle_verification.right_steer_speed != 0_rpm || angle_verification.back_steer_speed != 0_rpm)
                 {
                     angle_verification = GetMotorFeedback();
+                    sjsu::LogInfo("Stopping");
                 }
             }
         }
@@ -103,31 +113,41 @@ namespace sjsu::drive
         }
 
     private:
-        bool WheelNotZeroDoThis(leg& leg_) {
-            int not_homed = 1;
-            //This leg is NOT at zero
-            if ((common::RmdEncoder::CalcEncoderPositions(leg_.steer_motor_) >= 0.01f) ||  common::RmdEncoder::CalcEncoderPositions(leg_.steer_motor_) <= -0.01f) 
+        bool WheelNotZeroDoThis(leg &leg_)
+        {
+            // This leg is NOT at zero
+            if ((common::RmdEncoder::CalcEncoderPositions(leg_.steer_motor_) >= 0.01f) || common::RmdEncoder::CalcEncoderPositions(leg_.steer_motor_) <= -0.01f)
             {
-                if (leg_.magnet_.Read() == not_homed)
-                {
-                    leg_.steer_motor_.SetAngle(0_deg, 2_rpm);
-                    //This wheel is NOT at zero
-                    return true;
-                }
-                else 
-                {
-                    //This wheel should not be rotated further
-                    return false;
-                }
+                leg_.steer_motor_.SetAngle(0_deg, 2_rpm);
+                // This wheel is NOT at zero
+                return true;
             }
             else
             {
-                //This wheel is at zero
+                // This wheel is at zero
                 return false;
             }
         }
 
-        bool WheelNotHomeDoThis (leg& leg_) {
+        bool WheelNotNeg60DoThis(leg &leg_)
+        {
+            leg_.wheel_offset_ = -60;
+            leg_.steer_motor_.SetAngle(-60_deg, 2_rpm);
+
+            if (leg_.steer_motor_.RequestFeedbackFromMotor().GetFeedback().speed != 0_rpm)
+            {
+                // This wheel is NOT at -60
+                return true;
+            }
+            else
+            {
+                // This wheel is at -60
+                return false;
+            }
+        }
+
+        bool WheelNotHomeDoThis(leg &leg_)
+        {
             int not_homed = 1;
 
             if (leg_.magnet_.Read() == not_homed)
@@ -136,9 +156,9 @@ namespace sjsu::drive
                 leg_.steer_motor_.SetAngle(units::angle::degree_t(leg_.wheel_offset_, 2_rpm));
                 return true;
             }
-            else 
+            else
             {
-            return false;
+                return false;
             }
         }
 
