@@ -59,8 +59,8 @@ int main()
         /// Convert voltages to degree at specified phase.
         for (size_t i = 0; i < N; i++)
         {
-            float true_degree = VoltageToTrueDegree(output_voltages[i], 3.3f, 360);
-            results[i] = DegreePhaseShift(true_degree, degree_conversion[i]);
+            float true_degree = sjsu::common::VoltageToTrueDegree(output_voltages[i], 3.3f, 360);
+            results[i] = sjsu::common::DegreePhaseShift(true_degree, degree_conversion[i]);
         }
         send_data_mc<N>(results);
 
