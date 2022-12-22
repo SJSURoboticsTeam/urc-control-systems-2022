@@ -22,7 +22,7 @@ namespace sjsu::arm
             right_wrist_.Initialize();
         };
 
-        joint_arguments SetJointArguments(joint_arguments arguments)
+        mc_commands SetJointArguments(mc_commands arguments)
         {
             rotunda_.SetAngle(units::angle::degree_t(static_cast<float>(arguments.rotunda_angle)), units::angular_velocity::revolutions_per_minute_t(static_cast<float>(arguments.speed)));
             shoulder_.SetAngle(units::angle::degree_t(static_cast<float>(arguments.shoulder_angle)), units::angular_velocity::revolutions_per_minute_t(static_cast<float>(arguments.speed)));
@@ -49,7 +49,7 @@ namespace sjsu::arm
         float initial_left_wrist_position_ = 0;
         float initial_right_wrist_position_ = 0;
 
-        sjsu::arm::arm_arguments arguments_;
+
         sjsu::RmdX &rotunda_;
         sjsu::RmdX &shoulder_;
         sjsu::RmdX &elbow_;
