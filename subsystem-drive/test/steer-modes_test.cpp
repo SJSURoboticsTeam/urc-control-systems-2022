@@ -198,5 +198,22 @@ namespace sjsu::drive
             CHECK_EQ(arguments.right.steer.speed, 5);
             CHECK_EQ(arguments.left.steer.speed, 5);
         }
+        SECTION("2.5: if one wheel is turning all wheels should be turning")
+        {
+             tri_wheel_router_arguments arguments;
+             if(arguments.back.steer.angle!=0){
+                   CHECK(arguments.left.steer.angle!=0);
+                   CHECK(arguments.right.steer.angle!=0);
+
+             }else if(arguments.left.steer.angle!=0){
+                CHECK(arguments.back.steer.angle!=0);
+                CHECK(arguments.right.steer.angle!=0);
+             }else if(arguments.right.steer.angle!=0){
+                    CHECK(arguments.back.steer.angle!=0);
+                CHECK(arguments.left.steer.angle!=0);
+             }
+            
+        }
+        
     }
 }

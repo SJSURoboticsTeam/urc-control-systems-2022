@@ -69,11 +69,13 @@ int main()
     }
     arguments = ModeSelect::SelectMode(commands, arguments);
     commands.Print();
-    if(commands.mode == 'J') {
-      arguments.joint_args = joint_router.SetJointArguments(arguments.joint_args);
-    }
-    else {
-      arguments.hand_args = hand_router.SetHandArguments(arguments.hand_args, commands.mode);
-    }
+   joint_router::setArguments(commands,arguments);
+    //  if(commands.mode == 'J') {
+    //   arguments.joint_args = joint_router.SetJointArguments(arguments.joint_args);
+    // }
+    // else {
+    //   arguments.hand_args = hand_router.SetHandArguments(arguments.hand_args, commands.mode);
+    // }
+
   }
 }

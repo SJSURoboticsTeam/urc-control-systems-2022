@@ -41,7 +41,14 @@ namespace sjsu::arm
             initial_left_wrist_position_ = common::RmdEncoder::CalcEncoderPositions(left_wrist_);
             initial_right_wrist_position_ = common::RmdEncoder::CalcEncoderPositions(right_wrist_);
         }
-
+    void setArguments(mc_commands commands,arm_arguments arguments){
+        if(commands.mode == 'J') {
+      arguments.joint_args = joint_router::SetJointArguments(arguments.joint_args);
+    }
+    else {
+      arguments.hand_args = hand_router::SetHandArguments(arguments.hand_args, commands.mode);
+    }
+    }
     private:
         float initial_rotunda_position_ = 0;
         float initial_shoulder_position_ = 0;

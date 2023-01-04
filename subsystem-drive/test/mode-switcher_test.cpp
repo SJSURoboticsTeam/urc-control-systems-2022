@@ -72,5 +72,14 @@ namespace sjsu::drive
             commands = switcher.SwitchSteerMode(commands, arguments, feedback);
             CHECK_EQ(commands.speed, 30);
         }
+        SECTION("1.4 Check if a valid mode is enterred"){
+            drive_commands commands;
+            CHECK_EQ(commands.mode,'D');
+            CHECK_EQ(commands.mode,'S');
+            CHECK_EQ(commands.mode,'T');
+
+
+
+        }
     }
 }

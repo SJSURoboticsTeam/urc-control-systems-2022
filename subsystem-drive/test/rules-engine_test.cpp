@@ -53,5 +53,6 @@ namespace sjsu::drive
             commands = rules_engine.ValidateCommands(commands);
             CHECK_EQ(commands.speed, -RulesEngine::kMaxSpeed);
         }
+        
     }
 }
