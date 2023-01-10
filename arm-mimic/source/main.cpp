@@ -44,7 +44,7 @@ int main()
     auto& s2 = sjsu::lpc40xx::GetGpio<SIGNAL_2>();
     auto& s3 = sjsu::lpc40xx::GetGpio<SIGNAL_3>();
 
-    auto digital_multiplexer = Cd74hc4067(adc4, s0, s1, s2, s3);
+    auto digital_multiplexer = AdcMuxCd74hc4067(adc4, s0, s1, s2, s3);
 
     while (true)
     {

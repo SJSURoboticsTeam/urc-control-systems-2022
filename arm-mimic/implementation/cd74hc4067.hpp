@@ -7,7 +7,7 @@
 #include <array>
 
 /// @brief An implementation for the CD74HC4067 multiplexer. This multiplexer has 16 channels and 4 signal pins to switch the channels in binary.
-class Cd74hc4067
+class AdcMuxCd74hc4067
 {
 public:
     /// @brief Constructor Sets all digital signal pins to be outputs and sets them to LOW.
@@ -16,7 +16,7 @@ public:
     /// @param s1 A dev2 digital GPIO pin. It can be initalized or not.
     /// @param s2 A dev2 digital GPIO pin. It can be initalized or not.
     /// @param s3 A dev2 digital GPIO pin. It can be initalized or not.
-    Cd74hc4067(
+    AdcMuxCd74hc4067(
         sjsu::lpc40xx::Adc& adc,
         sjsu::lpc40xx::Gpio& s0,
         sjsu::lpc40xx::Gpio& s1,
