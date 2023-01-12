@@ -21,18 +21,21 @@ namespace sjsu::drive
                 commands.angle = std::clamp(commands.angle, -kMaxAngle, kMaxAngle);
             }
             for(int i=0; i<4;i++){//check four times if the heartbeat from mc and rover are the same
-                if(heartbeat_.IsSyncedWithMissionControl(mc_.commands_.heartbeat_count)){
+                if(heartbeat_.IsSyncedWithMissionControl(commands.heartbeat_count)){
                     count++;
+                    // sjsu::LogInfo("Heartbeat is in sync... setting the speed");
+                    // return commands;
                 }
             }
-            if(count==4){
-                sjsu::LogInfo("Heartbeat is in sync... setting the speed");
-                return commands;
-            }else{
-                sjsu::LogInfo("Heartbeat is out of sync... setting speed to 0");
-                commands.speed = 0;
-                return commands;
-            }
+            // if(count==4){
+            //     sjsu::LogInfo("Heartbeat is in sync... setting the speed");
+            //     return commands;
+            // }else{
+            //     sjsu::LogInfo("Heartbeat is out of sync... setting speed to 0");
+            //     commands.speed = 0;
+            //     return commands;
+            // }
+           
             // if(!heartbeat_.IsSyncedWithMissionControl(commands.heartbeat_count))
             // {
             //     //sjsu::LogInfo("Heartbeat is out of sync... setting speed to 0");
@@ -56,7 +59,7 @@ namespace sjsu::drive
         }
 
     private:
-        sjsu::common::Heartbeat heartbeat_;
-        sjsu::drive::MissionControlHandler mc_;
+        sjsu::common::Heartbeat heartbeat_;//heartbeat number of the rover
+        //sjsu::drive::MissionControlHandler mc_; 
     };
 }

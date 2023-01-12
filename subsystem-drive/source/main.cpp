@@ -87,6 +87,7 @@ int main()
         arguments = ModeSelect::SelectMode(commands);
         arguments = tri_wheel.SetLegArguments(arguments);
         motor_speeds = tri_wheel.GetMotorFeedback();
+        
     }
 
     return 0;
