@@ -4,6 +4,7 @@
 #include "peripherals/lpc17xx/pwm.hpp"
 #include "devices/actuators/servo/rmd_x.hpp"
 #include "devices/sensors/movement/accelerometer/mpu6050.hpp"
+#include "devices/actuators/servo/servo.hpp"
 
 #include "devices/actuators/servo/servo.hpp"
 #include "../implementations/routers/joint-router.hpp"
@@ -66,9 +67,20 @@ int main()
       commands = mission_control.ParseMissionControlData(response);
       // commands = rules_engine.ValidateCommands(commands);
     }
+<<<<<<< HEAD
 
     commands.Print();
     commands = joint_router.SetJointArguments(commands);
     commands = rr9_claw_router.SetRR9Arguments(commands);
+=======
+    arguments = ModeSelect::SelectMode(commands, arguments);
+    // commands.Print();
+    if(commands.mode == 'J') {
+      arguments.joint_args = joint_router.SetJointArguments(arguments.joint_args);
+    }
+    else {
+      arguments.hand_args = hand_router.SetHandArguments(arguments.hand_args, commands.mode);
+    }
+>>>>>>> main
   }
 }
