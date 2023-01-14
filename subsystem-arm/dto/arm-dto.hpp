@@ -12,6 +12,11 @@ namespace sjsu::arm
     const char kResponseBodyFormat[] = "{\"heartbeat_count\":%d,\"is_operational\":%d,\"speed\":%d,\"angles\":[%d,%d,%d,%d,%d,%d]}\n";
     const char kGETRequestFormat[] = "arm?heartbeat_count=%d&is_operational=%d&speed=%d&rotunda_angle=%d&shoulder_angle=%d&elbow_angle=%d&wrist_pitch_angle=%d&wrist_roll_angle=%d&rr9_angle=%d";
 
+    struct rr9_arguments
+    {
+        int angle = 0;
+    };
+
     struct mc_commands
     {
         int heartbeat_count = 0;

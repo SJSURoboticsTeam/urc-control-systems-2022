@@ -4,6 +4,7 @@
 #include "peripherals/lpc17xx/pwm.hpp"
 #include "devices/actuators/servo/rmd_x.hpp"
 #include "devices/sensors/movement/accelerometer/mpu6050.hpp"
+#include "devices/actuators/servo/servo.hpp"
 
 #include "devices/actuators/servo/servo.hpp"
 #include "../implementations/routers/joint-router.hpp"
@@ -14,7 +15,6 @@
 #include "../implementations/rules-engine.hpp"
 #include "../common/serial.hpp"
 #include "dto/arm-dto.hpp"
-
 
 using namespace sjsu::arm;
 
