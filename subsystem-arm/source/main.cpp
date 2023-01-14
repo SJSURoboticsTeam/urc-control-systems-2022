@@ -16,7 +16,6 @@
 #include "../common/serial.hpp"
 #include "dto/arm-dto.hpp"
 
-
 using namespace sjsu::arm;
 
 int main()

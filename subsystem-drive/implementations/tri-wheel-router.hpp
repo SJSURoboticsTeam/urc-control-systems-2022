@@ -85,7 +85,7 @@ namespace sjsu::drive
 
             while ((!leftNotHome && WheelNotNeg60DoThis(left_)) | (!rightNotHome && WheelNotNeg60DoThis(right_)) | (!backNotHome && WheelNotNeg60DoThis(back_)))
             {
-                //This loop moves wheels that were prematurely homed away from their current position
+                // This loop moves wheels that were prematurely homed away from their current position
             }
 
             while (WheelNotHomeDoThis(left_) | WheelNotHomeDoThis(right_) | WheelNotHomeDoThis(back_))
@@ -95,7 +95,7 @@ namespace sjsu::drive
                 sjsu::LogInfo("b = %d\tr = %d\tl = %d", back_.wheel_offset_, right_.wheel_offset_, left_.wheel_offset_);
 
                 angle_verification = GetMotorFeedback();
-                while (angle_verification.left_steer_speed != 0_rpm || angle_verification.right_steer_speed != 0_rpm || angle_verification.back_steer_speed != 0_rpm)
+                while (angle_verification.left_steer_speed != 0_rpm | angle_verification.right_steer_speed != 0_rpm | angle_verification.back_steer_speed != 0_rpm)
                 {
                     angle_verification = GetMotorFeedback();
                     sjsu::LogInfo("Stopping");
