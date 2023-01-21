@@ -14,16 +14,6 @@
 template <unsigned int N>
 void send_data_mc(std::array<float, N> raw_data)
 {
-   //json structure
-   /*
-   {
-    heartbeat_count: 0,
-    is_operational: 0,
-    speed: 2,
-    angles: [$ROTUNDA, $SHOULDER, $ELBOW, $WRIST_PITCH, $WRIST_ROLL, $HAND_ANGLE]
-   }
-   */
-    
     std::string json_str = "{\"heartbeat_count\":\"0\", \"is_operational\":\"0\", \"speed\":\"2\", \"angles\":[";
     for(unsigned int i = 0; i < N; i++){
         //iterate through raw data and append to json string
