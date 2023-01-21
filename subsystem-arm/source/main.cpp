@@ -65,7 +65,9 @@ int main()
       // TODO: Make this work w Joystick Serial
       printf("Received:\n%s\n", response.c_str());
       commands = mission_control.ParseMissionControlData(response);
-      // commands = rules_engine.ValidateCommands(commands);
+
+      // TODO: Add much more validation to this engine
+      commands = rules_engine.ValidateCommands(commands);
     }
     commands.Print();
     commands = joint_router.SetJointArguments(commands);
