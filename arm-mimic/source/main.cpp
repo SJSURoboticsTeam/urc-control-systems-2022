@@ -14,26 +14,16 @@
 template <unsigned int N>
 void send_data_mc(std::array<float, N> raw_data)
 {
-    // Structure of json file
-    /* 
-    { 
-        HB: 0,
-        IO: 1,
-        M: 'M',
-        Angles: [$ROTUNDA, $SHOULDER, $ELBOW, $WRIST_PITCH, $WRIST_ROLL, $END_EFFECTOR]
-    }
-    */
-    std::string json_str = "{\"HB\":\"0\",\"IO\":\"1\",\"M\":\"M\",\"CMD\":[";
-    for (unsigned int i = 0; i < N; i++)
-    {
-        if (i != N - 1)
+    std::string json_str = "{\"heartbeat_count\":\"0\", \"is_operational\":\"0\", \"speed\":\"2\", \"angles\":[";
+    for(unsigned int i = 0; i < N; i++){
+        //iterate through raw data and append to json string
+        if(i != N - 1)
             json_str.append(std::to_string(raw_data[i]) + ",");
         else
             json_str.append(std::to_string(raw_data[i]));
     }
-    
     json_str.append("]}");
-    printf("%s", json_str.c_str()); // print to serial
+    printf("%s", json_str.c_str()); //print to serial
 }
 
 int main()
