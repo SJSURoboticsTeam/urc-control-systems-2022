@@ -21,7 +21,7 @@ namespace sjsu::arm
     {
         int heartbeat_count = 0;
         int is_operational = 0;
-        int speed = 0;
+        int speed = 1;
         int rotunda_angle  = 0;
         int shoulder_angle = 0;
         int elbow_angle = 0;

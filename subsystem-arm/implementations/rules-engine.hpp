@@ -26,10 +26,14 @@ namespace sjsu::arm
             //     return commands;
             // }
 
+            // 0 SPEED UNSAFE
+            if (commands.speed < 1 || commands.speed > 5) {
+                commands.speed = 1;
+            }
             if (!commands.is_operational)
             {
                 // sjsu::LogWarning("Arm is not operational...");
-                commands.speed = 0;
+                commands.speed = 1;
             }
             heartbeat_.IncrementHeartbeatCount();
             return commands;

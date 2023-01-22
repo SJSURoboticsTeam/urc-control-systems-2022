@@ -65,22 +65,12 @@ int main()
       // TODO: Make this work w Joystick Serial
       printf("Received:\n%s\n", response.c_str());
       commands = mission_control.ParseMissionControlData(response);
-      // commands = rules_engine.ValidateCommands(commands);
-    }
-<<<<<<< HEAD
 
+      // TODO: Add much more validation to this engine
+      commands = rules_engine.ValidateCommands(commands);
+    }
     commands.Print();
     commands = joint_router.SetJointArguments(commands);
     commands = rr9_claw_router.SetRR9Arguments(commands);
-=======
-    arguments = ModeSelect::SelectMode(commands, arguments);
-    // commands.Print();
-    if(commands.mode == 'J') {
-      arguments.joint_args = joint_router.SetJointArguments(arguments.joint_args);
-    }
-    else {
-      arguments.hand_args = hand_router.SetHandArguments(arguments.hand_args, commands.mode);
-    }
->>>>>>> main
   }
 }
