@@ -64,9 +64,10 @@ int main()
 
     tri_wheel.Initialize();
     sjsu::Delay(1s);
-    tri_wheel.HomeLegs();
+    //tri_wheel.HomeLegs();
     sjsu::LogInfo("Starting control loop...");
     sjsu::Delay(1s);
+    //rules_engine.ValidateCommands(commands);
 
     while (1)
     {
@@ -82,12 +83,15 @@ int main()
             commands = rules_engine.ValidateCommands(commands);
             commands = mode_switch.SwitchSteerMode(commands, arguments, motor_speeds);
             commands = lerp.Lerp(commands);
-        }
-        commands.Print();
+       }
+       commands.Print();
         arguments = ModeSelect::SelectMode(commands);
         arguments = tri_wheel.SetLegArguments(arguments);
         motor_speeds = tri_wheel.GetMotorFeedback();
-    }
+        rules_engine.getHeartbeatRover();
 
+        sjsu::LogInfo("Rover Heartbeat: %d", rules_engine.getHeartbeatRover());
+    }
+    
     return 0;
 }

@@ -19,12 +19,16 @@ namespace sjsu::drive
                 // sjsu::LogInfo("Specified angle is too large... clamping angle");
                 commands.angle = std::clamp(commands.angle, -kMaxAngle, kMaxAngle);
             }
-            // if(!heartbeat_.IsSyncedWithMissionControl(commands.heartbeat_count))
-            // {
-            //     //sjsu::LogInfo("Heartbeat is out of sync... setting speed to 0");
-            //     commands.speed = 0;
-            //     return commands;
-            // }
+            if(!heartbeat_.IsSyncedWithMissionControl(commands.heartbeat_count))
+            {
+                sjsu::LogInfo("Heartbeat is out of sync... setting speed to 0");
+                commands.speed = 0;
+                return commands;
+            }
+            else
+            {
+                sjsu::LogInfo("Heartbeat is sync");
+            }
             if (!commands.is_operational)
             {
                 // sjsu::LogInfo("System is not operational... setting speed to 0");
@@ -38,9 +42,14 @@ namespace sjsu::drive
             }
 
             heartbeat_.IncrementHeartbeatCount();
+            sjsu::LogInfo("Heartbeat: %d", heartbeat_);
             return commands;
         }
 
+    int getHeartbeatRover()
+    {
+        return heartbeat_.GetHeartbeatCount();
+    }
     private:
         sjsu::common::Heartbeat heartbeat_;
     };
