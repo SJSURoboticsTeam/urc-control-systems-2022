@@ -31,7 +31,7 @@ namespace sjsu::drive
             }
             if (!commands.is_operational)
             {
-                // sjsu::LogInfo("System is not operational... setting speed to 0");
+                //sjsu::LogInfo("System is not operational... setting speed to 0");
                 commands.speed = 0;
                 return commands;
             }
@@ -41,16 +41,20 @@ namespace sjsu::drive
                 commands.speed = std::clamp(commands.speed, -kMaxSpeed, kMaxSpeed);
             }
 
-            heartbeat_.IncrementHeartbeatCount();
-            sjsu::LogInfo("Heartbeat: %d", heartbeat_);
             return commands;
         }
 
-    int getHeartbeatRover()
+    drive_commands HeartbeatRoverStatus(drive_commands commands)
     {
-        return heartbeat_.GetHeartbeatCount();
+        heartbeat_.IncrementHeartbeatCount();
+
+        sjsu::LogInfo("Rover Heartbeat: %d", heartbeat_.GetHeartbeatCount());
+
+        return commands;
     }
     private:
         sjsu::common::Heartbeat heartbeat_;
+
+    
     };
 }

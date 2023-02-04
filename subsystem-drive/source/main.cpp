@@ -76,6 +76,9 @@ int main()
         // std::string response = esp.GetCommands(endpoint);
 
         // For Serial
+
+        commands.heartbeat_count++; //pretend this is mc
+
         std::string response = serial.GetCommands();
         if (response.find('{') != std::string::npos && response.find('}') != std::string::npos)
         {
@@ -88,9 +91,9 @@ int main()
         arguments = ModeSelect::SelectMode(commands);
         arguments = tri_wheel.SetLegArguments(arguments);
         motor_speeds = tri_wheel.GetMotorFeedback();
-        rules_engine.getHeartbeatRover();
 
-        sjsu::LogInfo("Rover Heartbeat: %d", rules_engine.getHeartbeatRover());
+        
+        rules_engine.HeartbeatRoverStatus(commands); //after executing commends, rover increase heartbeat
     }
     
     return 0;
